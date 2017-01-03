@@ -1,0 +1,90 @@
+DIV.Selector
+{
+  margin-top: 1em;
+  margin-bottom: 1em;
+  text-align: right;
+  font-size: smaller;
+}
+
+DIV.Selector A
+{
+  padding: 0.25em 0.5em 0.25em 0.5em;
+  text-decoration: none;
+  border-left: 1px solid #aa1111;
+  border-top: 1px solid #aa1111;
+  border-bottom: 1px solid #aa1111;
+  color: #aa1111;
+}
+
+DIV.Selector A:hover { text-decoration: underline; }
+
+.PublicationList
+{
+  margin-left: auto;
+  margin-right: auto;
+  width: 75%;
+}
+
+.Paper, .Presentation
+{
+  margin-top: 1em;
+}
+
+.Paper > *, .Presentation > *
+{
+  border-left: 1px solid gray;
+  padding-left: 5px;
+  margin-left: 5px;
+  /* padding-top: 5px; */
+}
+
+.Paper .Title, .Presentation .Title
+{
+  font-weight: bold;
+  /* font-family: Georgia, serif; */
+  border-left: 0px;
+  padding-left: 0em;
+  margin-left: 0em;
+}
+
+.Paper .Date, .Presentation .Date
+{
+  font-size: smaller;
+}
+
+.Paper .Abstract, .Presentation .Abstract
+{
+  font-size: smaller;
+}
+
+.Paper .Abstract > *, .Presentation .Abstract > *
+{
+  margin-left: 20px;
+}
+
+.Paper .Abstract DIV + DIV, .Presentation .Abstract DIV + DIV
+{
+  padding-top: 5px;
+}
+
+.Paper .DescriptionTitle, .Presentation .DescriptionTitle
+{
+  font-size: smaller;
+}
+
+.Paper .DescriptionTitle A.ButtonForAbstract, .Presentation .DescriptionTitle A.ButtonForAbstract
+{
+  color: #aa1111;
+
+  font-style: normal;
+}
+
+.Paper .PublicationInfo, .Presentation .PublicationInfo
+{
+  font-size: smaller;
+}
+
+.Paper .PublicationInfo + .PublicationInfo, .Presentation .PublicationInfo + .PublicationInfo
+{
+  padding-top: 0px;
+}

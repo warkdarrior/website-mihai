@@ -1,0 +1,96 @@
+#!/bin/sh
+
+BASEDIR="/home/mihai/public_html/my_play/food&wine/didi balmez"
+
+XML2HTML="java -classpath /home/mihai/public_html/tools:${CLASSPATH} processXML2HTML"
+
+#
+###
+#
+
+function buildRecipes()
+{
+    SH2XML="tools/recipe-html-xml.sh"
+    XSL="../templates/recipe.xsl"
+    counter=0
+    modified=0
+
+    for xmlfile in data/*.xml
+    do
+	if ! perl -e 'exit !( "'"${xmlfile}"'" =~ /^data\/_chapter/ );'
+	then
+	    counter=`expr $counter + 1`
+	    filename=`basename "$xmlfile" | sed 's/\.xml$//g'`
+	    htmlfile="${filename}.html"
+
+	    if [ "${htmlfile}" -ot "${xmlfile}" \
+		 -o \
+		 "${htmlfile}" -ot "${SH2XML}" \
+		 -o \
+		 "${htmlfile}" -ot "${XSL}" \
+	       ]
+	    then
+		modified=`expr $modified + 1`
+		[ -n "${P4CLIENT}" ] && p4 edit "./${filename}.html"
+		"${SH2XML}" "${xmlfile}" > "./${filename}.xml" && \
+		    ${XML2HTML} "${XSL}" "./${filename}.xml" && \
+		    rm -f "./${filename}.xml"
+		sync
+	    fi
+
+	    unset filename
+	    unset htmlfile
+	fi
+    done
+    if [ $modified -lt 1 ]
+    then
+	echo "No recipe files needed processing."
+    fi
+
+    unset counter
+    unset modified
+    unset XSL
+    unset SH2XML
+}
+
+#
+###
+#
+
+function buildChapterIndex()
+{
+    SH2XML="tools/index-html-xml.sh"
+    XSL="../templates/chapter-index.xsl"
+
+    shouldRebuild=/bin/false
+    for xmlfile in data/*.xml
+    do
+	if [ ./index.html -ot "${xmlfile}" \
+	     -o \
+	     ./index.html -ot "${SH2XML}" \
+	     -o \
+	     ./index.html -ot "${XSL}" \
+	   ]
+	 then
+	    shouldRebuild=/bin/true
+	 fi
+    done
+
+    if ${shouldRebuild}
+    then
+	[ -n "${P4CLIENT}" ] && p4 edit index.html
+	"${SH2XML}" > ./index.xml && \
+	    ${XML2HTML} "${XSL}" ./index.xml && \
+	    rm -f ./index.xml
+    fi
+
+    unset XSL
+    unset SH2XML
+}
+
+#
+###
+#
+
+buildRecipes
+buildChapterIndex

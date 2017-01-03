@@ -1,0 +1,1536 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Mihai Christodorescu: web shell software project management plan (v1.0)</title>
+<link type="text/css" rel="stylesheet" href="../../../default_style.css">
+<script type="text/javascript">
+      menuName = new Array(  );
+      depth = 3;
+    </script><script type="text/javascript" src="../../../browser_script.js"></script>
+</head>
+<!--PathToRoot="../../.."-->
+<!--DocDepth=3-->
+<body MARGINHEIGHT="0" MARGINWIDTH="0" LEFTMARGIN="0" TOPMARGIN="0">
+<div class="PageHeader">
+<div style="border-bottom: 1px solid #bbaa66;">
+<div style="border-bottom: 1px solid #ddcc88;">
+<div class="spacer"></div>
+<div class="row">
+<span class="left">Mihai Christodorescu: <a class="OnsiteTopLink" href="../../../index.html">main</a> / <a class="OnsiteTopLink" href="../../index.html">work</a> / <a class="OnsiteTopLink" href="../index.html">projects</a> / <a class="OnsiteTopLink" href="./index.html">web&nbsp;shell</a> / specification&nbsp;v1.0</span><span class="right"><a class="Onsite" style="margin-right: 0.5em;" href="../../../calendar.html">
+                Calendar
+              </a><a class="Onsite" href="../../../contact.html">
+                Contact info
+              </a></span>
+</div>
+<div class="spacer"></div>
+</div>
+</div>
+</div>
+<br>
+<center>
+<h1 align="center">
+        Mihai's WebShell Project:<br>Software Project Management Plan (v1.0)<br>
+<img border="0" width="300" height="1" src="../../../images/black_dot.png"></h1>
+<table border="0" cellspacing="0" cellpadding="1" bgcolor="black" width="75%">
+<tr>
+<td>
+<table border="0" cellspacing="0" cellpadding="10" width="100%" bgcolor="white">
+<tr>
+<td>
+<P STYLE="margin-top: 0.42cm; page-break-after: avoid">
+<FONT FACE="helvetica"><FONT STYLE="font-size: 16pt" SIZE="4"><B>Contents</B></FONT></FONT>
+</P>
+<P STYLE="margin-bottom: 0.00cm">Introduction	2</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Project
+      Overview	2</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Project
+      Deliverables	3</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Evolution of
+      the Software Management Plan	3</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Reference
+      Materials	3</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Definitions and
+      Acronyms	4</P>
+<P STYLE="margin-bottom: 0.00cm">Project Organization	4</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Process Model	4</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Organizational
+      Structure	5</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Organizational
+      Boundaries and Interfaces	5</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Project
+      Responsibilities	6</P>
+<P STYLE="margin-bottom: 0.00cm">Managerial Process	6</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Management
+      Objectives and Priorities	6</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Assumptions,
+      Dependencies, and Constraints	6</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Risk
+      Management	7</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Monitoring and
+      Controlling Mechanisms	8</P>
+<P STYLE="margin-bottom: 0.00cm">Technical Process	8</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Methods, Tools,
+      and Techniques	8</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Software
+      Documentation	9</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Project Support
+      Functions	9</P>
+<P STYLE="margin-bottom: 0.00cm">Work Packages	10</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Work
+      Packages	10</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Dependencies	10</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Resource
+      Requirements	10</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Schedule	11</P>
+<P STYLE="margin-bottom: 0.00cm">Additional Components	12</P>
+<H1 STYLE="line-height: 100%; page-break-before: always">Introduction</H1>
+<H2>Project Overview</H2>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Objectives</FONT>
+</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">
+      The object of the WebShell project is to produce a product that
+      satisfies all of our customers requirements and deliver it on time.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Product
+	to be delivered</FONT>
+</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">
+      The product to be delivered is called WebShell.  It combines the
+      functionality of a WWW browser, like Netscape or Internet Explorer,
+      with the features of a shell, like a UNIX shell or a Telnet terminal.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Activities</FONT>
+</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	The activities
+      involved with the WebShell include:</P>
+<UL>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Detailed
+	  Design</P>
+</LI>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Implementation</P>
+</LI>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Testing</P>
+</LI>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Integration</P>
+</LI>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Maintenance</P>
+</LI>
+</UL>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Work
+	Products</FONT>
+</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	The work
+      products produced by the above activities include:</P>
+<UL>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Detailed
+	  design document.</P>
+</LI>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Source code.</P>
+</LI>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">SQA plan.</P>
+</LI>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Test cases.</P>
+</LI>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Test
+	  results.</P>
+</LI>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Known bug
+	  list.</P>
+</LI>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Compiled and
+	  deliverable machine code.</P>
+</LI>
+</UL>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Milestones</FONT>
+</P>
+<OL>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">SPMP
+	  complete.</P>
+</LI>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Detailed
+	  design complete.</P>
+</LI>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Implementation
+	  complete.</P>
+</LI>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Alpha
+	  complete.</P>
+</LI>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Beta
+	  complete.</P>
+</LI>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Pre-release
+	  version complete.</P>
+</LI>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Delivery to
+	  customer complete.</P>
+</LI>
+</OL>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Required
+	Resources</FONT>
+</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%">
+      3 Experienced software engineers.</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%">
+      3 UNIX work-stations.</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%">
+      3 Installations of Java JDK 1.2.</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%">
+      1 Solaris compatible printer.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Master
+	Schedule</FONT>
+</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	03 / 02 /
+      1999	.............................................	SPMP</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	03 / 04 /
+      1999	.............................................	Detailed Design</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	03 / 08 /
+      1999	.............................................	Alpha</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	03 / 14 /
+      1999	.............................................	Beta</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	03 / 17 /
+      1999	.............................................	Pre-release
+      version</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	3 / 18 /
+      1999	.............................................	Delivery to
+      customer</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Master
+	Budget</FONT>
+</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	Students work
+      for free (almost):</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<BR>
+</P>
+<CENTER>
+<TABLE RULES="GROUPS" CELLSPACING="0" CELLPADDING="4" BORDERCOLOR="#000000" BORDER="1" WIDTH="256">
+<COL WIDTH="170">
+<COL WIDTH="69">
+<TBODY>
+<TR>
+<TD VALIGN="TOP" WIDTH="170">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Development
+		    costs</P>
+</TD><TD SDNUM="1033;0;$#,##0.00;[RED]-$#,##0.00" SDVAL="0" VALIGN="BOTTOM" WIDTH="69">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="RIGHT">$0.00</P>
+</TD>
+</TR>
+<TR>
+<TD VALIGN="TOP" WIDTH="170">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="LEFT">Anti-Depressants</P>
+</TD><TD SDNUM="1033;0;$#,##0.00;[RED]-$#,##0.00" SDVAL="200" VALIGN="BOTTOM" WIDTH="69">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="RIGHT">$200.00</P>
+</TD>
+</TR>
+<TR>
+<TD VALIGN="TOP" WIDTH="170">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Alcohol</P>
+</TD><TD SDNUM="1033;0;$#,##0.00;[RED]-$#,##0.00" SDVAL="500" VALIGN="BOTTOM" WIDTH="69">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="RIGHT">$500.00</P>
+</TD>
+</TR>
+<TR>
+<TD VALIGN="TOP" WIDTH="170">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Caffeine</P>
+</TD><TD SDNUM="1033;0;$#,##0.00;[RED]-$#,##0.00" SDVAL="100" VALIGN="BOTTOM" WIDTH="69">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="RIGHT">$100.00</P>
+</TD>
+</TR>
+<TR>
+<TD VALIGN="TOP" WIDTH="170">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Entertainment
+		    Expenses</P>
+</TD><TD SDNUM="1033;0;$#,##0.00;[RED]-$#,##0.00" SDVAL="1000" VALIGN="BOTTOM" WIDTH="69">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="RIGHT">$1,000.00</P>
+</TD>
+</TR>
+</TBODY>
+<TBODY>
+<TR>
+<TD VALIGN="TOP" WIDTH="170">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Total (cash
+		    please)</P>
+</TD><TD SDNUM="1033;0;$#,##0.00;[RED]-$#,##0.00" SDVAL="1300" VALIGN="BOTTOM" WIDTH="69">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="RIGHT">$1,300.00</P>
+</TD>
+</TR>
+</TBODY>
+</TABLE>
+</CENTER>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<BR>
+</P>
+<H2 STYLE="line-height: 100%">Project Deliverables</H2>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%">
+      The WebShell product ............................... 03 / 18 / 1999</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">
+      A JAR package named webshell <FONT FACE="courier">SlothWare.jar</FONT>
+      containing all of the classes necessary to run the WebShell product. 
+      This JAR package will contain the core class <FONT FACE="courier">Sloth</FONT>.
+
+    </P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<BR>
+</P>
+<H2 STYLE="line-height: 100%">Evolution of the Software Management
+      Plan</H2>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">
+      If a member of the engineering teams feels that the SPMP needs to be
+      revised he/she must call a meeting with all the members of the
+      engineering team.  At this meeting the validity of the revision will
+      be discussed and decided upon.  If the revision is approved the
+      engineer who called the meeting shall revise the SPMP. After doing so
+      another meeting will be called with all the members of the
+      engineering team.  The correctness of the revision will be discussed
+      and decided upon. If the revision is approved the new SPMP will be
+      given a new incremented version number. If the revision is not
+      approved the engineer may rewrite the revision and call another
+      correctness approval meeting.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<BR>
+</P>
+<H2 STYLE="line-height: 100%">Reference Materials</H2>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	WebShell:
+      Project Description (Versions 1.0 - 1.2)</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	WebShell: Object
+      Oriented Analysis (Versions 1.0 - 1.1)</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	WebShell:
+      Specification (Versions 1.0 - 1.1)</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<BR>
+</P>
+<H2 STYLE="line-height: 100%">Definitions and Acronyms</H2>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	MRV = Most
+      Recently Visited Queue</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%">
+      HTTP = Hyper Text Transfer Protocol</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%" ALIGN="LEFT">
+      URL = Universal Resource Locator</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%">
+      CRC = Class Responsibilities Collaborators</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%">
+      I/O = Input / Output</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%">
+      OOA = Object Oriented Analysis</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%">
+      SPMP = Software Project Management Plan</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%">
+      GUI = Graphical User Interface</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%">
+      SQA = Software Quality Assurance</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%">
+      JAR = Java ARchive</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%">
+      JDK = Java Development Kit</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%">
+      FoNoACM = Founder of the Nation of the ACM</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%">
+      ACM = Association of Computing Machinery</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%">
+      IEEE = Institute Electrical and Electronics Engineers</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%">
+      CSIL = Computer Science Instructional Laboratory</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<BR>
+</P>
+<H1 STYLE="line-height: 100%">Project Organization</H1>
+<H2 STYLE="line-height: 100%">Process Model</H2>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Activities</FONT>
+</P>
+<UL>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Product
+	  development</P>
+<UL>
+<UL>
+<UL>
+<UL>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">
+			  The project will be divided into three areas. Mihai will be
+			  responsible for the control components, Mike will be responsible
+			  for the command line components, and Don will be responsible for
+			  the GUI components and the executable class.</P>
+</UL>
+</UL>
+</UL>
+</UL>
+</LI>
+</UL>
+<UL>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Product
+	  testing</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">In
+	  the first round of testing, each engineer will be responsible for
+	  testing his respective area. The next round of testing will be after
+	  product integration. This round will be testing the entire product
+	  and all engineers will participate in product testing.</P>
+</LI>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">
+	  Product integration</P>
+</LI>
+</UL>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%">
+      Mihai will be the lead integration engineer since all components must
+      are controlled by his components. Mike and Don will assist in the
+      integration.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT STYLE="font-size: 16pt" SIZE="4">Functions</FONT>
+</P>
+<UL>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Software
+	  Quality Assurance: since our group is extremely small, SQA will be
+	  done as a group managed by Mike.</P>
+</LI>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Code
+	  reviewer: Mihai will lead the code review due to his greater
+	  familiarity with Java. Mike and Don will participate as well.</P>
+</LI>
+</UL>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<BR>
+</P>
+<H2>Organizational Structure</H2>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">
+      The group will be split in sub-groups, working independently on
+      project modules as described in product development. Each sub-group
+      is self-managed. The management of different aspects of the product
+      are defined in Organizational Boundaries and Interfaces below.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<BR>
+</P>
+<H2 STYLE="line-height: 100%">Organizational Boundaries and
+      Interfaces</H2>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">
+      Due to the size of our software group, management will be divided in
+      the  following manner: The Product Manager is Mihai. Mike and Don
+      will follow Mihai's direction of the product. The Documentation
+      Manager is Don. All documentation created by Mihai and/or Mike will
+      be reviewed by Don. The SQA Manager is Mike. All organizational
+      decisions, that involve SQA, will be at Mike's direction. The
+      software engineers are Mihai, Mike and Don. The areas of software
+      development responsibility will be determined by the Product Manager
+      with input by the Documentation and SQA Managers. Interfacing with
+      the customer may be done by any software engineer, but a report of
+      the meeting will be shared with the engineers not present.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<BR>
+</P>
+<H2 STYLE="line-height: 100%">Project Responsibilities</H2>
+<DL>
+<DD>
+<TABLE STYLE="page-break-inside: avoid" RULES="NONE" CELLSPACING="0" CELLPADDING="4" BORDERCOLOR="#000000" BORDER="1" WIDTH="497">
+<COL WIDTH="231">
+<COL WIDTH="248">
+<TR VALIGN="TOP">
+<TD WIDTH="231">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Product
+		    Manager</P>
+</TD><TD WIDTH="248">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Mihai
+		    Christodorescu, FoNoACM</P>
+</TD>
+</TR>
+<TR VALIGN="TOP">
+<TD BGCOLOR="#c0c0c0" WIDTH="231">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Documentation
+		    Manager</P>
+</TD><TD BGCOLOR="#c0c0c0" WIDTH="248">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Donald Paul
+		    Adams, Monsignor</P>
+</TD>
+</TR>
+<TR VALIGN="TOP">
+<TD WIDTH="231">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">SQA Manager</P>
+</TD><TD WIDTH="248">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Michael
+		    Robert Weaver, Esquire</P>
+</TD>
+</TR>
+<TR VALIGN="TOP">
+<TD BGCOLOR="#c0c0c0" WIDTH="231">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Development</P>
+</TD><TD BGCOLOR="#c0c0c0" WIDTH="248">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Mihai
+		    Christodorescu, FoNoACM</P>
+</TD>
+</TR>
+<TR VALIGN="TOP">
+<TD BGCOLOR="#c0c0c0" WIDTH="231">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%"></P>
+</TD><TD BGCOLOR="#c0c0c0" WIDTH="248">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Michael
+		    Robert Weaver, Esquire</P>
+</TD>
+</TR>
+<TR VALIGN="TOP">
+<TD BGCOLOR="#c0c0c0" WIDTH="231">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%"></P>
+</TD><TD BGCOLOR="#c0c0c0" WIDTH="248">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Donald Paul
+		    Adams, Monsignor</P>
+</TD>
+</TR>
+<TR VALIGN="TOP">
+<TD WIDTH="231">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Unit Testing</P>
+</TD><TD WIDTH="248">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Mihai
+		    Christodorescu, FoNoACM</P>
+</TD>
+</TR>
+<TR VALIGN="TOP">
+<TD WIDTH="231">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%"></P>
+</TD><TD WIDTH="248">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Michael
+		    Robert Weaver, Esquire</P>
+</TD>
+</TR>
+<TR VALIGN="TOP">
+<TD WIDTH="231">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%"></P>
+</TD><TD WIDTH="248">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Donald Paul
+		    Adams, Monsignor</P>
+</TD>
+</TR>
+<TR VALIGN="TOP">
+<TD BGCOLOR="#c0c0c0" WIDTH="231">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Integration
+		    Engineer</P>
+</TD><TD BGCOLOR="#c0c0c0" WIDTH="248">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Mihai
+		    Christodorescu, FoNoACM</P>
+</TD>
+</TR>
+<TR VALIGN="TOP">
+<TD WIDTH="231">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Technical
+		    Writer</P>
+</TD><TD WIDTH="248">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Donald Paul
+		    Adams, Monsignor</P>
+</TD>
+</TR>
+<TR VALIGN="TOP">
+<TD BGCOLOR="#c0c0c0" WIDTH="231">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Global
+		    Visionary</P>
+</TD><TD BGCOLOR="#c0c0c0" WIDTH="248">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Michael
+		    Robert Weaver, Esquire</P>
+</TD>
+</TR>
+<TR VALIGN="TOP">
+<TD BGCOLOR="#ffffff" WIDTH="231">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Entertainment
+		    Board of Directors</P>
+</TD><TD BGCOLOR="#ffffff" WIDTH="248">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Mihai
+		    Christodorescu, FoNoACM</P>
+</TD>
+</TR>
+<TR VALIGN="TOP">
+<TD BGCOLOR="#ffffff" WIDTH="231">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<BR>
+</P>
+</TD><TD BGCOLOR="#ffffff" WIDTH="248">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Michael
+		    Robert Weaver, Esquire</P>
+</TD>
+</TR>
+<TR VALIGN="TOP">
+<TD BGCOLOR="#ffffff" WIDTH="231">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<BR>
+</P>
+</TD><TD BGCOLOR="#ffffff" WIDTH="248">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Donald Paul
+		    Adams, Monsignor</P>
+</TD>
+</TR>
+<TR VALIGN="TOP">
+<TD BGCOLOR="#c0c0c0" WIDTH="231">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Computational
+		    Historian</P>
+</TD><TD BGCOLOR="#c0c0c0" WIDTH="248">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Donald Paul
+		    Adams, Monsignor</P>
+</TD>
+</TR>
+<TR VALIGN="TOP">
+<TD BGCOLOR="#ffffff" WIDTH="231">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Guru of
+		    Paradigms</P>
+</TD><TD BGCOLOR="#ffffff" WIDTH="248">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Mihai
+		    Christodorescu, FoNoACM</P>
+</TD>
+</TR>
+</TABLE>
+</DD>
+</DL>
+<P STYLE="margin-bottom: 0.00cm">
+<BR>
+</P>
+<H1>Managerial Process</H1>
+<H2>Management Objectives and Priorities</H2>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Philosophy</FONT>
+</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">
+      Producing great software while maintaining the utmost level of
+      harmony between coworkers and with the client.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Goals</FONT>
+</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%">
+      To produce the best possible product within the given constraints.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Priorities</FONT>
+</P>
+<OL>
+<OL>
+<OL>
+<OL>
+<OL>
+<OL>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Customer
+			      satisfaction</P>
+</LI>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Employee
+			      education</P>
+</LI>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Employee
+			      happiness</P>
+</LI>
+</OL>
+</OL>
+</OL>
+</OL>
+</OL>
+</OL>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<BR>
+</P>
+<H2 STYLE="line-height: 100%">Assumptions, Dependencies, and
+      Constraints</H2>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Assumptions</FONT>
+</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">
+      The product will be run on a UNIX or Windows95/98/NT platform. There
+      will be no support for "sound" files.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Dependencies</FONT>
+</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">
+      The product will be developed with JDK 1.2. The browser supported by
+      the product is Netscape due to CSIL limitations.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Constraints</FONT>
+</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">	A
+      successfully tested version must be shippable by March 18th, 1999.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY"></P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">
+      Design has to be kept open for multiple platforms, but implementation
+      only for UNIX and Windows95/98/NT using Java and Swing.</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">
+<BR>
+</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">
+      A porting document needs to name all platform dependent classes and 
+      methods. The document will include only those will have to be changed
+      for a different platform. 
+    </P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<BR>
+</P>
+<H2 STYLE="line-height: 100%">Risk Management</H2>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Risk
+	Factors</FONT>
+</P>
+<UL>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Missing
+	  deadlines</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">The Product
+	  Manager will have overall responsibility for  seeing that all
+	  deadlines will be met. If a deadline will not be met, the Product
+	  Manager will, after discussion with the engineers involved, will
+	  attempt to correct the situation and/or handle resulting
+	  communications with the client.</P>
+</LI>
+</UL>
+<UL>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Not meeting
+	  clients requirements</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">The
+	  SQA Manager will have overall responsibility for assurance of
+	  meeting the requirements. If the SQA manager feels that the
+	  requirements are not being met, he will inform the Product Manager.
+	  The Product Manager, after consulting the software engineers
+	  involved, will attempt to correct the requirements problem.</P>
+</LI>
+</UL>
+<UL>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Degradation
+	  of development quality due to outside pressures</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">(i.e. other
+	  classes, real jobs, mental and physical health, etc...)</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">The
+	  Product Manager will have overall responsibility for managing this
+	  risk factor. All software engineers are required to inform the
+	  Product Manager as soon as possible if development is threaten by
+	  outside pressures. The Product Manager will, after discussion with
+	  the engineers involved, will attempt to correct the situation and/or
+	  handle resulting communications with the client.</P>
+</LI>
+</UL>
+<UL>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Unsatisfactory
+	  communication with the client</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">The
+	  Documentation Manager will  have the first responsibility for
+	  insuring that communications with the client are satisfactory. If a
+	  problem does arise, the Documentation Manager will inform the
+	  Product Manager and the Product Manager, after consulting the
+	  software engineers involved, will attempt to correct the
+	  communication problems.</P>
+</LI>
+</UL>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<BR>
+</P>
+<H2 STYLE="line-height: 100%">Monitoring and Controlling Mechanisms</H2>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">E-mail
+	updates</FONT>
+</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">
+      The primary source of communication and documentation of
+      communications will be e-mail. It is the responsibility of all
+      SlothWare employees to inform, by e-mail, all other employees of any
+      communication about the product.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Peer
+	review</FONT>
+</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">
+      The Product Manager will be responsible for conducting review of the
+      software engineers when necessary.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Grades
+	on assignments</FONT>
+</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">
+      Grades on assignments will be used as yardsticks to gauge client
+      satisfaction upon meeting a milestone.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Communication
+	with the client</FONT>
+</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%">
+      Communication the the client will another source of monitoring the
+      client's satisfaction.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<BR>
+</P>
+<H1 STYLE="line-height: 100%">Technical Process</H1>
+<H2>Methods, Tools, and Techniques</H2>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Tools</FONT>
+</P>
+<UL>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Development
+	  System:</P>
+</LI>
+</UL>
+<P STYLE="margin-left: 5.08cm; margin-bottom: 0.00cm; line-height: 100%">
+      Windows 9x/NT</P>
+<P STYLE="margin-left: 5.08cm; margin-bottom: 0.00cm; line-height: 100%">
+      Dual-Intel Pentium Xeon 450 MHz</P>
+<P STYLE="margin-left: 5.08cm; margin-bottom: 0.00cm; line-height: 100%">
+      128 MB RAM</P>
+<P STYLE="margin-left: 5.08cm; margin-bottom: 0.00cm; line-height: 100%">
+      Java Development Kit 1.2 (Java 2)</P>
+<UL>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Target
+	  System:</P>
+</LI>
+</UL>
+<P STYLE="margin-left: 5.08cm; margin-bottom: 0.00cm; line-height: 100%">
+      Solaris 2.6</P>
+<P STYLE="margin-left: 5.08cm; margin-bottom: 0.00cm; line-height: 100%">
+      Intel Pentium 166 MHz</P>
+<P STYLE="margin-left: 5.08cm; margin-bottom: 0.00cm; line-height: 100%">
+      48 MB RAM</P>
+<P STYLE="margin-left: 5.08cm; margin-bottom: 0.00cm; line-height: 100%">
+      Java 2</P>
+<UL>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Development
+	  Environments:</P>
+</LI>
+</UL>
+<P STYLE="margin-left: 5.08cm; margin-bottom: 0.00cm; line-height: 100%">
+      Visual J++ 6.0</P>
+<P STYLE="margin-left: 5.08cm; margin-bottom: 0.00cm; line-height: 100%">
+      Notepad</P>
+<P STYLE="margin-left: 5.08cm; margin-bottom: 0.00cm; line-height: 100%">
+      XEmacs 20.12</P>
+<P STYLE="margin-left: 5.08cm; margin-bottom: 0.00cm; line-height: 100%">
+      JDK 1.2</P>
+<UL>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Programming
+	  Language:</P>
+</LI>
+</UL>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">		Java</P>
+<UL>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">CASE Tools:</P>
+</LI>
+</UL>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">		Nada</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Methods</FONT>
+</P>
+<UL>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Documentation:</P>
+</LI>
+</UL>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">		JavaDoc</P>
+<UL>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Programming:</P>
+</LI>
+</UL>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">		Object-Oriented</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">		Booch OOA</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">		Design Patterns</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">		Java Code
+      Conventions by JavaSoft</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">(http://www.javasoft.com/docs/codeconv/html/CodeConventionsTOC.doc.html)</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Techniques</FONT>
+</P>
+<UL>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Testing:</P>
+</LI>
+</UL>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">		Code Coverage</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">		Black Box</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%"></P>
+<H2 STYLE="line-height: 100%">Software Documentation</H2>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Baseline</FONT>
+</P>
+<UL>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">IEEE 1058.1
+	  SPMP (omitting the Staffing Plan and the Budget and Resource
+	  Allocation)</P>
+</LI>
+</UL>
+<UL>
+<LI>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">JavaSoft
+	  JavaDoc Guidelines</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">(http://www.javasoft.com/products/jdk/javadoc/writingdoccomments.html
+	  and
+	  http://www.javasoft.com/docs/codeconv/html/CodeConventions.doc4.html#16838)</P>
+</LI>
+</UL>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Milestones</FONT>
+</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">
+      The first milestone is the completion of the SPMP. Then the
+      completion of the detailed design.  After that at least three reviews
+      of the JavaDoc output, the SPMP, and the detailed design will take
+      place.  These reviews will take place after each of the following
+      project milestones are met: Alpha, Beta, and Pre-Release.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<BR>
+</P>
+<H2 STYLE="line-height: 100%">Project Support Functions</H2>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Configuration
+	Management</FONT>
+</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">
+      Configuration Management will be done by the Product Manager. He will
+      inform all software engineers when a change needs to be made. All
+      software engineers are responsible for informing the Product Manager
+      when they are  requesting a updated files to be added to the Product.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Quality
+	Assurance</FONT>
+</P>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">
+      Quality Assurance will be managed by the SQA Manager as described in
+      Organizational Boundaries and Interfaces.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Testing
+	Plans</FONT>
+</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	Testing plans
+      will be conducted as described in Product testing.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<BR>
+</P>
+<H1 STYLE="line-height: 100%">Work Packages</H1>
+<H2>Work Packages</H2>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">GUI</FONT>
+</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	Tree display
+      functional module</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	File display
+      functional module</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Console</FONT>
+</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	Command
+      interpreter</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	History module</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	Alias table</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	Environment
+      Variable table</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Control</FONT>
+</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	Document tree
+      module</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	MRV module</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	File system
+      module</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Web</FONT>
+</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	HTML parser</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	HTTP connect
+      module</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<BR>
+</P>
+<H2 STYLE="line-height: 100%">Dependencies</H2>
+<P STYLE="margin-left: 2.54cm; margin-bottom: 0.00cm; line-height: 100%" ALIGN="JUSTIFY">
+      The GUI and Console modules depend on the Control module. The Command
+      interpreter depends on the History module, the Alias table and the
+      Environment variable table. The Control module depends on the Web
+      module, and the Document tree module.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<BR>
+</P>
+<H2 STYLE="line-height: 100%">Resource Requirements</H2>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">CSIL
+	at UCSB</FONT>
+</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	Subject to
+      posted hours.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Hardware</FONT>
+</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	Will use PCs.
+      printers and other devices provided in CSIL.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Software</FONT>
+</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	Will use
+      software provided in CSIL.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Software
+	Engineers</FONT>
+</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	Will use
+      engineers that are employees of SlothWare.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Management</FONT>
+</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	Will use
+      engineers that are employees of SlothWare.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="4">Human
+	resources usage chart</FONT>
+</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<FONT SIZE="3">	(please
+	see next page)</FONT>
+</P>
+<TABLE RULES="GROUPS" FRAME="BELOW" CELLSPACING="0" CELLPADDING="4" BORDERCOLOR="#000000" BORDER="1" WIDTH="576">
+<COL WIDTH="184">
+<COL WIDTH="120">
+<COL WIDTH="120">
+<COL WIDTH="120">
+<TBODY>
+<TR VALIGN="TOP">
+<TH WIDTH="184" ROWSPAN="2">
+<P ALIGN="CENTER">Time and Task</P>
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TH><TH WIDTH="376" COLSPAN="3">
+<P ALIGN="CENTER">
+<I>Utilization</I>
+</P>
+</TH>
+</TR>
+<TR VALIGN="TOP">
+<TD WIDTH="120">
+<P ALIGN="CENTER">Mihai</P>
+</TD><TD BGCOLOR="#c0c0c0" WIDTH="120">
+<P ALIGN="CENTER">Mike</P>
+</TD><TD WIDTH="120">
+<P ALIGN="CENTER">Don</P>
+</TD>
+</TR>
+<TR VALIGN="TOP">
+<TD WIDTH="184">
+<P STYLE="font-weight: medium" ALIGN="CENTER">02/28/1999 -
+		      03/02/1999</P>
+</TD><TD WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD><TD WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD><TD WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD>
+</TR>
+<TR>
+<TD VALIGN="TOP" WIDTH="184">
+<P ALIGN="RIGHT">SPMP</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="0.5" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">50.00%</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="0.5" BGCOLOR="#c0c0c0" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">50.00%</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="0.9" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">90.00%</P>
+</TD>
+</TR>
+<TR>
+<TD VALIGN="TOP" WIDTH="184">
+<P ALIGN="RIGHT">SQA</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="0.5" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">50.00%</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="0.5" BGCOLOR="#c0c0c0" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">50.00%</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="0.1" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">10.00%</P>
+</TD>
+</TR>
+</TBODY>
+<TBODY>
+<TR>
+<TD VALIGN="TOP" WIDTH="184">
+<P ALIGN="RIGHT">
+<BR>
+</P>
+</TD><TD SDNUM="1033;0;0.00%" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD><TD SDNUM="1033;0;0.00%" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD><TD SDNUM="1033;0;0.00%" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD>
+</TR>
+<TR VALIGN="TOP">
+<TD WIDTH="184">
+<P STYLE="font-weight: medium" ALIGN="CENTER">03/02/1999 -
+		      03/04/1999</P>
+</TD><TD WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD><TD WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD><TD WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD>
+</TR>
+<TR>
+<TD VALIGN="TOP" WIDTH="184">
+<P ALIGN="RIGHT">Detailed Design</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="0.5" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">50.00%</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="0.5" BGCOLOR="#c0c0c0" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">50.00%</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="0.9" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">90.00%</P>
+</TD>
+</TR>
+<TR>
+<TD VALIGN="TOP" WIDTH="184">
+<P ALIGN="RIGHT">SQA</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="0.5" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">50.00%</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="0.5" BGCOLOR="#c0c0c0" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">50.00%</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="0.1" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">10.00%</P>
+</TD>
+</TR>
+</TBODY>
+<TBODY>
+<TR>
+<TD VALIGN="TOP" WIDTH="184">
+<P ALIGN="RIGHT">
+<BR>
+</P>
+</TD><TD SDNUM="1033;0;0.00%" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD><TD SDNUM="1033;0;0.00%" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD><TD SDNUM="1033;0;0.00%" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD>
+</TR>
+<TR VALIGN="TOP">
+<TD WIDTH="184">
+<P ALIGN="CENTER">03/04/1999 - 03/17/1999</P>
+</TD><TD SDNUM="1033;0;0.00%" WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD><TD SDNUM="1033;0;0.00%" WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD><TD SDNUM="1033;0;0.00%" WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD>
+</TR>
+<TR>
+<TD VALIGN="TOP" WIDTH="184">
+<P ALIGN="RIGHT">Implementation</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="0.7" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">70.00%</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="0.25" BGCOLOR="#c0c0c0" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">25.00%</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="0.5" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">50.00%</P>
+</TD>
+</TR>
+<TR>
+<TD VALIGN="TOP" WIDTH="184">
+<P ALIGN="RIGHT">Unit Testing</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="0.25" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">25.00%</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="0.15" BGCOLOR="#c0c0c0" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">15.00%</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="0.2" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">20.00%</P>
+</TD>
+</TR>
+<TR>
+<TD VALIGN="TOP" WIDTH="184">
+<P ALIGN="RIGHT">SQA</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="0.05" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">5.00%</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="0.6" BGCOLOR="#c0c0c0" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">60.00%</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="0.3" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">30.00%</P>
+</TD>
+</TR>
+</TBODY>
+<TBODY>
+<TR>
+<TD VALIGN="TOP" WIDTH="184">
+<P ALIGN="RIGHT">
+<BR>
+</P>
+</TD><TD SDNUM="1033;0;0.00%" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD><TD SDNUM="1033;0;0.00%" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD><TD SDNUM="1033;0;0.00%" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD>
+</TR>
+<TR>
+<TD SDNUM="1033;0;MM/DD/YYYY" SDVAL="36237" VALIGN="BOTTOM" WIDTH="184">
+<P ALIGN="CENTER">03/18/1999</P>
+</TD><TD VALIGN="TOP" WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD><TD VALIGN="TOP" WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD><TD VALIGN="TOP" WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD>
+</TR>
+<TR>
+<TD VALIGN="TOP" WIDTH="184">
+<P ALIGN="RIGHT">Delivery</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="1" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">100.00%</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="1" BGCOLOR="#c0c0c0" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">100.00%</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="1" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">100.00%</P>
+</TD>
+</TR>
+</TBODY>
+<TBODY>
+<TR>
+<TD VALIGN="TOP" WIDTH="184">
+<P ALIGN="RIGHT">
+<BR>
+</P>
+</TD><TD SDNUM="1033;0;0.00%" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD><TD SDNUM="1033;0;0.00%" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD><TD SDNUM="1033;0;0.00%" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD>
+</TR>
+<TR VALIGN="TOP">
+<TD WIDTH="184">
+<P ALIGN="CENTER">03/19/1999 - 03/24/1999</P>
+</TD><TD WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD><TD WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD><TD WIDTH="120">
+<P ALIGN="CENTER">
+<BR>
+</P>
+</TD>
+</TR>
+<TR>
+<TD VALIGN="TOP" WIDTH="184">
+<P ALIGN="RIGHT">Maintenance</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="1" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">100.00%</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="1" BGCOLOR="#c0c0c0" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">100.00%</P>
+</TD><TD SDNUM="1033;0;0.00%" SDVAL="1" VALIGN="BOTTOM" WIDTH="120">
+<P ALIGN="CENTER">100.00%</P>
+</TD>
+</TR>
+</TBODY>
+</TABLE>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<BR>
+</P>
+<H2 STYLE="line-height: 100%">Schedule</H2>
+<P STYLE="margin-bottom: 0.00cm">
+<BR>
+</P>
+<CENTER>
+<TABLE RULES="GROUPS" CELLSPACING="0" CELLPADDING="4" BORDERCOLOR="#000000" BORDER="1" WIDTH="306">
+<COL WIDTH="182">
+<COL WIDTH="106">
+<THEAD>
+<TR>
+<TD WIDTH="182">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="CENTER">
+<B>Activity</B>
+</P>
+</TD><TD WIDTH="106">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="CENTER">
+<B>Deadline</B>
+</P>
+</TD>
+</TR>
+<TR></TR>
+</THEAD>
+<TBODY>
+<TR>
+<TD WIDTH="182">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Tree display</P>
+</TD><TD SDNUM="1033;0;M/D/YY" WIDTH="106" ROWSPAN="3">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="CENTER">
+		    3/2/99</P>
+</TD>
+</TR>
+<TR>
+<TD WIDTH="182">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Command
+		    interpreter</P>
+</TD>
+</TR>
+<TR>
+<TD WIDTH="182">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">MRV module</P>
+</TD>
+</TR>
+</TBODY>
+<TBODY>
+<TR>
+<TD WIDTH="182">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">File display</P>
+</TD><TD SDNUM="1033;0;M/D/YY" WIDTH="106" ROWSPAN="3">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="CENTER">
+		    3/4/99</P>
+</TD>
+</TR>
+<TR>
+<TD WIDTH="182">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">History
+		    module, alias table</P>
+</TD>
+</TR>
+<TR>
+<TD WIDTH="182">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">File system
+		    module</P>
+</TD>
+</TR>
+</TBODY>
+<TBODY>
+<TR>
+<TD WIDTH="182">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">GUI module
+		    integration</P>
+</TD><TD SDNUM="1033;0;M/D/YY" WIDTH="106" ROWSPAN="3">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="CENTER">
+		    3/6/99</P>
+</TD>
+</TR>
+<TR>
+<TD WIDTH="182">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Environment
+		    Variable table</P>
+</TD>
+</TR>
+<TR>
+<TD WIDTH="182">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Document
+		    tree module</P>
+</TD>
+</TR>
+</TBODY>
+<TBODY>
+<TR>
+<TD WIDTH="182">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">HTTP connect
+		    module</P>
+</TD><TD SDNUM="1033;0;M/D/YY" WIDTH="106" ROWSPAN="2">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="CENTER">
+		    3/8/99</P>
+</TD>
+</TR>
+<TR>
+<TD WIDTH="182">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Alpha
+		    version demo</P>
+</TD>
+</TR>
+</TBODY>
+<TBODY>
+<TR>
+<TD WIDTH="182">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Web module
+		    integration</P>
+</TD><TD SDNUM="1033;0;M/D/YY" SDVAL="36229" WIDTH="106">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="CENTER">
+		    3/10/99</P>
+</TD>
+</TR>
+</TBODY>
+<TBODY>
+<TR>
+<TD WIDTH="182">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Control
+		    integration</P>
+</TD><TD SDNUM="1033;0;M/D/YY" SDVAL="36230" WIDTH="106">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="CENTER">
+		    3/11/99</P>
+</TD>
+</TR>
+</TBODY>
+<TBODY>
+<TR>
+<TD WIDTH="182">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Product
+		    integration</P>
+</TD><TD SDNUM="1033;0;M/D/YY" SDVAL="36231" WIDTH="106">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="CENTER">
+		    3/12/99</P>
+</TD>
+</TR>
+</TBODY>
+<TBODY>
+<TR>
+<TD WIDTH="182">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Beta version
+		    demo</P>
+</TD><TD SDNUM="1033;0;M/D/YY" SDVAL="36233" WIDTH="106">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="CENTER">
+		    3/14/99</P>
+</TD>
+</TR>
+</TBODY>
+<TBODY>
+<TR>
+<TD WIDTH="182">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Product
+		    testing and fixing</P>
+</TD><TD SDNUM="1033;0;M/D/YY" WIDTH="106" ROWSPAN="2">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="CENTER">
+		    3/17/99</P>
+</TD>
+</TR>
+<TR>
+<TD WIDTH="182">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Pre-release</P>
+</TD>
+</TR>
+</TBODY>
+<TBODY>
+<TR>
+<TD WIDTH="182">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Delivery</P>
+</TD><TD SDNUM="1033;0;M/D/YY" SDVAL="36237" WIDTH="106">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="CENTER">
+		    3/18/99</P>
+</TD>
+</TR>
+</TBODY>
+<TBODY>
+<TR>
+<TD WIDTH="182">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">Maintenance</P>
+</TD><TD SDNUM="1033;0;M/D/YY" SDVAL="36243" WIDTH="106">
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%" ALIGN="CENTER">
+		    3/24/99</P>
+</TD>
+</TR>
+</TBODY>
+</TABLE>
+</CENTER>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<BR>
+</P>
+<H1 STYLE="line-height: 100%">Additional Components</H1>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<BR>
+</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">	De Nada
+      component, as specified above.</P>
+<P STYLE="margin-bottom: 0.00cm; line-height: 100%">
+<BR>
+</P>
+<DIV TYPE="FOOTER">
+<P STYLE="margin-top: 0.50cm; margin-bottom: 0.00cm" ALIGN="CENTER">
+<SDFIELD FORMAT="PAGE" SUBTYPE="RANDOM" TYPE="PAGE">12</SDFIELD>
+	of <SDFIELD FORMAT="PAGE" SUBTYPE="PAGE" TYPE="DOCSTAT">12</SDFIELD>
+</P>
+</DIV>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</center>
+<br>
+<div class="MaintainerInfo">
+<div>
+<div>
+<div>
+	    Copyright 1998-2005 Mihai Christodorescu. All rights reserved. <br>
+            Maintained by Mihai Christodorescu (<a href="http://mihai.christodorescu.org">http://mihai.christodorescu.org</a>). <br>
+            Created: Mon Dec 21 21:12:13 PST 1998<br>
+            Last modified: Sat Oct  1 23:06:57 CDT 2005</div>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,1777 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Mihai Christodorescu: web shell project specification (v1.0)</title>
+<link type="text/css" rel="stylesheet" href="../../../default_style.css">
+<script type="text/javascript">
+      menuName = new Array(  );
+      depth = 3;
+    </script><script type="text/javascript" src="../../../browser_script.js"></script>
+</head>
+<!--PathToRoot="../../.."-->
+<!--DocDepth=3-->
+<body MARGINHEIGHT="0" MARGINWIDTH="0" LEFTMARGIN="0" TOPMARGIN="0">
+<div class="PageHeader">
+<div style="border-bottom: 1px solid #bbaa66;">
+<div style="border-bottom: 1px solid #ddcc88;">
+<div class="spacer"></div>
+<div class="row">
+<span class="left">Mihai Christodorescu: <a class="OnsiteTopLink" href="../../../index.html">main</a> / <a class="OnsiteTopLink" href="../../index.html">work</a> / <a class="OnsiteTopLink" href="../index.html">projects</a> / <a class="OnsiteTopLink" href="./index.html">web&nbsp;shell</a> / specification&nbsp;v1.0</span><span class="right"><a class="Onsite" style="margin-right: 0.5em;" href="../../../calendar.html">
+                Calendar
+              </a><a class="Onsite" href="../../../contact.html">
+                Contact info
+              </a></span>
+</div>
+<div class="spacer"></div>
+</div>
+</div>
+</div>
+<br>
+<center>
+<h1 align="center">
+        Mihai's WebShell Project:<br>Specification (v1.0)<br>
+<img border="0" width="300" height="1" src="../../../images/black_dot.png"></h1>
+<table border="0" cellspacing="0" cellpadding="1" bgcolor="black" width="75%">
+<tr>
+<td>
+<table border="0" cellspacing="0" cellpadding="10" width="100%" bgcolor="white">
+<tr>
+<td>
+<DIV TYPE="HEADER">
+<P STYLE="margin-bottom: 0.50cm" ALIGN="CENTER">SlothWare</P>
+</DIV>
+<P ALIGN="CENTER">
+<SDFIELD SDNUM="1033;1033;NNNNMMMM D, YYYY" SDVAL="36207.9027488426" TYPE="DATETIME">Tuesday, February 16, 1999</SDFIELD>
+</P>
+<P>
+<BR>
+<BR>
+</P>
+<P STYLE="margin-top: 0.42cm; page-break-after: avoid">
+<FONT FACE="helvetica"><FONT STYLE="font-size: 16pt" SIZE="4"><B>Contents</B></FONT></FONT>
+</P>
+<P STYLE="margin-bottom: 0.00cm">Product Constraints	5</P>
+<P STYLE="margin-bottom: 0.00cm">Black Box Specification	6</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Input	6</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Output	6</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Input/Output
+      Functional Relationships	6</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Acceptance
+      Criteria	6</P>
+<P STYLE="margin-bottom: 0.00cm">Class Descriptions	7</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Class Command	7</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Black Box
+      Specification	7</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Input-Output	7</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Use Cases	8</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Scenarios	9</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">CRC	9</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Class
+      Console	10</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Black Box
+      Specification	10</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Input-Output	10</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Use Cases	11</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Scenarios	12</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">CRC	13</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Class History	13</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Black Box
+      Specification	13</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Input-Output	13</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Use Cases	14</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Scenarios	14</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">CRC	14</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Class MRV	15</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Black Box
+      Specification	15</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Input-Output	15</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Use Cases	15</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Scenarios	16</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">CRC	16</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Class Sloth	16</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Black Box
+      Specification	16</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Input-Output	16</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Acceptance
+      Criteria	16</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Use Cases	17</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Scenarios	17</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">CRC Card	18</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Class
+      TreePanel	18</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Black Box
+      Specification	18</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Input-Output	18</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Acceptance
+      Criteria	18</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Use Cases	19</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Scenarios	19</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">CRC Cards	19</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Class
+      TablePanel	20</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Black Box
+      Specification	20</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Input-Output	20</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Acceptance
+      Criteria	20</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Use Cases	20</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Scenarios	20</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">CRC Cards	21</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Class GUI	21</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Black Box
+      Specification	21</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Input-Output	21</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Acceptance
+      Criteria	21</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Use Cases	22</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Scenarios	22</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">CRC Cards	22</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Class
+      Control	23</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Black Box
+      Specification	23</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Input	23</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Output	23</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">I/O
+      Relationship	23</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Use Cases	24</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Scenarios	24</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">CRC Card	24</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Class Open	25</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Black Box
+      Specification	25</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Input	25</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Output	25</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">I/O
+      Relationships	25</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Use Cases	25</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Scenarios	25</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">CRC Card	25</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Class
+      FileSystem	26</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Black Box
+      Specification	26</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Input	26</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Output	26</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">I/O
+      Relationships	26</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Use Cases	26</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Scenarios	27</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">CRC Card	27</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Class HTTPfs	27</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Black Box
+      Specification	27</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Input and
+      Output	27</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Use Cases	28</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Scenarios	28</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">CRC Card	28</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Class
+      Localfs	28</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Black Box
+      Specification	28</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Input and
+      Output	28</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Use Cases	28</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Scenarios	28</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">CRC Card	28</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Class
+      FileInfo	29</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Black Box
+      Specification	29</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Input	29</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Output	29</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">I/O
+      Relationships	29</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Use Cases	29</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Scenarios	29</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">CRC Card	29</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Class
+      GenericURL	30</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Black Box
+      Specification	30</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Input	30</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Output	30</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">I/O
+      Relationships	30</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Use Cases	30</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Scenarios	30</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">CRC Card	30</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Class
+      HTMLParser	31</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Black Box
+      Specification	31</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Input	31</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Output	31</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">I/O
+      Relationships	31</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Use Cases	31</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Scenarios	31</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">CRC Card	32</P>
+<P STYLE="margin-left: 0.50cm; margin-bottom: 0.00cm">Class View	32</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Black Box
+      Specification	32</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Input	32</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">Output	32</P>
+<P STYLE="margin-left: 1.50cm; margin-bottom: 0.00cm">I/O
+      Relationships	32</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Use Cases	32</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">Scenarios	32</P>
+<P STYLE="margin-left: 1.00cm; margin-bottom: 0.00cm">CRC Card	33</P>
+<H1 STYLE="page-break-before: always">Product Constraints</H1>
+<P>
+<BR>
+<BR>
+</P>
+<P>	The deadline of the product is March 18<SUP>th</SUP>, 1999.</P>
+<P ALIGN="JUSTIFY">	The product is planned to be as hardware- and
+      software- independent as possible. Since it is written in Java, it
+      will be portable across platforms, with the only foreseeable
+      restriction being the fact that external applications are spawned in
+      a system-dependent manner.</P>
+<P ALIGN="JUSTIFY">
+<BR>
+<BR>
+</P>
+<H1 STYLE="page-break-before: always">Black Box Specification</H1>
+<P>
+<BR>
+<BR>
+</P>
+<P ALIGN="JUSTIFY">	The WebShell will provide a new paradigm in web
+      based computing. It allows access to a remote web page as if it were
+      a local file system.</P>
+<P ALIGN="JUSTIFY">
+<BR>
+<BR>
+</P>
+<P ALIGN="JUSTIFY">	The WebShell will provide two ways to access the
+      web pages, through a standard shell interface, and a GUI-based
+      interface. The GUI interface allows the user to browse the remote web
+      page, using a point-and-click metaphor. The WebShell enhances the
+      user experience by allowing external application to be executed when
+      the user needs to view a specific data type not handled by the shell
+      itself. The program will also allow browsing the local file system.</P>
+<H2>Input</H2>
+<P ALIGN="JUSTIFY">	The inputs to be WebShell are provide through a
+      dual hardware interface: a keyboard and a mouse. The WebShell takes
+      commands from the keyboard (from the set cd, up, back, forward, ls,
+      info, open, set, alias, and unalias) and executes them, updating the
+      windows accordingly. Also, using the mouse, the user can browse the
+      document tree.</P>
+<H2>Output</H2>
+<P>	The output of the WebShell is two-fold: on one hand, the console
+      window provides limited output (information and error text), on the
+      other hand, the GUI displays a tree rooted at the current directory,
+      and a list of files in the current directory.</P>
+<H2>Input/Output Functional Relationships</H2>
+<P ALIGN="JUSTIFY">	When a user enters a command that affects the
+      display (cd, up, back, or forward) the windows will be updated to
+      reflect the change in directory structure. When a user clicks on an
+      entry in the tree, the current directory is changed in both the GUI
+      and the console. Double clicking on an item in the GUI, or typing the
+      open command with and argument, will open the pre-defined handler
+      application for that URL/file type.</P>
+<H2>
+<BR>
+<BR>
+</H2>
+<H1 STYLE="page-break-before: always">Acceptance Criteria</H1>
+<P ALIGN="JUSTIFY">
+<BR>
+<BR>
+</P>
+<P ALIGN="JUSTIFY">	The product is considered feature-complete and
+      ready to ship when all the functionality described above is
+      implemented in full, and all the (major) bugs are eliminated. User
+      testing of the product will offer additional feedback before
+      considering the product completed.</P>
+<H1 STYLE="page-break-before: always">Use Cases and Scenarios</H1>
+<P>
+<BR>
+<BR>
+</P>
+<P>	The use cases and scenarios span from the specific use cases and
+      scenarios from the top-level classes Control, FileSystem, GUI, and
+      Console.</P>
+<H1 STYLE="page-break-before: always">Class Descriptions</H1>
+<H2>
+<BR>
+<BR>
+</H2>
+<H2>Class <SPAN STYLE="text-decoration: none">Command</SPAN>
+</H2>
+<H3>Black Box Specification</H3>
+<P ALIGN="JUSTIFY">	The Command class provides the functionality of the
+      console commands to the Web Shell console.</P>
+<P ALIGN="JUSTIFY">	The Command class provides the functionality of the
+      console commands to the Web Shell console. Certain commands are
+      implemented entirely within this class while others rely on calls to
+      external modules like the history list.</P>
+<H4>Input-Output</H4>
+<P ALIGN="JUSTIFY">	The following is a list of public methods in the
+      Command class.</P>
+<P ALIGN="JUSTIFY">ChangeDirectory(String path)</P>
+<P ALIGN="JUSTIFY">	The ChangeDirectory method takes a string as a
+      parameter.  It changes the current directory to string path and
+      returns the new absolute path, if it is valid.  If the path is
+      invalid an error message is returned.  If path is null then
+      ChangeDirectory does nothing.</P>
+<P ALIGN="JUSTIFY">Up</P>
+<P ALIGN="JUSTIFY">	The Up method changes the current directory to be
+      the current directory's parent and returns the new absolute path.  If
+      the current directory does not have a parent then Up returns an error
+      message.</P>
+<P ALIGN="JUSTIFY">Back</P>
+<P ALIGN="JUSTIFY">	The Back method changes the current directory to be
+      the previous directory as determined by the MRV-queue and returns the
+      new absolute path. If there is no previous directory then Back
+      returns an error message.</P>
+<P ALIGN="JUSTIFY">Forward</P>
+<P ALIGN="JUSTIFY">	The Forward method changes the current directory to
+      be the next directory as determined by the MRV-queue and returns the
+      new absolute path. If there is no next directory then Forward returns
+      an error message.</P>
+<P ALIGN="JUSTIFY">ListDirectory(String path)</P>
+<P ALIGN="JUSTIFY">	The ListDirectory method returns a list of the
+      contents of the directory path.  If path is null then ListDirectory
+      returns a list of the contents of the current directory.  If path is
+      invalid or there is no current directory then ListDirectory returns
+      an error message.</P>
+<P ALIGN="JUSTIFY">Info(String document)</P>
+<P ALIGN="JUSTIFY">	The Info method returns information about the
+      document.  If document is null or invalid Info returns an error
+      message.</P>
+<P ALIGN="JUSTIFY">Open(String document)</P>
+<P ALIGN="JUSTIFY">	The Open method spawns a helper app to view the
+      document.  If document is null or invalid Open returns an error
+      message.</P>
+<P ALIGN="JUSTIFY">Set(String variable, String value)</P>
+<P ALIGN="JUSTIFY">	The Set method sets the value of variable to value.
+      If variable is invalid then variable will be added to the list of
+      environment variables.  If value is null then the variable will be
+      removed.  If variable and value are null then Set will return a
+      listing of the variables and their values.  If variable is null then
+      Set will return an error message. 
+    </P>
+<P ALIGN="JUSTIFY">Alias(String name, String value)</P>
+<P ALIGN="JUSTIFY">	The Alias method creates and alias for a command,
+      name.  If name is null or  is already an alias Alias returns an error
+      message.  If value is null Alias returns an error message.  If value
+      and name are null Alias returns a list of the current aliases and
+      their values.</P>
+<P ALIGN="JUSTIFY">Unalias(String name)</P>
+<P ALIGN="JUSTIFY">	The Unalias method removes alias name from the
+      alias table.  If Nam is null of is not in the alias table Alias
+      returns an error message.</P>
+<H3>Use Cases</H3>
+<UL>
+<LI>
+<P ALIGN="JUSTIFY">call ChangeDirectory with a relative path</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call ChangeDirectory with an absolute path</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call ChangeDirectory with a null path</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call the Up method</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call the Back method</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call the Forward method</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call ListDiretory with a relative path</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call ListDirectory with an absolute path</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call ListDirectory with a null path</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call Info with a relative path</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call Info with an absolute path</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call Info with a null path</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call Open with a relative path</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call Open with an absolute path</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call Open with a null path</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call Set with an existing variable and a value</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call Set with an non-existent variable and a
+	  value</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call Set with an non-existent variable and a
+	  null value</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call Set with an existing variable and a null
+	  value</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call Set with a null variable and null value</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call Alias with a name and a value</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call Alias with an already aliased name</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call Alias with a name with a !$ in the value</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call Unalias with an alias</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call Unalias with a non-existent alias</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">call Unalias with a null alias</P>
+</LI>
+</UL>
+<H3>Scenarios</H3>
+<P ALIGN="JUSTIFY">Same as those in the console class.</P>
+<H3>CRC</H3>
+<P ALIGN="JUSTIFY">Class Name:</P>
+<P ALIGN="JUSTIFY">	Command</P>
+<P ALIGN="JUSTIFY">Responsibilities:</P>
+<P ALIGN="JUSTIFY">	Execute the commands passed in from the Console
+      class</P>
+<P ALIGN="JUSTIFY">	Return the output of the commands</P>
+<P ALIGN="JUSTIFY">Collaborates With Classes:</P>
+<P ALIGN="JUSTIFY">	Console</P>
+<P ALIGN="JUSTIFY">	Control</P>
+<P ALIGN="JUSTIFY">	MRV</P>
+<P ALIGN="JUSTIFY">
+<BR>
+<BR>
+</P>
+<H2>Class Console</H2>
+<H3>Black Box Specification</H3>
+<P ALIGN="JUSTIFY">	The Console class provides all textual I/O and
+      navigation for the Web Shell product.</P>
+<P>	The Console class provides a command line UNIX-like console to
+      the user. Through the console a user can execute the commands
+      detailed in the Web Shell specification document version 1.1. Some
+      commands provide feedback to the user via text in the terminal
+      window. The Console class also provides history features to the user.
+      By pressing the up or down arrows the user can navigate through the
+      history list of commands. Upon finding the command of her choice the
+      user can then modify and/or execute the command. The Console class
+      also provides a number of environment variables to the user. These
+      variables, detailed in the Web Shell specification document version
+      1.1, modify the output of commands and control the length of the
+      history list.</P>
+<H4>Input-Output</H4>
+<P ALIGN="JUSTIFY">	The following is a list of commands available to
+      the user supported by the Web Shells console. The console is
+      case-sensitive, thus the commands should be typed, as shown, in
+      lowercase. Words in brackets, [], indicate what sort of arguments the
+      command expects. Arguments should not contain the brackets, []. The
+      following list emphasizes the input to the commands, thus its
+      explanation of command usage is some what abbreviated. Please consult
+      the Web Shell requirements document version 1.1 for a more detailed
+      explanation of the commands operations.</P>
+<P>
+<BR>
+<BR>
+</P>
+<P>cd [name]</P>
+<P ALIGN="JUSTIFY">	The change directory command takes one argument,
+      the name of the directory to switch too. The directory name may be an
+      absolute or relative path. Upon successful completion of the change
+      directory operation the new absolute path with be printed in the
+      console.</P>
+<P>up</P>
+<P ALIGN="JUSTIFY">	The up command changes the current directory to the
+      current directory's parent. Upon successful completion of the up
+      operation the new absolute path with be printed in the console.</P>
+<P>back</P>
+<P ALIGN="JUSTIFY">	The back command changes the current directory to
+      the previous current directory as determined by the MRV-queue. Upon
+      successful completion of the back operation the new absolute path
+      with be printed in the console.</P>
+<P>forward</P>
+<P ALIGN="JUSTIFY">	The forward command changes the current directory
+      to the next current directory as determined by the MRV-queue. Upon
+      successful completion of the forward operation the new absolute path
+      with be printed in the console. If the forward operation could not be
+      completed an error message will be printed in the console.</P>
+<P>ls [name]</P>
+<P ALIGN="JUSTIFY">	The list directory command lists the contents of
+      directory [name] in the console.  [name] may be a relative or
+      absolute path. If [name] is a plain file then [name] is listed. If
+      [name] is omitted then the contents of the current directory are
+      listed. The listing will denote the different types of files,
+      directories and plain files.</P>
+<P>info [name]</P>
+<P>	The info command lists the attributes of the file [name] in the
+      console.</P>
+<P>open [name]</P>
+<P ALIGN="JUSTIFY">	The open command launches an external helper
+      application to view the file [name].</P>
+<P>set [variable [value]]</P>
+<P ALIGN="JUSTIFY">	The set command allows the user to change the value
+      of the environment variables.  [variable] cannot contain white space.
+      [value] can be enclosed in quotes but they are not part of [value]. 
+      If [variable] and [value] are not defined then the set command lists
+      the environment variables and their values in the console.</P>
+<P>alias [name [value]]</P>
+<P ALIGN="JUSTIFY">	The alias command allows the user to set up aliases
+      for a command or a command sequence.  [name] cannot contain white
+      space. [value] can be enclosed in quotes but they are not part of
+      [value].  If [name] and [value] are not defined then the alias
+      command lists the aliases and their values in the console.</P>
+<P>unalias [name]</P>
+<P>	The unalias command allows the user to remove aliases from the
+      alias table.</P>
+<H3>Use Cases</H3>
+<UL>
+<LI>
+<P>cd to a relative path</P>
+</LI>
+<LI>
+<P>cd to an absolute path</P>
+</LI>
+<LI>
+<P>cd to a null path</P>
+</LI>
+<LI>
+<P>use the up command</P>
+</LI>
+<LI>
+<P>use the back command</P>
+</LI>
+<LI>
+<P>use the forward command</P>
+</LI>
+<LI>
+<P>ls a relative path</P>
+</LI>
+<LI>
+<P>ls an absolute path</P>
+</LI>
+<LI>
+<P>ls with a null path</P>
+</LI>
+<LI>
+<P>info a relative path</P>
+</LI>
+<LI>
+<P>info an absolute path</P>
+</LI>
+<LI>
+<P>info a null path</P>
+</LI>
+<LI>
+<P>open a relative path</P>
+</LI>
+<LI>
+<P>open an absolute path</P>
+</LI>
+<LI>
+<P>open a null path</P>
+</LI>
+<LI>
+<P>set an existing variable to a value</P>
+</LI>
+<LI>
+<P>create a new variable</P>
+</LI>
+<LI>
+<P>create a new variable and set its value</P>
+</LI>
+<LI>
+<P>remove an existing variable</P>
+</LI>
+<LI>
+<P>list the existing variables and their values</P>
+</LI>
+<LI>
+<P>alias a name to a value</P>
+</LI>
+<LI>
+<P>alias an already aliased name</P>
+</LI>
+<LI>
+<P>alias a name with a !$ in the value</P>
+</LI>
+<LI>
+<P>unalias an alias</P>
+</LI>
+<LI>
+<P>unalias a non-existent alias</P>
+</LI>
+<LI>
+<P>unalias a null alias</P>
+</LI>
+</UL>
+<H3>Scenarios</H3>
+<UL>
+<LI>
+<P ALIGN="JUSTIFY">Execute a number of commands, correctly and
+	  incorrectly.  Use the history list.  Execute a command from the
+	  history list.  Use the history list again.  Execute new commands.</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">Execute a number of commands, including the cd
+	  command.  Use the back and forward commands to change directories. 
+	  Change directories using the cd command.  Use the back and forward
+	  commands again.</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">Execute a number of commands, including the cd
+	  command.  Use the up command to change directories.  Change
+	  directories with the cd command.  Use the up command again.</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">Alias a command.  Use the alias.  Alias a
+	  command with the !$ symbol.  Use the alias.  Alias several commands
+	  concatenated with the ;.  Use the alias. Alias several commands with
+	  the !$ symbol concatenated with the ;. Use the alias.</P>
+</LI>
+</UL>
+<H3>CRC</H3>
+<P>Class Name:</P>
+<P>	Console</P>
+<P>Responsibilities:</P>
+<P>	Interpret the users commands</P>
+<P>	Print command output and error messages to the terminal.</P>
+<P>Collaborates With Classes:</P>
+<P>	Command</P>
+<P>	Control</P>
+<P>	History</P>
+<P>
+<BR>
+<BR>
+</P>
+<H2>Class History</H2>
+<H3>Black Box Specification</H3>
+<P ALIGN="JUSTIFY">	The History class provides a command history list
+      to the Web Shell console.</P>
+<P ALIGN="JUSTIFY">	The History class provides a UNIX-like command
+      history list to the Web Shell console. Through the console a user can
+      browse through the history list using the up and down arrows.  Upon
+      selection of a previous command a user has the option to edit the
+      command or simply execute it "as is".</P>
+<H4>Input-Output</H4>
+<P>	The following is a list of public methods in the History class.</P>
+<P>Previous</P>
+<P ALIGN="JUSTIFY">	The Previous method returns the previous command in
+      the history list.  If the user is at the end of the the history list
+      it returns the last entry in the list.  If the list is empty it
+      returns nothing.</P>
+<P>Next</P>
+<P ALIGN="JUSTIFY">	The Next method returns the next command in the
+      history list.  If the user is at the beginning of the the history
+      list it returns the nothing.  If the list is empty it returns
+      nothing.</P>
+<P>Add(String "command")</P>
+<P ALIGN="JUSTIFY">	The Add method adds "command" to the
+      history list.  If "command" is null Add returns an error
+      message.</P>
+<P>SetLength</P>
+<P ALIGN="JUSTIFY">	The SetLength method sets the number of commands
+      that will be stored in the history list.  If the new length is
+      shorter than the old length the oldest commands will be truncated
+      from the list.</P>
+<H3>Use Cases</H3>
+<UL>
+<LI>
+<P>Move up in the list</P>
+</LI>
+<LI>
+<P>Move down in the list</P>
+</LI>
+<LI>
+<P>Set the length</P>
+</LI>
+<LI>
+<P>Set the length with a negative number</P>
+</LI>
+<LI>
+<P>Set the length with a very large number</P>
+</LI>
+<LI>
+<P>Add items to the list</P>
+</LI>
+<LI>
+<P>Add a null item to the list</P>
+</LI>
+</UL>
+<H3>Scenarios</H3>
+<UL>
+<LI>
+<P ALIGN="JUSTIFY">Move up and down in the list.  Then add more
+	  items to list.  Continue moving up and down in the list.</P>
+</LI>
+<LI>
+<P>Move up to the top of the list.</P>
+</LI>
+<LI>
+<P>Move down to the bottom of the list.</P>
+</LI>
+<H3>CRC</H3>
+</UL>
+<P>Class Name:</P>
+<P>	History</P>
+<P>Responsibilities:</P>
+<P>	Keep track of history list</P>
+<P>	Provide the means to navigate the list</P>
+<P>	Provide the means to add items to the list</P>
+<P>Collaborates With Classes:</P>
+<P>	Console</P>
+<P>
+<BR>
+<BR>
+</P>
+<H2>Class MRV</H2>
+<H3>Black Box Specification</H3>
+<P ALIGN="JUSTIFY">	The MRV  class provides the Most-Recently-Visited
+      List queue used by the back and forward commands.</P>
+<P ALIGN="JUSTIFY">	The Most Recently Visited queue contains a history
+      of the recently visited directories.  The queue has a fixed length
+      determined by the environment variable MRVSIZE.</P>
+<H4>Input-Output</H4>
+<P>	The following is a list of public methods in the MRV class.</P>
+<P>Back</P>
+<P ALIGN="JUSTIFY">	The Back method changes the current directory to be
+      the previous directory and returns the new absolute path. If there is
+      no previous directory then Back returns an error message.</P>
+<P>Forward</P>
+<P ALIGN="JUSTIFY">	The Forward method changes the current directory to
+      be the next directory and returns the new absolute path. If there is
+      no next directory then Forward returns an error message.</P>
+<P>Add(String "directory")</P>
+<P ALIGN="JUSTIFY">	The Add method adds "directory" to the
+      MRV queue.  If "directory" is null Add returns an error
+      message.</P>
+<P>SetLength</P>
+<P ALIGN="JUSTIFY">	The SetLength method sets the number of directories
+      that will be stored in the MRV queue.  If the new length is shorter
+      than the old length the oldest directory entries will be truncated
+      from the list.</P>
+<H3>Use Cases</H3>
+<UL>
+<LI>
+<P>Move back in the queue</P>
+</LI>
+<LI>
+<P>Move forward in the queue</P>
+</LI>
+<LI>
+<P>Set the length</P>
+</LI>
+<LI>
+<P>Set the length with a negative number</P>
+</LI>
+<LI>
+<P>Set the length with a very large number</P>
+</LI>
+<LI>
+<P>Add items to the queue</P>
+</LI>
+<LI>
+<P>Add a null item to the queue</P>
+</LI>
+</UL>
+<H3>Scenarios</H3>
+<P ALIGN="JUSTIFY">Move forward and backward in the queue.  Add more
+      items to the queue. Continue moving in the queue.</P>
+<P>Move forward to the beginning of the queue.</P>
+<P>Move backward to the end of the queue.</P>
+<H3>CRC</H3>
+<P>Class Name:</P>
+<P>	Command</P>
+<P>Responsibilities:</P>
+<P>	Keep track of the Most Recently Visited queue</P>
+<P>	Provide the means to navigate the queue</P>
+<P>	Provide the means to add items to the queue</P>
+<P>Collaborates With Classes:</P>
+<P>	Command</P>
+<P>	Control</P>
+<P>
+<BR>
+<BR>
+</P>
+<H2>Class Sloth</H2>
+<P ALIGN="JUSTIFY">	The Sloth Class is the main class that creates an
+      instance of the GUI class and an instance of the Console class.</P>
+<H3>Black Box Specification</H3>
+<P ALIGN="JUSTIFY">	Sloth starts the Web Shell with an optional
+      argument and creates an instance of the GUI class and an instance of
+      the Console panel. Sloth creates a window listener for allowing the
+      user to move to a different panel. Sloth can terminate the Web Shell.</P>
+<H4>Input-Output</H4>
+<P ALIGN="JUSTIFY">	Upon starting the application, Sloth will take an
+      argument and pass the argument to the Control class. It will also
+      display the GUI instance mentioned in the Black Box Specification.</P>
+<H3>Acceptance Criteria</H3>
+<P ALIGN="JUSTIFY">	Sloth must be able to display a GUI class instance
+      and a Console class instance for the user. It must provide the user a
+      window listener that allows the user to select which view is active.
+      It must be able to accept an argument upon launch of the application.
+      Sloth must be able to terminate the application.</P>
+<H3>Use Cases</H3>
+<UL>
+<LI>
+<P>Launch Sloth with no argument.</P>
+</LI>
+<LI>
+<P>Launch Sloth with a file as an argument.</P>
+</LI>
+<LI>
+<P>Launch Sloth with a directory as an argument.</P>
+</LI>
+<LI>
+<P>Launch Sloth with an http address as an argument.</P>
+</LI>
+<LI>
+<P>Launch Sloth with an invalid file or directory name.</P>
+</LI>
+<LI>
+<P>Select the Tree view.</P>
+</LI>
+<LI>
+<P>Select the Table view.</P>
+</LI>
+<LI>
+<P>Select the Command Line view.</P>
+</LI>
+<LI>
+<P>Terminate the application using the drop down menu.</P>
+</LI>
+<LI>
+<P>Terminate the application using the X in the window</P>
+</LI>
+</UL>
+<H3>Scenarios</H3>
+<UL>
+<LI>
+<P ALIGN="JUSTIFY">Launch Sloth with no argument: A window that
+	  contains a GUI instance and a Console instance. The user can select
+	  either of the views to make it the active window.</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">Launch Sloth with a file as an argument: A
+	  window that contains a GUI instance and a Console instance. The user
+	  can select either of the views to make it the active window. Sloth
+	  will pass the input argument to the Control class.</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">Launch Sloth with a directory as an argument: A
+	  window that contains a GUI instance and a Console instance. The user
+	  can select either of the views to make it the active window. Sloth
+	  will pass the input argument to the Control class.</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">Launch Sloth with an http address: A window
+	  that contains a GUI instance and a Console instance. The user can
+	  select either of the views to make it the active window. Sloth will
+	  pass the input argument to the Control class.</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">Launch Sloth with an invalid file or directory:
+	  A window that contains a GUI instance and a Console instance. The
+	  user can select either of the views to make it the active window.
+	  Sloth will pass the input argument to the Control class.</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">Terminate the application with Close: When the
+	  drop down menu is selected, one of the user choices is Close. When
+	  Close is selected, Sloth terminates the application.</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">Terminate the application with X in the window:
+	  When the user selects the X in the upper right hand corner of the
+	  window, Sloth terminates the application.</P>
+</LI>
+</UL>
+<H3>CRC Card</H3>
+<P>Class Name:</P>
+<P>	Sloth</P>
+<P>Responsibilities:</P>
+<P>	Creates an instance of the GUI class and an instance of the
+      Console Class.</P>
+<P>	Provides a window listener to make active any of the three views.</P>
+<P>	Can take an argument upon startup and passes it to the Control
+      class.</P>
+<P>	Terminates the application.</P>
+<P>Collaborates with the following classes:</P>
+<P>	Control</P>
+<P>	GUI</P>
+<P>	Console</P>
+<P>
+<BR>
+<BR>
+</P>
+<H2>Class TreePanel</H2>
+<P ALIGN="JUSTIFY">	The TreePanel Class displays files, directories and
+      http addresses graphically as a tree.</P>
+<H3>Black Box Specification</H3>
+<P ALIGN="JUSTIFY">	TreePanel receives a file or directory as input and
+      displays the input as a tree with the input as the root. A node in
+      the tree can be expanded if it is a directory or an http address with
+      links. A node can be closed if already expanded.</P>
+<H4>Input-Output</H4>
+<P ALIGN="JUSTIFY">	TreePanel receives a command to display a tree in
+      its own panel. The input from the command can be files, directories
+      and http addresses and TreePanel will create a graphical tree. It can
+      also receive a command to expand a node in the tree. If a node is
+      selected by clicking on the node with the mouse, the node is expanded
+      and this information is passed to the Control class in order to
+      update other views. If a node that represents a file is selected, no
+      expansion of the node is possible.</P>
+<H3>Acceptance Criteria</H3>
+<P>	TreePanel must be able to display a tree given a command to do
+      so. It must be able to display the tree according to the file type
+      associated with the command. It must be able to expand nodes that
+      represent directories and http addresses with links. It must be able
+      to close expanded nodes. When the tree is manipulated by the user,
+      the closing or expansion of a node is information that is passed to
+      the Control class. It must be able to handle invalid input such as
+      null passed as a file or directory.</P>
+<H3>Use Cases</H3>
+<UL>
+<LI>
+<P>Display a file as a root or node in a tree.</P>
+</LI>
+<LI>
+<P>Display a directory as a root or node in a tree.</P>
+</LI>
+<LI>
+<P>Display an http address as a root or node in a tree.</P>
+</LI>
+<LI>
+<P>Do nothing if a file is clicked on as a root or node in the
+	  tree.</P>
+</LI>
+<LI>
+<P>Expand a directory node if clicked on.</P>
+</LI>
+<LI>
+<P>Expand an http address node if clicked on and has links.</P>
+</LI>
+<LI>
+<P>Do nothing if a null file is given with an input command.</P>
+</LI>
+</UL>
+<H3>Scenarios</H3>
+<UL>
+<LI>
+<P ALIGN="JUSTIFY">Display Tree: When a command to display a tree
+	  is given, use the input to graphically display the given file and
+	  directory structure.</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">Expand a node: When the user clicks on an
+	  expandable node, display the given file and directory structure.</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">Close a node: When the user clicks on an
+	  expanded node, close the node to hide its file and directory
+	  structure.</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">Pass null as a file or directory: When a
+	  command is received to update or display a tree and the input null,
+	  do nothing.</P>
+</LI>
+</UL>
+<H3>CRC Cards</H3>
+<P>Class Name:</P>
+<P>	TreePanel</P>
+<P>Responsibilities:</P>
+<P ALIGN="JUSTIFY">	Displays graphical tree.</P>
+<P ALIGN="JUSTIFY">	TreePanel allows for the expansion of nodes.</P>
+<P ALIGN="JUSTIFY">	( when they represent a directory or http address
+      with links )</P>
+<P ALIGN="JUSTIFY">	If nodes are expanded, the Control class is
+      notified.</P>
+<P ALIGN="JUSTIFY">	If an invalid file or directory is entered, an
+      exception should be raised.</P>
+<P>Collaborates with the following classes:</P>
+<P>	GUI</P>
+<P>	Control</P>
+<P>
+<BR>
+<BR>
+</P>
+<H2>Class TablePanel</H2>
+<P ALIGN="JUSTIFY">	The TablePanel Class lists the contents of
+      directories and http addresses with links in a graphical table.</P>
+<H3>Black Box Specification</H3>
+<P ALIGN="JUSTIFY">	TablePanel receives a directory or http address as
+      input and displays the contents in a table. The table can be sorted
+      according to the listed attributes. If a folder or file is clicked
+      on, Control is notified.</P>
+<H4>Input-Output</H4>
+<P ALIGN="JUSTIFY">	TablePanel receives a command to display a list in
+      its own panel. The input from the command can be files, directories
+      and http addresses and TablePanel will create a graphical table. It
+      can also sort the table according to the attributes (column titles.)
+      If a folder or file is clicked on, Control is notified.</P>
+<H3>Acceptance Criteria</H3>
+<P ALIGN="JUSTIFY">	TablePanel must be able to display a list of files
+      given a command to do so. It must be able to sort the files according
+      to attributes. It must be able to notify Control when a file or
+      folder is clicked upon. It must be able to handle invalid input such
+      as null passed as a file or directory.</P>
+<H3>Use Cases</H3>
+<UL>
+<LI>
+<P>Display a file as list.</P>
+</LI>
+<LI>
+<P>Display the contents of a directory as list of files and
+	  directories.</P>
+</LI>
+<LI>
+<P>Display an http address as a list of links and directories.</P>
+</LI>
+<LI>
+<P>Click on a file.</P>
+</LI>
+<LI>
+<P>Click on a folder.</P>
+</LI>
+<LI>
+<P>Sort table according to user chosen attributes.</P>
+</LI>
+<LI>
+<P>Do nothing if a null file is given with an input command.</P>
+</LI>
+</UL>
+<H3>Scenarios</H3>
+<UL>
+<LI>
+<P ALIGN="JUSTIFY">Display List: When a command to display a list
+	  is given, use the input to graphically list the given file and
+	  directory structure.</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">Sort the list: When the user clicks on an
+	  attribute of a file, the table will be sorted accordingly.</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">Click on a file or folder: When a folder or a
+	  file is clicked upon, the Control instance must be notified.</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">Pass null as a file or directory: When a
+	  command is received to update or display a list and the input null,
+	  do nothing.</P>
+</LI>
+</UL>
+<H3>CRC Cards</H3>
+<P>Class Name:</P>
+<P>	TablePanel</P>
+<P>Responsibilities:</P>
+<P>	Displays graphical list.</P>
+<P>	Allows for the sorting of files and directories.</P>
+<P>	( according to the attribute selected by the user )</P>
+<P>	If a file or folder is clicked upon, notify the Control instance.</P>
+<P>	If an invalid file or directory is entered, an exception should
+      be raised.</P>
+<P>Collaborates with the following classes:</P>
+<P>	GUI</P>
+<P>	Control</P>
+<P>
+<BR>
+<BR>
+</P>
+<H2>Class GUI</H2>
+<P>	The GUI Class creates instances of TreePanel and TablePanel.</P>
+<H3>Black Box Specification</H3>
+<P ALIGN="JUSTIFY">	GUI receives commands to create TreePanel and
+      TablePanel from the Sloth class. It also passes inputs from Control
+      to TreePanel and TablePanel. It also passes inputs from TreePanel and
+      TablePanel on to Control.</P>
+<H4>Input-Output</H4>
+<P ALIGN="JUSTIFY">	GUI passes inputs from Control to TreePanel and
+      TablePanel. It also passes inputs from TreePanel and TablePanel on to
+      Control.</P>
+<H3>Acceptance Criteria</H3>
+<P ALIGN="JUSTIFY">	GUI class must be able to pass data and commands,
+      in both directions, to Control, TreePanel and TablePanel. It also
+      must be able to create TreePanels and TablePanels when commanded to
+      do so from the Sloth class.</P>
+<H3>Use Cases</H3>
+<UL>
+<LI>
+<P>Create a TreePanel.</P>
+</LI>
+<LI>
+<P>Create a TablePanel.</P>
+</LI>
+<LI>
+<P>Pass data and commands from Control to TreePanel.</P>
+</LI>
+<LI>
+<P>Pass data and commands from Control to TablePanel.</P>
+</LI>
+<LI>
+<P>Pass data and commands from TreePanel to Control.</P>
+</LI>
+<LI>
+<P>Pass data and commands from TablePanel to Control.</P>
+</LI>
+<H3>Scenarios</H3>
+<LI>
+<P ALIGN="JUSTIFY">Create a TreePanel: When Sloth commands the
+	creation of a TreePanel, one will be created.</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">Create a TablePanel: When Sloth commands the
+	  creation of a TablePanel, one will be created.</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">Pass data and commands from Control to
+	    TreePanel: When Control wants to pass data or commands to a
+	    TreePanel, GUI will pass these to TreePanel.</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">Pass data and commands from Control to
+	      TablePanel: When Control wants to pass data or commands to a
+	      TablePanel, GUI will pass these to TablePanel.</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">Pass data and commands from TreePanel to
+		Control: When TreePanel wants to pass data or commands to a Control,
+		GUI will pass these to Control.</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">Pass data and commands from TablePanel to
+		  Control: When TablePanel wants to pass data or commands to a
+		  Control, GUI will pass these to Control.</P>
+</LI>
+</UL>
+<H3>CRC Cards</H3>
+<P>Class Name:</P>
+<P>	GUI</P>
+<P>Responsibilities:</P>
+<P>	Create instances of TreePanel and TablePanel when Sloth dictates.</P>
+<P>	Pass data and commands to and from these panels and Control.</P>
+<P>Collaborates with the following classes:</P>
+<P>	Sloth</P>
+<P>	TreePanel</P>
+<P>	TablePanel</P>
+<P>	Control</P>
+<P>
+<BR>
+<BR>
+</P>
+<H2>Class Control</H2>
+<H3>Black Box Specification</H3>
+<P ALIGN="JUSTIFY">	Part of the Model-View-Controller pattern, the
+      Control class coordinates the actions and data updates among the
+      views and the file system.</P>
+<P ALIGN="JUSTIFY">	The Control class manages the directory changes,
+      switching from the local to the web file system and back. It does so
+      transparently, without the need for the views to know about the
+      filesystem, or the filesystem object to know about the views. The
+      Control class also handles the GUI modes, as well as providing the
+      other classes with debugging output capabilities. The Control class
+      completely defines how the product interacts with the user, how the
+      interface controls respond to user action, and how data updates are
+      performed. The Control class is the one that turns the GUI on and
+      off.</P>
+<H4>Input</H4>
+<UL>
+<LI>
+<P>the GUI mode (as set by the console, and possibly by other
+	  views)</P>
+</LI>
+<LI>
+<P>the sorting mode (as set by the console and/or the GUI)</P>
+</LI>
+<LI>
+<P>the new directory the user wants to change to (from console
+	  and/or GUI)</P>
+</LI>
+<LI>
+<P>the file the user wants to open in an external viewer</P>
+</LI>
+</UL>
+<H4>Output</H4>
+<UL>
+<LI>
+<P>refresh messages to all of the views</P>
+</LI>
+<LI>
+<P>the file system object that contains information about the
+	  current directory/web site</P>
+</LI>
+<LI>
+<P>show/hide the GUI view</P>
+</LI>
+</UL>
+<H4>I/O Relationship</H4>
+<UL>
+<LI>
+<P>when the GUI mode is changed, it performs the necessary
+	  show/hide action on the GUI view</P>
+</LI>
+<LI>
+<P>when the sorting mode is changes, it refreshes the views</P>
+</LI>
+<LI>
+<P>when the directory changes, the views are refreshed and the
+	  file system object is updated / changes appropriately</P>
+</LI>
+<LI>
+<P>when a file is open, the Control class spawns the external
+	  program and hands it the file (downloaded a priori, if necessary)</P>
+</LI>
+</UL>
+<H3>Use Cases</H3>
+<UL>
+<LI>
+<P>change directory</P>
+</LI>
+<LI>
+<P>change directory to an inexistent file/directory</P>
+</LI>
+<LI>
+<P>change directory from a file system to another file system</P>
+</LI>
+<LI>
+<P>run with no views</P>
+</LI>
+<LI>
+<P>set the GUI mode</P>
+</LI>
+<LI>
+<P>set the sorting mode</P>
+</LI>
+<LI>
+<P>open a file that has a handler application defined</P>
+</LI>
+<LI>
+<P>open a file that does not have a handler application defined</P>
+</LI>
+</UL>
+<H3>Scenarios</H3>
+<UL>
+<LI>
+<P>change directory to a web site, retrieve the file system
+	  object, then open a file</P>
+</LI>
+<LI>
+<P>change directory to the local file system, retrieve the file
+	  system object, then open a file</P>
+</LI>
+<LI>
+<P>change directory to a web site, retrieve the file system
+	  object, then change directory to the local file system</P>
+</LI>
+</UL>
+<H3>CRC Card</H3>
+<P>Class name:</P>
+<P>	Control</P>
+<P>Responsibilities:</P>
+<P>	refresh views</P>
+<P>	manage GUI mode</P>
+<P>	manage sorting mode</P>
+<P>	update file system object</P>
+<P>	open files</P>
+<P>Collaborators:</P>
+<P>	FileSystem</P>
+<P>	GenericURL</P>
+<P>	Open</P>
+<P>	View</P>
+<P>	FileInfo</P>
+<P>
+<BR>
+<BR>
+</P>
+<H2>Class Open</H2>
+<H3>Black Box Specification</H3>
+<P>	It handles the opening of data viewers external to the WebShell.</P>
+<P ALIGN="JUSTIFY">	The Open class spawns an external application as
+      configured in the MIME type data file. It read that file, and creates
+      a map of file types and associated handler applications. The way it
+      executes the viewers is done in a OS-dependent manner (i.e. Netscape
+      will be executed with different arguments depending whether we are in
+      Windows or in Unix).</P>
+<H4>Input</H4>
+<UL>
+<LI>
+<P>the MIME database</P>
+</LI>
+<LI>
+<P>the URL/file name to open</P>
+</LI>
+</UL>
+<H4>Output</H4>
+<UL>
+<LI>
+<P>exceptions</P>
+</LI>
+<H4>I/O Relationships</H4>
+</UL>
+<UL>
+<LI>
+<P ALIGN="JUSTIFY">it throws an exception if the MIME database
+	  cannot be loaded, if the program cannot be run, or if the program
+	  returns an error</P>
+</LI>
+<H3>Use Cases</H3>
+</UL>
+<UL>
+<LI>
+<P>open a file that has a handler applications defined</P>
+</LI>
+<LI>
+<P>open a file that does not have a handler application defined</P>
+</LI>
+</UL>
+<H3>Scenarios</H3>
+<UL>
+<LI>
+<P>create a correct database, start the WebShell, open a file</P>
+</LI>
+<LI>
+<P>create an incorrect databases, start the WebShell, open a
+	  file</P>
+</LI>
+<LI>
+<P>delete the MIME database, start the WebShell, open a file</P>
+</LI>
+</UL>
+<H3>CRC Card</H3>
+<P>Class name:</P>
+<P>	Open</P>
+<P>Responsibilities:</P>
+<P>	load the MIME database</P>
+<P>	validate the MIME database</P>
+<P>	open an external application and hand it the URL/file name</P>
+<P>Collaborators:</P>
+<P>	Control</P>
+<P>
+<BR>
+<BR>
+</P>
+<H2>Class FileSystem</H2>
+<H3>Black Box Specification</H3>
+<P ALIGN="JUSTIFY">	The FileSystem type provides an interface that
+      different file systems (such as the local file system, and the web
+      file system) must implement.</P>
+<P ALIGN="JUSTIFY">	The FileSystem interface specifies the minimal
+      functionality needed to access remote file systems. It provides for
+      file names, links, file types, file sizes, as well as other file
+      information. A file system is a read-only resource, a "mirror"
+      of the live remote file system.</P>
+<H4>Input</H4>
+<UL>
+<LI>
+<P>a URL the provides the root of the file system</P>
+</LI>
+<LI>
+<P>a directory in the current tree rooted at the given URL</P>
+</LI>
+<LI>
+<P>a file name</P>
+</LI>
+</UL>
+<H4>Output</H4>
+<UL>
+<LI>
+<P>a list of files in the directory</P>
+</LI>
+<LI>
+<P>a list of attributes for the file</P>
+</LI>
+<LI>
+<P>local copy of the file</P>
+</LI>
+</UL>
+<H4>I/O Relationships</H4>
+<UL>
+<LI>
+<P>when a directory listing is given, a list of file information
+	  entries is returned</P>
+</LI>
+<LI>
+<P>when a file name is given, a list of the file attributes is
+	  returned</P>
+</LI>
+<LI>
+<P>when a file name is given, the file is downloaded to the
+	  local file system</P>
+</LI>
+</UL>
+<H3>Use Cases</H3>
+<UL>
+<LI>
+<P>connect to a remote file system</P>
+</LI>
+<LI>
+<P>connect to an inexistent remote file system</P>
+</LI>
+<LI>
+<P>list an existing directory</P>
+</LI>
+<LI>
+<P>list an inexistent directory</P>
+</LI>
+<LI>
+<P>query an existing file</P>
+</LI>
+<LI>
+<P>query an inexistent file</P>
+</LI>
+<LI>
+<P>make a local copy of an existing file</P>
+</LI>
+<LI>
+<P>make a local copy of an inexistent file</P>
+</LI>
+</UL>
+<H3>Scenarios</H3>
+<UL>
+<LI>
+<P>connect to a remote file system, list files</P>
+</LI>
+<LI>
+<P>connect to an inexistent file system, list files</P>
+</LI>
+<LI>
+<P>connect to a remote file system, query inexistent file</P>
+</LI>
+</UL>
+<H3>CRC Card</H3>
+<P>Class name:</P>
+<P>	FileSystem</P>
+<P>Responsibilities:</P>
+<P>	manage information extracted from the file system</P>
+<P>	( rooted at the given URL )</P>
+<P>Collaborators:</P>
+<P>	Control</P>
+<P>	GenericURL</P>
+<P>	FileInfo</P>
+<P>
+<BR>
+<BR>
+</P>
+<H2>Class HTTPfs</H2>
+<H3>Black Box Specification</H3>
+<P>	HTTPfs is the web-based file system.</P>
+<P>	HTTPfs implements the FileSystem interface.</P>
+<H4>Input and Output</H4>
+<P>	same as for the FileSystem interface</P>
+<H3>Use Cases</H3>
+<P>	same as for the FileSystem interface</P>
+<H3>Scenarios</H3>
+<P>	same as for the FileSystem interface</P>
+<H3>CRC Card</H3>
+<P>Class name:</P>
+<P>	HTTPfs</P>
+<P>Responsibilities:</P>
+<P>	same as the FileSystem interface</P>
+<P>Collaborators:</P>
+<P>	same as the FileSystem interface</P>
+<P>	HTMLParser</P>
+<P>
+<BR>
+<BR>
+</P>
+<H2>Class Localfs</H2>
+<H3>Black Box Specification</H3>
+<P>	Localfs is the web-based file system.</P>
+<P>	Localfs implements the FileSystem interface.</P>
+<H4>Input and Output</H4>
+<P>	same as for the FileSystem interface</P>
+<H3>Use Cases</H3>
+<P>	same as for the FileSystem interface</P>
+<H3>Scenarios</H3>
+<P>	same as for the FileSystem interface</P>
+<H3>CRC Card</H3>
+<P>Class name:</P>
+<P>	Localfs</P>
+<P>Responsibilities:</P>
+<P>	same as for the FileSystem interface</P>
+<P>Collaborators:</P>
+<P>	same as for the FileSystem interface</P>
+<P>
+<BR>
+<BR>
+</P>
+<H2>Class FileInfo</H2>
+<H3>Black Box Specification</H3>
+<P>	This class organizes and encapsulates information about a single
+      file.</P>
+<P ALIGN="JUSTIFY">	FileInfo contains information on the file such as
+      file name, file size, file type, and other attributes available.</P>
+<H4>Input</H4>
+<UL>
+<LI>
+<P>none</P>
+</LI>
+<H4>Output</H4>
+<LI>
+<P>none</P>
+</LI>
+</UL>
+<H4>I/O Relationships</H4>
+<UL>
+<LI>
+<P>none</P>
+</LI>
+<H3>Use Cases</H3>
+</UL>
+<UL>
+<LI>
+<P>none</P>
+</LI>
+<H3>Scenarios</H3>
+</UL>
+<UL>
+<LI>
+<P>none</P>
+</LI>
+<H3>CRC Card</H3>
+</UL>
+<P>Class name:</P>
+<P>	FileInfo</P>
+<P>Responsibilities:</P>
+<P>	store file attributes</P>
+<P>Collaborators:</P>
+<P>	none</P>
+<P>
+<BR>
+<BR>
+</P>
+<H2>Class GenericURL</H2>
+<H3>Black Box Specification</H3>
+<P>	The GenericURL class implements URL handling policy given by the
+      IETF RFCs 1738 and 1808.</P>
+<P ALIGN="JUSTIFY">	A GenericURL can be modified using relative or
+      absolute paths, and these updates can change its meaning from
+      web-based to local and vice-versa.</P>
+<H4>Input</H4>
+<UL>
+<LI>
+<P>an absolute or relative path given as a string</P>
+</LI>
+<H4>Output</H4>
+<LI>
+<P>a file system corresponding to that URL</P>
+</LI>
+</UL>
+<H4>I/O Relationships</H4>
+<UL>
+<LI>
+<P>when the URL is updated and the file system is queried, the
+	  GenericURL creates a new file system object appropriate to the new
+	  URL</P>
+</LI>
+<H3>Use Cases</H3>
+</UL>
+<UL>
+<LI>
+<P>create a GenericURL for a web site</P>
+</LI>
+<LI>
+<P>create a GenericURL for a local directory</P>
+</LI>
+<LI>
+<P>update the GenericURL with a legal relative path</P>
+</LI>
+<LI>
+<P>update the GenericURL with an illegal relative path</P>
+</LI>
+<LI>
+<P>update the GenericURL with an absolute path</P>
+</LI>
+<LI>
+<P>retrieve the file system when the URL is set</P>
+</LI>
+<LI>
+<P>retrieve the file system when the URL is not set</P>
+</LI>
+</UL>
+<H3>Scenarios</H3>
+<UL>
+<LI>
+<P>create a GenericURL, update it with a relative path</P>
+</LI>
+<LI>
+<P>create a GenericURL, update it with an absolute path</P>
+</LI>
+<LI>
+<P>create a GenericURL, update it with an absolute path, query
+	  file system</P>
+</LI>
+</UL>
+<H3>CRC Card</H3>
+<P>Class name:</P>
+<P>	GenericURL</P>
+<P>Responsibilities:</P>
+<P>	manage URLs as specified in RFCs 1738 and 1808</P>
+<P>	allow relative and absolute updates</P>
+<P>	create file systems appropriate to the URL description</P>
+<P>Collaborators:</P>
+<P>	HTTPfs</P>
+<P>	Localfs</P>
+<P>
+<BR>
+<BR>
+</P>
+<H2>Class HTMLParser</H2>
+<H3>Black Box Specification</H3>
+<P>	The HTMLParser extracts the directory information from the HTML
+      code of a web page, as defined in the WebShell requirements document
+      v1.1.</P>
+<P ALIGN="JUSTIFY">	The HTMLParser extracts the lexemes that compose
+      the URL references in a web page, and returns them one by one, for
+      the WebShell to use in the displayed information. The HTMLParser is a
+      simple, non-reentrant parser, capable of extracting the URLs
+      efficiently.</P>
+<H4>Input</H4>
+<UL>
+<LI>
+<P ALIGN="JUSTIFY">a stream of characters, representing an HTML
+	  page</P>
+</LI>
+<H4>Output</H4>
+</UL>
+<UL>
+<LI>
+<P ALIGN="JUSTIFY">a URL stream, one per line</P>
+</LI>
+<H4>I/O Relationships</H4>
+<LI>
+<P ALIGN="JUSTIFY">the URL stream must contain all and only the
+	URLs from the input HTML data</P>
+</LI>
+<H3>Use Cases</H3>
+<LI>
+<P ALIGN="JUSTIFY">provide as input HTML pages of various length</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">provide as input some non-HTML data</P>
+</LI>
+<H3>Scenarios</H3>
+<LI>
+<P ALIGN="JUSTIFY">due to limited capabilities, the Scenarios are
+	identical to the Use Cases</P>
+</LI>
+<H3>CRC Card</H3>
+<P ALIGN="JUSTIFY">Class name:</P>
+</UL>
+<P ALIGN="JUSTIFY">	HTMLParser</P>
+<P ALIGN="JUSTIFY">Responsibilities:</P>
+<P ALIGN="JUSTIFY">	extract all the URLs from input HTML stream</P>
+<P ALIGN="JUSTIFY">Collaborators:</P>
+<P ALIGN="JUSTIFY">	none</P>
+<P ALIGN="JUSTIFY">
+<BR>
+<BR>
+</P>
+<H2>Class View</H2>
+<H3>Black Box Specification</H3>
+<P ALIGN="JUSTIFY">	The View class is an abstract class (an interface).
+      It provides a standard interface, the same way the FileSystem
+      interface does.</P>
+<P ALIGN="JUSTIFY">	The View interface defines the functionality
+      available in a View, specifically functions to refresh the display,
+      and functions to identify the view.</P>
+<H4>Input</H4>
+<UL>
+<LI>
+<P ALIGN="JUSTIFY">the refresh event</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">a request for the name of the view</P>
+</LI>
+</UL>
+<H4>Output</H4>
+<UL>
+<LI>
+<P ALIGN="JUSTIFY">the name of the view</P>
+</LI>
+</UL>
+<H4>I/O Relationships</H4>
+<UL>
+<LI>
+<P ALIGN="JUSTIFY">the name of the view must be unique inside the
+	  system. More specifically, the GUI class must always return the
+	  string "GUI".</P>
+</LI>
+</UL>
+<H3>Use Cases</H3>
+<UL>
+<LI>
+<P ALIGN="JUSTIFY">get the View name</P>
+</LI>
+<LI>
+<P ALIGN="JUSTIFY">refresh</P>
+</LI>
+</UL>
+<H3>Scenarios</H3>
+<UL>
+<LI>
+<P ALIGN="JUSTIFY">same as above</P>
+</LI>
+</UL>
+<H3>CRC Card</H3>
+<P ALIGN="JUSTIFY">Class name:</P>
+<P ALIGN="JUSTIFY">	View</P>
+<P ALIGN="JUSTIFY">Responsibilities:</P>
+<P ALIGN="JUSTIFY">	refresh the view</P>
+<P ALIGN="JUSTIFY">	provide the name of the view</P>
+<P ALIGN="JUSTIFY">Collaborators:</P>
+<P ALIGN="JUSTIFY">	Control</P>
+<P ALIGN="JUSTIFY">	FileSystem</P>
+<P ALIGN="JUSTIFY">
+<BR>
+<BR>
+</P>
+<DIV TYPE="FOOTER">
+<P STYLE="margin-top: 0.50cm; margin-bottom: 0.00cm" ALIGN="CENTER">
+<SDFIELD FORMAT="PAGE" SUBTYPE="RANDOM" TYPE="PAGE">34</SDFIELD>
+	of <SDFIELD FORMAT="PAGE" SUBTYPE="PAGE" TYPE="DOCSTAT">34</SDFIELD>
+</P>
+</DIV>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</center>
+<br>
+<div class="MaintainerInfo">
+<div>
+<div>
+<div>
+	    Copyright 1998-2005 Mihai Christodorescu. All rights reserved. <br>
+            Maintained by Mihai Christodorescu (<a href="http://mihai.christodorescu.org">http://mihai.christodorescu.org</a>). <br>
+            Created: Mon Dec 21 21:12:13 PST 1998<br>
+            Last modified: Sat Oct  1 23:06:59 CDT 2005</div>
+</div>
+</div>
+</div>
+</body>
+</html>

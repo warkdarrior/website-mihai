@@ -1,0 +1,508 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.5 [en] (X11; U; SunOS 5.6 sun4u) [Netscape]">
+   <title>Web Shell</title>
+<!-- Changed by: Mathias Koelsch, 11-Jan-1999 -->
+    <script language="JavaScript">
+      menuName = new Array();
+      depth = 3;
+    </script>
+    <script language="JavaScript" src="../../../browser_script.js"></script>
+    <link rel="stylesheet" href="../../../default_style.css" type="text/css">
+</head>
+<body>
+
+<h1>
+Web Shell: Project Description</h1>
+
+<center><b>Version 1.2</b></center>
+
+<hr><h2>Changes and Clarifications for V1.1 -> V1.2</h2>
+<ul>
+<li>
+General</li>
+
+<ul>
+<li>
+Your application has to be startable with "-gui" for GUI only (then no
+terminal output at all), "-term" for NO window popping up. The latter mode
+is useful for network connections when you remotely execute the WebShell
+on a different machine and you only have a (dumb) terminal connection to
+this machine.</li>
+
+<li>
+Your application must recognize one additional optional parameter: "-d
+name". If "name" is the name of a local directory or a remote directory,
+this one is chosen as the startup-directory. In any other case, the default
+is chosen ("file:./" i.e. the directory the application was started in).</li>
+
+<li>
+The command syntax "cd file:" is used to make an absolute cd to the local
+file system. e.g.: "cd file:/fs/cs-grad/matz"</li>
+
+<li>
+HTML tags that are to be recognized and possible URLs extracted: You have
+to process &lt;form>s appropriately, and cgi-URLs are plain documents of
+type "dynamic" or "cgi". An "open" of those documents is not possible.</li>
+
+<li>
+"ls" of various links. Assume the current directory is "http://xx.com/dir/doc.html".
+It includes multiple links:</li>
+
+<ul>
+<li>
+href="pic.png" and href="http://xx.com/dir/pic.png" are displayed as ONE
+entry:&nbsp;pic.png. I.e. every document that resides in the same location
+on the server is displayed without any prefixes.</li>
+
+<li>
+href="sub/next.html" and href="http://xx.com/dir/sub/next.html" are displayed
+as ONE entry: sub/next.html. I.e. every document in a sub-location on the
+web server is displayed without the prefix that is common to the current
+directory's prefix.</li>
+
+<li>
+href="../pics/img.jpg"&nbsp;and href="http://xx.com/pics/img.jpg" are displayed
+as ONE entry: xx.com/pics/img.jpg. I.e. every other link is displayed with
+the complete server prefix.</li>
+</ul>
+</ul>
+
+      
+<li>
+Environment Variables</li>
+
+<ul>
+<li>
+Commands are able to read environment variables; for your implementation
+it will be only GUI and SORT that has to be processed (no changes there).</li>
+
+<li>
+Add a command "unset name" that removes the environment variable&nbsp;"name"&nbsp;from
+the list of set env variables.</li>
+
+<li>
+Whitespaces are significat for "set": the command "set a b c ..." interprets
+"a"&nbsp;as the name, "b" as the value, and ignores the rest "c ...".</li>
+
+<li>
+Add a command "echo text" that just returns the whole "text" including
+whitespaces in the "text" (not the first one right after the "o" which
+is only used to distinguish the command from its parameter). In case "text"
+is in the form "$name", and "name"&nbsp;is an environment variable, the
+value of the respective variable is printed. You don't have to process
+"$name" if it shows up somewhere inbetween other text (like "echo a $name"
+or "echo $name NONAME").</li>
+
+<li>
+Command line arguments/options can be specified for some commands, they
+overwrite environment variables. You have a choice of three out of the
+following - if I&nbsp;can come up with more than 3:</li>
+
+<ul>
+<li>
+ls -s value: overwrites the SORT&nbsp;environment variable</li>
+
+<li>
+ls -l: list contents of directory in long format, i.e. include type of
+document, date last modified, size etc.</li>
+
+<li>
+open -n: to open a document in a new window - if applicable (e.g. it is
+applicable for Netscape); default: open in previously used window</li>
+
+<li>
+back n, forward n, where n is a positive integer: go back/forward multiple
+entries from the MRV; default is n = 1</li>
+</ul>
+</ul>
+
+<li>
+GUI specific</li>
+
+<ul>
+<li>
+output:</li>
+
+<ul>
+<li>
+The GUI is split in a left part and a right part: The left part contains
+the tree structure, only directories are shown. The right part shows both
+directories and plain documents.</li>
+
+<li>
+The GUI automatically lists (ls) the contents of the current directory
+in the right half of the window. There is no such thing as ls for a different
+directory than the current one (for the GUI). However, it still makes use
+of the environment variable "SORT".</li>
+
+<li>
+Values for SORT (which affects the order documents are listed on the right
+hand side of the window) can be set from a menue entry, one "hardwired"&nbsp;for
+each of the values for SORT.</li>
+
+<li>
+The top level entries in the tree structure are all root directories.</li>
+</ul>
+
+<li>
+input:</li>
+
+<ul>
+<li>
+A single left click on the hierarchy (left side) selects and "cd"s to the
+respective directory, i.e. it is displayed in the right side of the window.</li>
+
+<li>
+A single left click on an item in the right side selects, but doesn't do
+anything else.</li>
+
+<li>
+Double left click on a directory cd's to it (same as single click on left
+side).</li>
+
+<li>
+Double left click on a plain document tries to open it (using netscape
+or a viewer).</li>
+
+<li>
+Holding the right mouse butten down pops up a command window with commands
+"open" and "info".</li>
+
+<li>
+In order to be able to make an absolute cd, you have two choices: Either
+have a header line that always shows the URL for the current directory
+(like the Netscape "location" field) and in which a user can type another
+URL, or provide for a pop-up window that asks for a URL on demand only.</li>
+</ul>
+</ul>
+
+<li>
+Shell specific</li>
+
+<ul>
+<li>
+A shell-"ls" can be done on any directory, even one that is not
+already in the tree of visited pages. It is not added to the tree. The
+current directory does not change. It is not put in the MRV Queue -
+the queue only contains visited directories, i.e. documents that were
+current at some time. So in other words, the MRV is a history of the
+CD command (since CD is the only way to change the current
+directory).</li>
+
+<li>
+It is not possible to detect individual key strokes from Java without modifying
+the terminal driver. We hope to be able to provide you with a set of functions
+using native C implementation in order to detect the "ArrowUp" and "ArrowDown"
+events that you will need for accessing the shell command history. We will
+let you know ASAP.</li>
+</ul>
+</ul>
+
+<hr>
+<h2>This is the unmodified Version 1.1:</h2>
+<p>
+      
+A <b><font color="#CC0000">web shell</font></b> is a program that combines
+the functionality of a WWW browser, like Netscape or Internet Explorer,
+with the features of a shell (e.g., a typical Unix shell or a Telnet terminal).
+It acts as a client to web servers,&nbsp; requesting files from them.&nbsp;
+It deals with <b>all different kinds of files</b> that can be transferred
+from a web server <u>and the local file system</u>.&nbsp; It however handles
+the <b>contents</b> of web documents only in a <b>limited way.&nbsp;</b>
+For example, it cannot parse arbitrary HTML tags or display an HTML document
+in a way familiar to you from a browser. Instead, it treats an HTML document
+as a directory (aka folder) that may contain&nbsp; documents. Every document
+that is linked from an HTML page is said to be "contained in the HTML page's
+folder".
+<h2>
+Documents, Directories, Folders</h2>
+A <b><i>remote document</i></b> is&nbsp; any file you can request from
+a web server with a HTTP request.
+<br>A <b><i>local document</i></b> is any file in the local file system,
+that is any file you can refer to via the java.io.File class.
+<p>A <b><i>directory</i></b> is a document of type HTML. Its contents are
+defined as all documents that the directory references. A document is referenced
+by a directory, if the directory has a link to this document. A link is
+any HTML tag that&nbsp; has a URL as value (examples are: <b><tt><font color="#CC0000">anchor</font></tt></b>
+(syntax: <b><tt><nobr>&lt;a href="some.url"></nobr></tt></b>), a form's
+<b><tt><font color="#CC0000">action</font></tt></b>
+parameter (syntax:
+<nobr><b><tt>&lt;form action="some.url"</tt></b>></nobr>)
+or <b><tt><font color="#CC0000">images</font></tt></b> (syntax: <b><tt><nobr>&lt;img
+src="some.url"></nobr></tt></b>)). You may disregard non-HTML tags such
+as JavaScript links, and HTML links that are embedded in JavaScript.
+<p>Additionally, a local document can be a directory if it is a directory
+in the sense of the local file system. It is called a <b><i>local directory</i></b>,
+and you can easily test local files for this property with the method java.io.File.isDirectory().
+<p>Any other document is called
+<b><i>plain</i></b>.
+<p>The shell always has a <b><i>current directory</i></b>. On startup,
+this is the local directory in which the WebShell application was started.
+It can be changed using the commands described below.
+<h2>
+Parents, Tree Structure and Traversal</h2>
+The shell allows for two ways to enter a directory.
+<ul>
+<li>
+A <b><i>relative</i> cd</b> (change directory) is when you change into
+one of the directories that are <u>linked from the current directory</u>
+(example: cd AnyDocument.html). If the new current directory was entered
+for the first time, the directory you came from is called the <b><i>parent
+directory</i></b> of the directory you changed to.</li>
+
+<li>
+An <b><i>absolute</i> cd </b>is the change to a directory that is <u>not
+linked from the current directory</u> (example: cd http://www.cs.ucsb.edu/~matz).
+In this case, if the new current directory was entered for the first time,
+it will not have a parent, but it becomes a <b><i>root directory</i></b>.
+Later traversals of the tree don't modify the parent of a document !</li>
+</ul>
+This relationship defines a tree structure which we will call the "<b><i>parent-tree</i></b>",
+or simply "<b><i>tree</i></b>". There will possibly be multiple parent-trees,
+but only one for each root document. Parent-trees can be interlinked, but
+only "on the way down": At most one parent exists for each document, but
+a document can be linked from multiple directories. That's why we also
+define a "<b><i>Most-Recently-Vi>
+<HR><H3>Transfer interrupted!</H3>
+eue</i></b>.
+It contains a history of the last recently visited directories, that is
+every new current directory is inserted at the beginning. The queue may
+have a fixed length, such that directories at the end of queue drop out
+of it on insertion of another directory. (If you ever need a longer directory
+history than the queue contains, you may issue an error message and continue
+without this information.) Two commands (<i>back</i> and <i>forward</i>)
+allow to change the current directory to an arbitrary entry in the queue
+without modifying it. However, if a <i>cd</i> command is executed while
+we got to the (old) current directory through a series of <i>back</i> commands,
+the front end of the queue is discarded and the new current directory is
+inserted right before the old directory (at the new beginning of the queue).
+<p>A web shell allows for traversal of the tree defined by this relationship,
+simple operations on the documents, and some miscellaneous functions.
+<h2>
+The User Interface</h2>
+Write a Java application that implements the functions described below.&nbsp;
+The <b>input</b> from the user has to be read from a text interface ("terminal")
+that strongly resembles that of a Unix shell or Telnet terminal. You can
+either use the terminal (window) in which the Java interpreter for the
+WebShell was started or you can pop up a new window. Your decision won't
+effect grading, but a "text-only" application - one that does not use the
+AWT at all - is much faster and usually easier to debug. A prompt (e.g.,
+">") asks for the next command or sequence of commands.&nbsp; After processing
+the command[s], another prompt is displayed.&nbsp; The
+<b>output</b> depends
+on the display. One display makes use of the terminal that also works as
+the input device. Terminal output, displayed before the next prompt, is
+the part that is described before the "/";&nbsp;&nbsp; the other display
+is a graphical representation of the document structure.&nbsp; This output
+is described <b>after</b> the&nbsp; "/".&nbsp; Hint: The Java
+<b>Swing</b>
+package makes it easy to implement a visualization of both the tree structure
+of interlinked directory documents and the content lists of directories
+- you have to display both. For an example, look at the WindowsExplorer
+(not: Internet Explorer).
+<br><b>NOTE</b>: The costumer is familiar with Unix shells and the WindowsExplorer.
+She wants to use the WebShell as intuitively as possible, so try to resemble
+this behaviour and interpretation - but reconfirm it anyway !
+<p><b>GUI input: </b>The customer made up her mind, she wants to be able
+to input some commands from both the shell and the GUI. For now, those
+commands are: double-click on a directory <b>cd</b>s to it, it is highlighted
+in the tree structure and its contents are displayed. Double-click on a
+plain document <b>open</b>s it.
+<h2>
+Web Shell Commands</h2>
+These are the particular commands that can be used in the web shell:
+<ul>
+<li>
+<b><tt>cd [name]</tt></b> (change current directory)</li>
+
+<br>The current directory is set to <i>name </i>(which must be the name
+of a directory), and the complete URL of the new current directory is displayed.
+<br>If no <i>name</i> is provided, the current directory stays unchanged.
+<br><i>OUTPUT:</i> absolute path of new current directory / highlighting
+of new current directory.
+<li>
+<b><tt>up</tt></b></li>
+
+<br>The new current directory is set to the current directory's parent.
+If it does not have a parent, the current directory stays unchanged. Note:
+This replaces "cd ..".
+<br><i>OUTPUT:</i> absolute path of new current directory / highlighting
+of new current directory.
+<li>
+<b><tt>back</tt></b></li>
+
+<br>The new current directory is set to the previous current directory,
+as determined by the MRV-queue.
+<br><i>OUTPUT:</i> absolute path of new current directory / highlighting
+of new current directory.
+<li>
+<b><tt>forward</tt></b></li>
+
+<br>The new current directory is set to the following document of the MRV-queue.
+This can be executed k times iff the k most recent changes to the current
+directory were done using <i>back</i>.
+<br><i>OUTPUT:</i> absolute path of new current directory / highlighting
+of new current directory.
+<li>
+<b><tt>ls [name ...]</tt></b></li>
+
+<br>If <i>name</i> is a directory, its contents are shown:&nbsp; all documents
+that are linked from the it. Special tags or other means identify different
+types of documents (directory, plain, or even more detailed). If <i>name</i>
+is a plain document, only this document is listed. If no <i>name</i> is
+given, the current document's contents are listed.
+<br>The output list can be <b>sorted</b> by any argument. This is specified
+in the environment variable SORT.
+<br><i>OUTPUT:</i> list of documents as text / graphical representation
+of documents
+<li>
+<b><tt>info [name ...]</tt></b></li>
+
+<br>Display information about the document, such as the absolute URL, its
+type and other attributes if available (see below).
+<br><i>OUTPUT:</i> information as text / if GUI is set to ALL popup window
+with information represented appropriately.
+<li>
+<b><tt>open [name ...]</tt></b></li>
+
+<br>Spawn an external application to properly interpret the contents of
+this document. The helper application (aka viewer) could be a web browser
+for HTML pages, GhostScript for postscript documents, an MP3 player for
+sound documents, etc.&nbsp; Provide the functionality to open HTML pages
+and two other document types of your choice. Also, let the <b>user configure</b>
+at startup-time of the WebShell which helpers are used for what type of
+documents.
+<br><i>OUTPUT:</i> nothing - return to prompt as soon as possible / nothing
+<li>
+<b><tt>set [variable [value]]</tt></b></li>
+
+<br>This command assigns an arbitrary value to an environment variable.
+Those variables can be either pre-defined (e.g., SORT, GUI) or user-defined.
+A variable must not contain whitespace. The <i>value</i> can be enclosed
+in double-quotes ("), they are not part of the actual value. If no arguments
+are given, all variables and their values are displayed. If the <i>value</i>
+is omitted, the variable is set to the empty string. This can be interpreted
+as a default value in applications/commands that use this variable.
+<br><i>OUTPUT:</i> nothing / if GUI is set to ALL (this time or any time
+before this <i>set</i>), then popup window with all variable settings;
+otherwise nothing
+<li>
+<b><tt>alias [name value]</tt></b></li>
+
+<br>Create an alias for a command, a command sequence, or any other linefeed-delimited
+string sequence. The <i>name</i> alias can afterwards be used instead of
+the <i>value.</i>&nbsp; It hides other commands or aliases with the same
+<i>name</i>.
+The <i>value</i> can be enclosed in double-quotes ("), they are not part
+of the actual value.When no argument is given, all pairs of name-values
+are displayed.
+<br>The <b>character sequence "!$"</b> (exclamation-mark dollar) is replaced
+at alias-invoke time with everything (every string and character, including
+whitespaces) behind the alias name, but <u>before a new line or semicolon</u>.
+This functions as an argument to the alias. See example.
+<br><i>OUTPUT:</i> nothing / if GUI is set to ALL (this time or any time
+before this <i>set</i>), then popup window with all alias settings; otherwise
+nothing
+<li>
+<b><tt>unalias [name]</tt></b></li>
+
+<br>Delete the latest (the currently used) entry for <i>name</i> from the
+set of aliases.
+<br><i>OUTPUT:</i> nothing / if GUI is set to ALL (this time or any time
+before this <i>set</i>), then popup window with all alias settings; otherwise
+nothing</ul>
+Not every command can be applied to every document. Operations for directories
+are
+<i>cd</i> and <i>info</i>, remote directories can be <i>open</i>ed
+also; operations for plain documents are
+<i>info</i> and <i>open</i>. Generally,
+one command is entered at a time. Processing begins after a linefeed character
+(return, enter). Commands also can be
+<b>concatenated</b> by the semicolon
+(";"). After the linefeed, commands are processed in sequence.<b> [name
+...] </b>means that more than one name can be supplied, then the operation
+is executed for each of the documents. An <b>asterix (*) </b>can be used
+for the <i>name</i> argument of commands for which it is meaningful. It
+has the same functionality as in a Unix shell: "*.jpg" is expanded to all
+documents in the respective directory that end with ".jpg".
+<h2>
+Command History, Attributes and Environment Variables</h2>
+<b>Attributes</b> include the document's URL, type, size, and date of last
+change. There may be additional attributes for specific document types,
+but you have to support only the standard attributes.
+<p><b>Pre-defined Environment Variables</b>
+<br><b>SORT</b> determines the sort order of directory listings via the
+<b><tt>ls</tt></b>
+command. Its values are NONE (equivalent to SORT not defined), URL, NAME,
+and TYPE.
+<br><b>GUI</b> determines if a graphical output is displayed or not. Its
+values are NONE, DEFAULT (initial setting, equivalent to GUI not defined
+or defined as the empty string) displays the tree structure of directories
+and the documents in the current directory in one window, and ALL (a lot
+of additional popup windows for little messages).
+<p><b>Command History</b>
+<br>Just like every other decent shell, the web shell keeps a command history
+of the most recently entered commands (either a fixed number of commands,
+say 50, or by "set HISTORY number").&nbsp; Given a prompt, the user can
+"scroll" through the history by using the arrow-up and arrow-down keys.
+On a new prompt, pressing arrow-up once reprints the last command entered,
+pressing it again reprints the second-to-last command, etc. The commands
+are shown in the same line; the cursor is placed behind the last character,
+and a linefeed keystroke executes the chosen command again (using the current
+directory, environment variables, and so on).
+<h2>
+Examples</h2>
+Starting from the current document http://www.cs.ucsb.edu/noframes.html,
+we can change the current document to the URL http://www.cs.ucsb.edu/search/iaquery:
+<pre>> cd search/iaquery
+http://www.cs.ucsb.edu/search/iaquery
+></pre>
+Notice the relative path name we used, and notice also the output of the
+absolute URL. This "directory" contains:
+<pre>> ls
+http://www.cs.ucsb.edu/ui/icons/srchlogo.png
+http://www.cs.ucsb.edu/ui/usa/help.html/
+http://www.cs.ucsb.edu/search/iaquery?NS-query-pat=/usa/NS-advquery.pat&amp;
+http://www.cs.ucsb.edu/search/iatoc/
+></pre>
+Notice the slash / we used behind the second and fourth document to indicate
+that these documents are directories.
+<p>&nbsp;The next three examples demonstrate the usage of concatenation
+and aliases. Output is not shown.
+<pre>> set SORT NAME
+> ls http://www.cs.ucsb.edu
+> set SORT NONE
+></pre>
+has the same effect as
+<pre>> set SORT NAME; ls http://www.cs.ucsb.edu; set SORT NONE
+></pre>
+and
+<pre>> alias lsname "set SORT NAME; ls !$; set SORT NONE"
+> lsname http://www.cs.ucsb.edu
+></pre>
+Be aware of the difference between the two following commands. The first
+is a single "alias" command, the second is composed of three commands.
+Note the output of the "ls" command issued in the second line. The name-value
+pairs for the aliases are shown also.
+<pre>> alias lsname1 "set SORT NAME; ls; set SORT NONE"
+> alias lsname2 set SORT NAME; ls; set SORT NONE
+..
+SomeDocument.html
+AnotherDocument.html
+> alias
+lsname1 set SORT NAME; ls; set SORT NONE
+lsname2 set SORT NAME</pre>
+
+<hr>
+<address>
+<a href="mailto:matz@cs.ucsb.edu">Mathias K&ouml;lsch</a></address>
+
+<br>
+      <!-- Created: Mon Jan 11 21:10:53 PST 1999 -->
+      <!-- hhmts start -->Last modified: Tue Feb 23 09:55:38 PST 1999
+      <!-- Hhmts end -->
+</body>
+</html>

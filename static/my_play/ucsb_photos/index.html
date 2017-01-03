@@ -1,0 +1,124 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+    <title>Mihai Christodorescu: UCSB Photos</title>
+    <script language="JavaScript">
+      menuName = new Array();
+      depth = 2;
+    </script>
+    <script language="JavaScript" src="../../browser_script.js"></script>
+    <link rel="stylesheet" href="../../default_style.css" type="text/css">
+  </head>
+
+  <body TOPMARGIN="0" LEFTMARGIN="0" MARGINWIDTH="0" MARGINHEIGHT="0">
+
+    <script language="JavaScript">
+      <!--
+      writeLocationHeader( "main / play / ucsb photos" );
+      //-->
+    </script>
+
+    <br>
+
+    <center>
+
+      <h1 align="center">
+	Mihai's UCSB Photo Page<br>
+	<script language="JavaScript">
+	  <!--
+	  putImage( "black_dot.png", "height=\"1\" width=\"400\" border=\"0\"" );
+	  //-->
+	</script>
+      </h1>
+
+      <table width="75%" border="0" cellpadding="10" cellspacing="0">
+
+	<tr>
+	  <td>
+	    <p>
+	      These are a set of photos of some of my friends at <a
+	      class="Offsite"
+	      href="http://www.ucsb.edu">UCSB</a>. They were taken in
+	      1999, at the end of the school year.
+	    </p>
+
+	    <p>
+	      Below you will find the thumbnails for those
+	      images. Click on the image to view/download the full
+	      image in 1024x696 resolution (or 696x1024 for portrait
+	      shots). All images are in PNG format, and are about 1.1
+	      MB in size.
+	    </p>
+	  </td>
+	</tr>
+
+	<tr>
+	  <td>
+	    <script language="JavaScript">
+	      <!--
+	      var photo_list = [ "image00.png", "image01.png", "image02.png",
+	                         "image03.png", "image04.png", "image05.png",
+	                         "image06.png", "image07.png", "image08.png",
+	                         "image09.png", "image10.png", "image12.png",
+	                         "image13.png" ];
+	      var photo_w_list = [ 87, 87, 128,
+	                           128, 128, 87,
+	                           87, 128, 128,
+                                   128, 128, 87 ];
+	      var photo_h_list = [ 128, 128, 87,
+	                           87, 87, 128,
+	                           128, 87, 87,
+                                   87, 87, 128 ];
+	      // putPhotos( photo_list, per_row );
+	      var per_row = 4;
+	      document.writeln( "<table cellpadding=\"10\" cellspacing=\"0\" border=\"1\">" );
+	      for( var i = 0; i < photo_list.length; i++ )
+	      {
+	        if( i % per_row == 0 )
+	        {
+	          if( i > 0 ) document.writeln( "</tr>" );
+	          document.writeln( "<tr>" );
+	        }
+	        document.write( "<td valign=\"middle\" align=\"center\" bgcolor=\"#dddddd\">" );
+
+                document.write( "<table cellpadding=\"0\" cellspacing=\"5\" border=\"0\"><tr><td>" );
+	        document.write( "<a class=\"Onsite\" href=\"http://members.nbci.com/warkda_rrior/photos/ucsb/1024x768/" +
+	                        photo_list[ i ] + "\">" );
+
+	        document.write( "<img src=\"thumbnails/" + photo_list[ i ] + "\" " +
+	                        "width=" + photo_w_list[ i ] + " " +
+                                "height=" + photo_h_list[ i ] + " border=\"0\">" );
+
+	        document.write( "</a>" );
+                document.write( "</td></tr><tr><td>Blah</td></tr></table>" );
+
+	        document.writeln( "</td>" );
+	      }
+	      if( photo_list.length % per_row > 0 )
+	        for( var i = 0; i < 4 - ( photo_list.length % per_row ); i++ )
+	        {
+	          document.writeln( "<td></td>" );
+	        }
+              document.writeln( "</tr></table>" );
+	      // -->
+	    </script>
+	  </td>
+	</tr>
+
+      </table>
+
+    </center>
+
+    <br>
+
+    <hr>
+    <address>&nbsp;&nbsp;Copyright 1999-2002 <a href="mailto:mihai@cs.wisc.edu">
+	Mihai Christodorescu</a></address>
+<!-- Created: Thu Dec 24 22:21:54 PST 1998 -->
+&nbsp;&nbsp;<!-- hhmts start -->
+Last modified: Thu Feb 14 20:52:42 CST 2002
+<!-- hhmts end -->
+
+  </body>
+
+</html>

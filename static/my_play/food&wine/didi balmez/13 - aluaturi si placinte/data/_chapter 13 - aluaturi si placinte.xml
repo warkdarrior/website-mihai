@@ -1,0 +1,70 @@
+<chapter>
+  <id>13</id>
+  <title>Aluaturi si pl&#259;cinte</title>
+
+  <intro>
+    <img style="margin-right: 10px;" src="../images/F-13-01.png" />
+  </intro>
+
+  <!-- ##################################################################### -->
+
+  <section>
+    <id>1</id>
+    <title>Aluaturi de pl&#259;cint&#259; cu foaie groas&#259;</title>
+
+    <recipes>
+      <id>1</id>
+      <id>2</id>
+      <id>3</id>
+      <id>4</id>
+      <id>5</id>
+      <id>6</id>
+      <id>7</id>
+      <id>8</id>
+      <id>9</id>
+      <id>10</id>
+    </recipes>
+  </section>
+
+  <!-- ##################################################################### -->
+
+  <section>
+    <id>2</id>
+    <title>Aluatul pentru foaie sub&#355;ire (rom&#226;neasc&#259;)</title>
+
+    <recipes>
+      <id>11</id>
+    </recipes>
+  </section>
+
+  <!-- ##################################################################### -->
+
+  <recipes>
+    <id>12</id>
+  </recipes>
+
+  <!-- ##################################################################### -->
+
+  <section>
+    <id>3</id>
+    <title>Pl&#259;cinte &#351;i &#238;nv&#238;rtite</title>
+
+    <recipes>
+      <id>13</id>
+      <id>14</id>
+      <id>15</id>
+      <id>16</id>
+      <id>17</id>
+      <id>18</id>
+      <id>19</id>
+      <id>20</id>
+      <id>21</id>
+      <id>22</id>
+      <id>23</id>
+      <id>24</id>
+    </recipes>
+  </section>
+
+  <!-- ##################################################################### -->
+
+</chapter>

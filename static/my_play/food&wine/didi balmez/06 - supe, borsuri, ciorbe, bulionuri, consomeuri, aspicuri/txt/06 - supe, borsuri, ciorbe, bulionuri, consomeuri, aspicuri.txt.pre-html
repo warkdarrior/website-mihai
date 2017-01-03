@@ -1,0 +1,197 @@
+SUPE, BOR&#350;URI, CIORBE, CONSOMEURI, BULION, ASPIC
+
+Supele s&#238;nt cunoscute din antichitate. S&#238;nt necesare
+organismului deoarece au s&#259;ruri minerale, vitamine &#351;i alte
+principii alimentari care ajut&#259; organismului omenesc s&#259; se
+dezvolte. Majoritatea supelor au &#351;i calit&#259;&#355;i dietetice,
+s&#238;nt nutritive &#351;i u&#351;or de digerat.
+
+Supele se prepar&#259; din legume sau legume &#351;i carne &#238;ntr-o
+mare diversitate.  Bor&#351;urile s&#238;nt preparate tot din legume
+sau legume &#351;i carne &#351;i acrite cu bor&#351;.  Bor&#351;ul
+pentru acreal&#259; este preparat din t&#259;r&#238;&#355;e, este
+foarte necesar organismului c&#259;ci m&#259;re&#351;te pofta de
+m&#238;ncare, este tonic &#351;i bogat &#238;n vitamine &#351;i
+s&#259;ruri minerale.  Ciorbele se prepar&#259; ca &#351;i
+bor&#351;urile, dar se acresc cu zeam&#259; de l&#259;m&#238;ie,
+o&#355;et sau zeam&#259; de varz&#259;.
+
+Bulionul de carne este o sup&#259; foarte concentrat&#259; din carne
+&#351;i oase, serve&#351;te ca baz&#259; pentru prepararea supelor,
+ciorbelor sau altor feluri de m&#238;ncare.  Se serve&#351;te simplu,
+degresat &#351;i cu crutoane cu ca&#351;caval.
+
+Consomeul este o sup&#259; foarte concentrat&#259; din carne &#351;i
+legume. Trebuie s&#259; aib&#259; gustul aromat al unei legume ca
+p&#259;st&#238;rnac, &#355;elin&#259; sau p&#259;trunjel. Este un
+stimulent gastric, excit&#259; pofta de m&#238;ncare,
+u&#351;ureaz&#259; digestia. Este un tonic gastric pentru
+convalescen&#355;i. Nu are gr&#259;simi.
+
+Consomeul &#351;i bulionul se consum&#259;, de obicei, la mese
+festive.  Aspicul este un consome foarte concentrat, de
+consisten&#355;a peltelei &#351;i se folose&#351;te la acoperirea unor
+preparate culinare reci pentru a le da un aspect mai estetic &#351;i
+un gust deosebit. Se fierbe cu picioare de vi&#355;el, cartilagii,
+g&#238;turi de pas&#259;re sau c&#238;nd este fiert se pune
+gelatin&#259;.
+
+1	SUPE
+
+	2	Supe de legume
+
+		1	Sup&#259; de conopida
+			Sup&#259; de sparanghel
+			Sup&#259; de legume
+			Sup&#259; de ro&#351;ii
+		5	Sup&#259; de linte rece
+			Sup&#259; de fasole boabe
+
+	3	Supe creme de legume &#351;i fructe
+
+		7	Sup&#259; crem&#259; de maz&#259;re
+			Sup&#259; de l&#259;m&#226;ie, b&#259;n&#259;&#355;ean&#259;
+			Sup&#259; crem&#259; de vi&#351;ine
+		10	Sup&#259; crem&#259; de mere
+			Sup&#259; crem&#259; de dovlecei
+			Sup&#259;-crem&#259; de conopida
+			Sup&#259; crem&#259; de cartofi
+			Sup&#259; ciob&#259;neasc&#259;
+
+	4	Supe de carne
+
+		Supele de carne sunt foarte bune. Ca s&#259; fie supa
+		bun&#259;, carnea proasp&#259;t&#259; se pune &#238;n
+		ap&#259; race s&#259; fiarb&#259;.
+
+		15	Sup&#259; de pas&#259;re
+			Sup&#259; de fazan
+			Sup&#259; de carne de vac&#259;
+			Sup&#259; de oase cu zdren&#355;e
+			S&#259;rbu&#351;c&#259; moc&#259;neasc&#259;
+		20	G&#259;lu&#351;te din carne pentru supe
+			G&#259;lu&#351;te de ficat pentru supe
+
+5	BOR&#350;URI
+
+	Bor&#351;ul preparat cu bor&#351; de putin&#259;
+	stimuleaz&#259; pofta de m&#226;ncare &#351;i este
+	s&#259;n&#259;tos, deoarece t&#259;r&#238;&#355;ele
+	con&#355;in multe vitamine &#351;i s&#259;ruri minerale. .
+
+	6	Re&#355;et&#259; pentru "umplut" bor&#351;ul
+
+		22	Bor&#351; dup&#259; re&#355;eta moldoveneasc&#259;
+
+	7	Bor&#351;uri de legume
+
+		23	Bor&#351; de lobod&#259;
+			Bor&#351;ul de &#351;tevie
+		25	Bor&#351; de urzici
+			Bor&#351; de sfecl&#259; ro&#351;ie
+			Bor&#351; de fasole verde
+			Bor&#351; de fasole boabe
+			Bor&#351; de cartofi
+		30	Bor&#351; de legume
+
+	8	Bor&#351;uri cu carne
+
+		31	Bor&#351; cu peri&#351;oare
+			Bor&#351; moldovenesc de g&#259;in&#259;
+			Bor&#351; de pui
+			Bor&#351; moldovenesc de carne de vac&#259;
+		35	Bor&#351; de miel
+			Bor&#351; de crap
+			Bor&#351; de iepure
+
+9	CIORBE
+
+	Ciorbele de legume sau de carne se prepar&#259; la fel cu
+	bor&#351;urile dar se acresc cu zeam&#259; de
+	l&#259;m&#226;ie, sare de l&#259;m&#226;ie sau o&#355;et. Se
+	pot acri &#351;i cu zeam&#259; de varz&#259; acr&#259;.
+
+	10	Ciorbe de carne
+
+		38	Ciorb&#259; pesc&#259;reasc&#259;
+			Ciorb&#259; de potroace
+		40	Ciorb&#259; de burt&#259;
+
+	11	Bulionuri de carne
+
+		Bulionul se prepar&#259; din carne de vac&#259; (de la
+		coad&#259;), rasol alb &#351;i os cu
+		m&#259;duv&#259;. Apa cu care se pune la fiert trebuie
+		s&#259; fie rece. Bulionul trebuie ca s&#259; fie
+		foarte concentrat &#351;i de aceea se fierbe
+		mult. Sarea se pune c&#226;nd carnea este aproape
+		fiart&#259;,
+
+		41	Bulion alb sau de baz&#259;
+
+	12	Consomeuri
+
+		Consomeul se prepar&#259; sau din carne de vac&#259;,
+		sau de pas&#259;re sau de pe&#351;te, v&#226;nat
+		&#351;i cu adaus de legume. Se prepar&#259; la fel ca
+		bulionul, numai c&#259; trebuie o cantitate mai mare
+		de carne ca s&#259; fie zeama &#351;i mai
+		concentrat&#259;; mai este necesar s&#259; se
+		pun&#259; &#351;i carne tocat&#259; care ajut&#259; la
+		limpezirea lichidului &#351;i cre&#351;terea gradului
+		de concentrare.
+
+		42	Consome de carne
+			Consomeu de rasol
+			Consome de legume
+
+	13	Aspicul
+
+		Aspicul este un consome de carne foarte concentrat,
+		av&#226;nd consisten&#355;a unei peltele.  Se poate
+		prepara din orice fel de carne. Se folose&#351;te la
+		ornarea unor m&#226;nc&#259;ruri reci.
+
+		45	Prepararea aspicului
+
+14	Preparate din orez, gri&#351; &#351;i m&#259;lai
+
+	15	Preparate din orez
+
+	Orezul este bogat &#238;n calorii, este u&#351;or de digerat,
+	combate diareea &#351;i inflama&#355;iile intestinale. Fiert
+	&#238;n aburi este mai bun. Este m&#226;ncat cu pl&#259;cere
+	la toate v&#226;rstele.
+
+		46	Orez cu ca&#351;caval &#351;i sos de ro&#351;ii
+			Pilaf dobrogean
+			Pilaf cu &#351;unc&#259;
+			Pilaf cu dovlecei
+		50	Pilaf de ciuperci (hribi)
+			Pilaf cu prune uscate
+			Orez cu fica&#355;i de pasare
+			Orez cu sote de rinichi
+
+	16	Preparate din gri&#351;
+
+		54	Crochete de gri&#351; la cuptor
+		55	G&#259;lu&#351;te de gri&#351; pentru supe
+			G&#259;lu&#351;te de gri&#351; cu unt
+			Crochete de gri&#351; coapte &#238;n untdelemn
+
+	17	Preparate din m&#259;lai
+
+		58	M&#259;m&#259;liga
+			M&#259;m&#259;lig&#259; pripit&#259;
+		60	M&#259;m&#259;lig&#259; pr&#259;jit&#259;
+			Alivanc&#259;
+			Taci &#351;i-nghite
+			Urs ciob&#259;nesc (re&#355;et&#259; moldoveneasc&#259;)
+			Balmu&#351;
+		65	Crochete din m&#259;g&#259;ligu&#355;&#259; cu ciuperci
+			Sarmale cu crupe de porumb
+			M&#259;lai cu bostan (dovleac)
+			M&#259;lai dulce (preparai moldovenesc)
+			Porumb copt
+		70	Porumb fiert
+			Floricele sau coco&#351;ei

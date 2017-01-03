@@ -1,0 +1,350 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Mihai Christodorescu: web shell project requirements (v1.0)</title>
+<link type="text/css" rel="stylesheet" href="../../../default_style.css">
+<script type="text/javascript">
+      menuName = new Array(  );
+      depth = 3;
+    </script><script type="text/javascript" src="../../../browser_script.js"></script>
+</head>
+<!--PathToRoot="../../.."-->
+<!--DocDepth=3-->
+<body MARGINHEIGHT="0" MARGINWIDTH="0" LEFTMARGIN="0" TOPMARGIN="0">
+<div class="PageHeader">
+<div style="border-bottom: 1px solid #bbaa66;">
+<div style="border-bottom: 1px solid #ddcc88;">
+<div class="spacer"></div>
+<div class="row">
+<span class="left">Mihai Christodorescu: <a class="OnsiteTopLink" href="../../../index.html">main</a> / <a class="OnsiteTopLink" href="../../index.html">work</a> / <a class="OnsiteTopLink" href="../index.html">projects</a> / <a class="OnsiteTopLink" href="./index.html">web&nbsp;shell</a> / requirements&nbsp;v1.0</span><span class="right"><a class="Onsite" style="margin-right: 0.5em;" href="../../../calendar.html">
+                Calendar
+              </a><a class="Onsite" href="../../../contact.html">
+                Contact info
+              </a></span>
+</div>
+<div class="spacer"></div>
+</div>
+</div>
+</div>
+<br>
+<center>
+<h1 align="center">
+        Mihai's WebShell Project:<br>Requirements (v1.0)<br>
+<img border="0" width="300" height="1" src="../../../images/black_dot.png"></h1>
+<table border="0" cellspacing="0" cellpadding="1" bgcolor="black" width="75%">
+<tr>
+<td>
+<table border="0" cellspacing="0" cellpadding="10" width="100%" bgcolor="white">
+<tr>
+<td>
+                  A <b><font color="#CC0000">web shell</font></b> is a
+                  program that combines the functionality of a WWW
+                  browser, like Netscape or Internet Explorer, with
+                  the features of a shell (e.g., a typical Unix shell
+                  or a Telnet terminal).  It acts as a client to web
+                  servers,&nbsp; requesting files from them.&nbsp; It
+                  deals with <b>all different kinds of files</b> that
+                  can be transferred from a web server.&nbsp; It
+                  however handles the <b>contents</b> of web documents
+                  only in a <b>limited way.&nbsp;</b> For example, it
+                  cannot parse arbitrary HTML tags or display an HTML
+                  document in a way familiar to you from a
+                  browser. Instead, it treats an HTML document as a
+                  directory (aka folder) that may contain&nbsp;
+                  documents. In other words, the web shell parses
+                  documents for only HTML tags that reference
+                  documents, such as the <b><tt><font color="#CC0000">anchor</font></tt></b> (syntax:
+                  <b><tt><nobr>&lt;a
+                  href="some.url"&gt;</nobr></tt></b>), a form's
+                  <b><tt><font color="#CC0000">action</font></tt></b>
+                  parameter (syntax: <nobr><b><tt>&lt;form
+                  action="some.url"</tt></b>&gt;</nobr>) or <b><tt><font color="#CC0000">images</font></tt></b> (syntax:
+                  <b><tt><nobr>&lt;img
+                  src="some.url"&gt;</nobr></tt></b>).&nbsp; Every
+                  document that is linked from an HTML page is said to
+                  be "contained in the HTML page's folder".
+
+                  <h2>Documents</h2>
+                  A web shell allows for traversal of the tree defined
+                  by this relationship (back-links are ignored),
+                  simple operations on the documents, and some
+                  miscellaneous functions.
+                  <p>
+                    A <b><i>directory</i></b> is either a real
+                    directory (http://www.cs.ucsb.edu/~cappello/) or
+                    an HTML page. Its contents are defined as all
+                    files that the web server returns on a request for
+                    this URL (possibly empty).
+                  </p>
+<p>
+                    Any other document is called <b><i>plain</i></b>.
+                  </p>
+<h2>The User Interface</h2>
+
+                  Write a Java application that implements the
+                  functions described below.&nbsp; The <b>input</b>
+                  from the user has to be read from a text interface
+                  ("terminal") that strongly resembles that of a Unix
+                  shell or Telnet terminal.&nbsp; A prompt (e.g., "&gt;"
+                  asks for the next command or sequence of
+                  commands.&nbsp; After processing the command[s],
+                  another prompt is displayed.&nbsp; The <b>output</b>
+                  depends on the display. One display makes use of the
+                  terminal that also works as the input
+                  device. Terminal output, displayed before the next
+                  prompt, is that part that is described before the
+                  "/";&nbsp;&nbsp; the other display is a graphical
+                  representation of the document structure.&nbsp; That
+                  output is described <b>after</b> the&nbsp;
+                  "/".&nbsp; Hint: The Java <b>Swing</b> package makes
+                  it easy to implement a visualization of both the
+                  tree structure of interlinked documents and the
+                  lists of documents - you have to display both. For
+                  an example, look at the WindowsExplorer.
+
+                  <h2>Web Shell Commands</h2>
+
+                  These are the particular commands that can be used
+                  in the web shell:
+                  <ul>
+<li>
+<b><tt>cd [name]</tt></b> (change directory) <br> The current document is set to <i>name</i>,
+                      and the complete URL of the current document is
+                      displayed. If <i>name</i> equals <b>"<i>.."
+                      </i></b>(two dots), the new current document is
+                      set to the current document's (known)
+                      parent.&nbsp; If there is more than one parent,
+                      choose the logical parent or the first parent in
+                      alphabetical order.&nbsp; The logical parent of
+                      a document with the URL <br>http://www.cs.ucsb.edu/~cappello/172/ is
+                      either <br>http://www.cs.ucsb.edu/~cappello/
+                      or <br>http://www.cs.ucsb.edu/~cappello/index.htm(l),
+                      whichever exists.  <br>If no <i>name</i> is
+                      provided, the current document stays unchanged.
+                      <br>
+<i>OUTPUT:</i> absolute path of new
+                      current document / highlighting of new current
+                      document.
+                    </li>
+<li>
+<b><tt>ls [name]</tt></b>
+<br>
+                      The contents of the named document are
+                      shown:&nbsp; all documents that are linked from
+                      the current document. Special tags or other
+                      means identify different types of documents
+                      (directory, plain, or even more detailed).  If
+                      no <i>name</i> is given, the current document's
+                      contents are listed.  <br>The output list can
+                      be sorted by any argument. This is specified in
+                      the environment variable SORT.  <br>
+<i>OUTPUT:</i> list of documents as text /
+                      graphical representation of documents
+                    </li>
+<li>
+<b><tt>info [name]</tt></b>
+<br>
+                      Display information about the document, such as
+                      the absolute URL, its type and other attributes
+                      if available.  <br>
+<i>OUTPUT:</i> information
+                      as text / popup window with information
+                      represented appropriately.
+                    </li>
+<li>
+<b><tt>open [name]</tt></b>
+<br>
+                      Spawn an external application to properly
+                      interpret the contents of this document. The
+                      helper application (aka viewer) could be a web
+                      browser for HTML pages, GhostScript for
+                      postscript documents, an MP3 player for sound
+                      documents, etc.&nbsp; Provide the functionality
+                      to open HTML pages and two other document types
+                      of your choice.  <br>
+<i>OUTPUT:</i> nothing -
+                      return to prompt as soon as possible / nothing
+                    </li>
+<li>
+<b><tt>set [variable [value]]</tt></b>
+<br>
+                      This command assigns an arbitrary value to an
+                      environment variable.  Those variables can be
+                      either pre-defined (e.g., SORT, GUI) or
+                      user-defined.  A variable must not contain
+                      whitespace. If no arguments are given, all
+                      variables and their values are displayed. If the
+                      value is omitted, the variable is removed from
+                      the set of defined variables.  <br>
+<i>OUTPUT:</i> nothing / if GUI is set to ALL
+                      (this time or any time before this <i>set</i>),
+                      then popup window with all variable settings;
+                      otherwise nothing
+                    </li>
+<li>
+<b><tt>alias [name value]</tt></b>
+<br>
+                      Create an alias for a command, a command
+                      sequence, or any other linefeed-delimited string
+                      sequence. The <i>name</i> alias can afterwards
+                      be used instead of the <i>value.</i>&nbsp; It
+                      hides other commands or aliases with the same
+                      <i>name</i>. When no argument is given, all
+                      pairs of name-values are displayed.  <br>The
+                      character sequence "!$" (exclamation-mark
+                      dollar) is replaced at alias-invoke time with
+                      everything behind the alias name. See example.
+                      <br>
+<i>OUTPUT:</i> nothing / if GUI is set to
+                      ALL (this time or any time before this
+                      <i>set</i>), then popup window with all alias
+                      settings; otherwise nothing.
+                    </li>
+<li>
+<b><tt>unalias [name]</tt></b>
+<br>
+                      Delete the latest (the currently used) entry for
+                      <i>name</i> from the set of aliases.  <br>
+<i>OUTPUT:</i> nothing / if GUI is set to ALL
+                      (this time or any time before this <i>set</i>),
+                      then popup window with all alias settings;
+                      otherwise nothing
+                    </li>
+</ul>
+
+                  Not every command can be applied to every
+                  document. Operations for directories are <i>cd</i>
+                  and <i>info</i>; operations for plain documents are
+                  <i>info</i> and <i>open</i>. Generally, one command
+                  is entered at a time. Processing begins after a
+                  linefeed character (return, enter). Commands also
+                  can be concatenated by the semicolon (";"). After
+                  the linefeed, commands are processed in sequence.
+                    
+                  <h2>History, Attributes and Environment Variables</h2>
+<b>Attributes</b> include the document's URL, type,
+                  size, and date of last change. There may be
+                  additional attributes for specific document types.
+
+                  <p>
+<b>Pre-defined Environment Variables</b>
+<br>
+<b>SORT</b> determines the sort order of directory
+                    listings via the <b><tt>ls</tt></b> command. Its
+                    values are NONE (equivalent to SORT not defined),
+                    URL, NAME, and TYPE.  <br>
+<b>GUI</b> determines
+                    if a graphical output is displayed or not. Its
+                    values are NONE (equivalent to GUI not defined),
+                    DEFAULT (display documents in current document and
+                    the tree structure of directories), and ALL (a lot
+                    of additional popup windows for little messages).
+                    <br>
+<b>History:</b> Just like every other decent
+                    shell, the web shell keeps a history of the most
+                    recently entered commands (either a fixed number
+                    of commands, say 50, or by "set HISTORY
+                    number").&nbsp; Given a prompt, the user can
+                    "scroll" through the history by using the arrow-up
+                    and arrow-down keys. On a new prompt, pressing
+                    arrow-up once reprints the last command entered,
+                    pressing it again reprints the second-to-last
+                    command, etc. The commands are shown in the same
+                    line; the cursor is placed behind the last
+                    character, and a linefeed keystroke executes the
+                    chosen command again (using the current directory,
+                    environment variables, and so on).
+
+                    <h2>Examples</h2>
+
+                    Starting from the current document
+                    http://www.cs.ucsb.edu/noframes.html, we can
+                    change the current document to the URL
+                    http://www.cs.ucsb.edu/search/iaquery:
+
+<pre>
+
+&gt; cd search/iaquery
+http://www.cs.ucsb.edu/search/iaquery
+&gt;
+
+</pre>
+
+                    Notice the relative path name we used, and notice
+                    also the output of the absolute URL. This
+                    "directory" contains:
+
+<pre>
+
+&gt; ls
+http://www.cs.ucsb.edu/ui/icons/srchlogo.png
+http://www.cs.ucsb.edu/ui/usa/help.html/
+http://www.cs.ucsb.edu/search/iaquery?
+  NS-query-pat=/usa/NS-advquery.pat&amp;
+http://www.cs.ucsb.edu/search/iatoc/
+&gt;
+
+</pre>
+
+                    Notice the slash / we used behind the second and
+                    fourth document to indicate that these documents
+                    are directories.
+
+                  </p>
+<p>
+
+                    The next three examples demonstrate the usage of
+                    concatenation and aliases. Output is not shown.
+
+<pre>
+
+&gt; set SORT NAME
+&gt; ls http://www.cs.ucsb.edu
+&gt; set SORT NONE
+&gt;
+
+</pre>
+
+                    has the same effect as
+
+<pre>
+
+&gt; set SORT NAME; ls http://www.cs.ucsb.edu; set SORT NONE
+&gt;
+
+</pre>
+and
+<pre>
+
+&gt; alias "lsname set SORT NAME; ls !$; set SORT NONE"
+&gt; lsname http://www.cs.ucsb.edu
+&gt;
+
+</pre>
+</p>
+<hr>
+<address>
+<a href="mailto:matz@cs.ucsb.edu">Mathias K&ouml;lsch</a>
+</address>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</center>
+<br>
+<div class="MaintainerInfo">
+<div>
+<div>
+<div>
+	    Copyright 1998-2005 Mihai Christodorescu. All rights reserved. <br>
+            Maintained by Mihai Christodorescu (<a href="http://mihai.christodorescu.org">http://mihai.christodorescu.org</a>). <br>
+            Created: Mon Dec 21 21:12:13 PST 1998<br>
+            Last modified: Sat Oct  1 23:06:49 CDT 2005</div>
+</div>
+</div>
+</div>
+</body>
+</html>

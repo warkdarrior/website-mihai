@@ -1,0 +1,202 @@
+<chapter>
+  <id>1</id>
+  <title>Aperitive si gust&#259;ri</title>
+
+  <intro>
+    <img style="float: left; margin-right: 10px;" src="../images/F-01-01.png" />
+
+    <p>
+      Aperitivele se servesc la &#238;nceputul meselor principale,
+      &#238;n scopul de a deschide pofta de m&#238;ncare. Aceste
+      aperitive se prepar&#259; din alimente variate; unele se pot
+      servi reci, altele calde. De obicei, la cin&#259; se servesc
+      aperitive calde. Aperitivele din ou&#259; s&#238;nt tratate la
+      capitolul "Preparate din ou&#259;".
+    </p>
+
+    <p style="clear: both;" />
+  </intro>
+
+  <!-- ##################################################################### -->
+
+  <section>
+    <id>1</id>
+    <title>Pateuri</title>
+
+    <intro>
+      Pateurile &#238;n uzan&#355;a culinar&#259; rom&#226;neasc&#259;
+      se &#238;n&#355;eleg at&#238;t past&#259; condimentat&#259; din
+      ficat c&#238;t &#351;i foietajul umplut cu br&#238;nz&#259;
+      s&#259;rat&#259; sau umplutur&#259; de carne condimentat&#259;.
+    </intro>
+
+    <recipes>
+      <id>1</id>
+      <id>2</id>
+      <id>3</id>
+      <id>4</id>
+    </recipes>
+  </section>
+
+  <!-- ##################################################################### -->
+
+  <section>
+    <id>2</id>
+    <title>Pateuri-Foietaje</title>
+
+    <intro>
+      Pateurile se prepar&#259; din aluat fran&#355;uzesc, care
+      &#238;&#351;i are originea &#238;n Italia. Numele este legat de
+      armata francez&#259; care a intrat &#238;n Italia sub Napoleon
+      l. Un cofetar preg&#259;tea un aluat &#351;i dup&#259; ce a
+      &#238;ntins foaia a pus unt pe ea, a str&#238;ns repede foaia
+      peste unt &#351;i a ie&#351;it &#238;n strad&#259; s&#259;
+      vad&#259; trecerea armatei franceze care tocmai intrase &#238;n
+      ora&#351;. S-a re&#238;ntors dup&#259; un timp &#351;i iar a
+      &#238;ntins foaia, dar a fost nevoit s-o
+      &#238;mp&#259;tureasc&#259; repede, c&#259;ci iar trecea o
+      alt&#259; unitate francez&#259; &#351;i a ie&#351;it din nou s-o
+      vad&#259;. Opera&#355;ia s-a repetat de 5-6 ori. Dup&#259; ce
+      s-a terminat cu trecerea armatelor franceze, cofetarul &#351;i-a
+      preparat pr&#259;jitura. C&#238;nd a scos-o din cuptor, mare i-a
+      fost surpriza v&#259;z&#238;nd aluatul desf&#259;cut &#238;n foi
+      sub&#355;iri &#351;i foarte fraged. De atunci acest aluat
+      preparat &#238;n reprize s-a numit aluat fran&#355;uzesc.
+      Pateuri se pot prepara &#351;i din alte aluaturi fragede.
+    </intro>
+
+    <recipes>
+      <id>5</id>
+      <id>6</id>
+      <id>7</id>
+      <id>8</id>
+      <id>9</id>
+      <id>10</id>
+      <id>11</id>
+      <id>12</id>
+    </recipes>
+
+  <!-- ##################################################################### -->
+
+    <section>
+      <id>3</id>
+      <title>Umpluturi pentru pateuri</title>
+
+      <intro>
+        Pateurile preparate din aluaturile indicate &#238;n capitolul
+        precedent se umplu cu una din compozi&#355;iile de mai jos
+        &#351;i se dau la cuptor.
+      </intro>
+
+      <recipes>
+        <id>13</id>
+        <id>14</id>
+        <id>15</id>
+      </recipes>
+    </section>
+
+  <!-- ##################################################################### -->
+
+  </section>
+
+  <!-- ##################################################################### -->
+
+  <section>
+    <id>4</id>
+    <title>Tartine</title>
+
+    <intro>
+      Tartinele s&#238;nt feliu&#355;e sub&#355;iri de franzel&#259;
+      acoperite cu un aliment, ca mezeluri, br&#238;nzeturi sau o
+      compozi&#355;ie de alimente. Din marele num&#259;r de
+      re&#355;ete d&#259;m doar c&#238;teva.
+    </intro>
+
+    <recipes>
+      <id>16</id>
+      <id>17</id>
+      <id>18</id>
+      <id>19</id>
+      <id>20</id>
+    </recipes>
+  </section>
+
+  <!-- ##################################################################### -->
+
+  <section>
+    <id>5</id>
+    <title>Chifle, cornuri &#351;l franzelu&#355;e umplut</title>
+
+    <intro>
+      La gust&#259;ri se pot servi &#351;i franzelu&#355;e sau chifle
+      umplute.
+    </intro>
+
+    <recipes>
+      <id>21</id>
+      <id>22</id>
+      <id>23</id>
+      <id>24</id>
+      <id>25</id>
+      <id>26</id>
+    </recipes>
+  </section>
+
+  <!-- ##################################################################### -->
+
+  <section>
+    <id>6</id>
+    <title>Saleuri</title>
+
+    <intro>
+      Saleurile s&#238;nt preparate din aluat fraged cu sare &#351;i
+      ca&#351;caval.
+    </intro>
+
+    <recipes>
+      <id>27</id>
+      <id>28</id>
+      <id>29</id>
+      <id>30</id>
+      <id>31</id>
+      <id>32</id>
+    </recipes>
+  </section>
+
+  <!-- ##################################################################### -->
+
+  <section>
+    <id>7</id>
+    <title>Gogo&#351;ele</title>
+
+    <recipes>
+      <id>33</id>
+      <id>34</id>
+      <id>35</id>
+      <id>36</id>
+    </recipes>
+  </section>
+
+  <!-- ##################################################################### -->
+
+  <section>
+    <id>8</id>
+    <title>Alte aperitive, antreuri &#351;i gust&#259;ri</title>
+
+    <recipes>
+      <id>37</id>
+      <id>38</id>
+      <id>39</id>
+      <id>40</id>
+      <id>41</id>
+      <id>42</id>
+      <id>43</id>
+      <id>44</id>
+      <id>45</id>
+      <id>46</id>
+    </recipes>
+  </section>
+
+  <!-- ##################################################################### -->
+
+</chapter>

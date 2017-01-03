@@ -1,0 +1,189 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Mihai Christodorescu: project ideas page</title>
+<link type="text/css" rel="stylesheet" href="../../default_style.css">
+<script type="text/javascript">
+      menuName = new Array(  );
+      depth = 2;
+    </script><script type="text/javascript" src="../../browser_script.js"></script>
+</head>
+<!--PathToRoot="../.."-->
+<!--DocDepth=2-->
+<body MARGINHEIGHT="0" MARGINWIDTH="0" LEFTMARGIN="0" TOPMARGIN="0">
+<div class="PageHeader">
+<div style="border-bottom: 1px solid #bbaa66;">
+<div style="border-bottom: 1px solid #ddcc88;">
+<div class="spacer"></div>
+<div class="row">
+<span class="left">Mihai Christodorescu: <a class="OnsiteTopLink" href="../../index.html">main</a> / <a class="OnsiteTopLink" href="../index.html">work</a> / ideas&nbsp;page</span><span class="right"><a class="Onsite" style="margin-right: 0.5em;" href="../../calendar.html">
+                Calendar
+              </a><a class="Onsite" href="../../contact.html">
+                Contact info
+              </a></span>
+</div>
+<div class="spacer"></div>
+</div>
+</div>
+</div>
+<br>
+<table border="0" cellspacing="0" cellpadding="0" width="75%" align="center">
+<tr>
+<td colspan="4">
+<h1 align="center">
+              Mihai's Project Ideas<br>
+<img border="0" width="300" height="1" src="../../images/black_dot.png"></h1>
+<br>
+</td>
+</tr>
+<tr>
+<td>
+	    There are a lot of topics (research and outside) that interest me. Below
+	    I list a couple of ideas, and some projects based on these ideas.<br>
+<br>
+	    Any feedback is more than welcome. If you find an idea attractive, want to
+	    extend it, want to work on implementing it, find the idea close to your
+	    research or interest, please do not hesitate to contact me. You can email
+	    me at
+	    <a href="mailto:mihai@cs.wisc.edu" class="Onsite">
+	      mihai@cs.wisc.edu
+	    </a>
+	    , or find
+	    other ways to contact me at
+	    <a href="http://www.cs.wisc.edu/~mihai/contact.html" class="Onsite">
+	      http://www.cs.wisc.edu/~mihai/contact.html
+	    </a>.
+            <br>
+<br>
+</td>
+</tr>
+<tr>
+<td><font size="+2">Automatic Subtyping</font>
+<dl>
+<dd>
+		Many times variables have the same type although they
+		refer to different concepts (for example the user id
+		and group id might both be represented by <tt>int</tt>
+		or <tt>unsigned int</tt>). So what prevents a
+		programmer from mistakenly passing a group id where a
+		user id argument is expected?<br>
+<br>
+		One way to separate the two concepts (user id and
+		group id) is to give them separate
+		types. Well-designed APIs already have safeguards like
+		this in place. But there should be a way for the
+		compiler to warn when variables are assigned values
+		from different conceptual value spaces, even if the
+		value and the variable have the same type.<br>
+<br>
+		How would this be done? I don't know yet, but it seems
+		that most cases could be solved, maybe by tracking the
+		usage of values through procedures. This is where
+		information flow could come in...
+	      </dd>
+</dl>
+<br>
+</td>
+</tr>
+<tr>
+<td><font size="+2">X Mobile Desktop</font>
+<dl>
+<dd>
+		Imagine that you could login to a computer anywhere on the
+		network, start working. Then you would move somewhere else,
+		to another computer, login in, and get the current session
+		exactly as you left it on the other computer. Not that
+		you have logged out from the first machine.<br>
+<br>
+		All the windows opened in a regular X session talk to an X Server.
+		They talk to a given X server and a given display on that server.
+		By changing these two attributes, it should be possible to
+		display the running windows on any other X server. Note that
+		the processes controlling the windows are still running on the
+		initial machine, the (server,display) has changed. This could
+		be achieved either by forwarding (i.e., the first display machine
+		receives a request to start forwarding all X packets to the second
+		display machine), or by actually remapping the (server,display)
+		to point to the right X server and display.<br>
+<br>
+		A central server would be needed to locate and track the last known
+		"desktop" opened by a user.<br>
+<br>
+		Note: Vic Zandy (<a href="http://www.cs.wisc.edu/~zandy" class="Offsite">http://www.cs.wisc.edu/~zandy</a>,
+		<a href="mailto:zandy@cs.wisc.edu" class="Offsite">zandy@cs.wisc.edu</a>)
+		pointed to me that such a tool was already
+		proposed. The tool, called <i>xmove</i>, was proposed
+		by E. Solomita, J. Kempf, D. Duchamp in 1994. The
+		paper can be found on the D. Duchamp's website, by
+		following this <a href="http://guinness.cs.stevens-tech.edu/~djd/collected-papers/xmove.ps" class="Offsite">link</a>. This
+		tool is the right step forward, but a lot more work is
+		required. Among other things, I believe that Vic's
+		work on transparently moving open sockets (aka making
+		sockets reliable: see the <a href="http://www.cs.wisc.edu/~zandy/rocks" class="Offsite">Rocks</a>
+		project) is going to be very useful.
+	      </dd>
+</dl>
+<br>
+</td>
+</tr>
+<tr>
+<td><font size="+2">{Pre,Post}condition Automatic Elimination/Generation</font>
+<dl>
+<dd>
+		A lot of code can be skipped from execution or even
+		compilation if certain conditions are met. The most
+		obvious example is the conditionals at the entry into
+		a function: they are usually used to verify the
+		correctness of incoming parameters. These checks could
+		be skipped or sped-up if we had some information about
+		the incoming parameter values. The same restrictions
+		can be applied to return values, and in general to any
+		computation result.
+		<br>
+<br>
+		What I propose here is an algorithm to compute the
+		range of values a variable has, and use this
+		information to eliminate/simplify expressions where
+		this variable is used.
+		<br>
+<br>
+		The programmer would specify the
+		preconditions/postconditions for each function in the
+		program. I assume that this information is available
+		for library functions too.
+		<br>
+<br>
+		The conditions can be automatically propagated inside
+		the function, modified accordingly by various
+		statements, and made available at critical points
+		(conditionals, complicated expressions, function
+		calls). This propagation could be done using a data
+		flow framework, most probably a bidirectional one.
+		<br>
+<br>
+		Then certain expressions can be simplified or
+		eliminated.  The programmer could be alerted of
+		non-compliance with function requirements. The
+		incoming postcondition should as strong or stronger
+		than the precondition of the current statement.
+	      </dd>
+</dl>
+<br>
+</td>
+</tr>
+</table>
+<br>
+<div class="MaintainerInfo">
+<div>
+<div>
+<div>
+	    Copyright 1998-2005 Mihai Christodorescu. All rights reserved. <br>
+            Maintained by Mihai Christodorescu (<a href="http://mihai.christodorescu.org">http://mihai.christodorescu.org</a>). <br>
+            Created: Mon Dec 21 21:12:13 PST 1998<br>
+            Last modified: Sat Oct  1 23:06:31 CDT 2005</div>
+</div>
+</div>
+</div>
+</body>
+</html>

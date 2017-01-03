@@ -1,0 +1,4192 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Mihai Christodorescu, Somesh Jha "Static Analysis of Executables to Detect Malicious Patterns"</title>
+    <style>
+      p, table, tbody, td { text-align: justify; }
+      .Math { color: green; font-weight: bold; }
+    </style>
+  </head>
+
+  <body bgcolor="white">
+
+    <center>
+      <p style="width: 50%; background-color: #eeeeee; padding: 0.6em; border-bottom: 1px solid black;">
+	Published in the Proceedings of the <a class="Offsite"
+	href="http://www.usenix.org/events/sec03/">12<sup>th</sup>
+	USENIX Security Symposium (Security'03)</a>, pages 169-186,
+	August 4-8, 2003, Washington DC, USA.
+      </p>
+
+      <h1>Static Analysis of Executables to Detect Malicious Patterns<a href="#Footnote-Star"><sup>*</sup></a></h1>
+      <p>
+      <table align="center">
+	<tbody>
+	  <tr>
+	    <td>
+	      <b>Mihai Christodorescu</b><br>
+	      <a href="mailto:mihai@cs.wisc.edu"><tt>mihai@cs.wisc.edu</tt></a>
+	    </td>
+	    <td>
+	      &nbsp;&nbsp;&nbsp;&nbsp;
+	    </td>
+	    <td>
+	      <b>Somesh Jha</b><br>
+	      <a href="mailto:mihai@cs.wisc.edu"><tt>mihai@cs.wisc.edu</tt></a>
+	    </td>
+	  </tr>
+	</tbody>
+      </table>
+      </p>
+      <p>
+        <center>
+	  <i>
+	    <a href="http://www.cs.wisc.edu">Computer Sciences Department</a><br>
+            <a href="http://www.wisc.edu">University of Wisconsin, Madison</a>
+          </i>
+        </center>
+      </p>
+    </center>
+
+    <center>
+      <p>
+	<h3>Abstract</h3>
+      </p>
+      <table width="75%"><tr><td>
+      <p>
+	Malicious code detection is a crucial component of any defense
+	mechanism. In this paper, we present a unique viewpoint on
+	malicious code detection. We regard malicious code detection
+	as an obfuscation-deobfuscation game between malicious code
+	writers and researchers working on malicious code
+	detection. Malicious code writers attempt to obfuscate the
+	malicious code to subvert the malicious code detectors, such
+	as anti-virus software. We tested the resilience of three
+	commercial virus scanners against code-obfuscation
+	attacks. The results were surprising: the three commercial
+	virus scanners could be subverted by very simple obfuscation
+	transformations! We present an architecture for detecting
+	malicious patterns in executables that is resilient to common
+	obfuscation transformations. Experimental results demonstrate
+	the efficacy of our prototype tool, SAFE (a <U>s</U>tatic
+	<U>a</U>nalyzer <U>f</U>or <U>e</U>xecutables).
+        </p>
+      </td></tr></table>
+    </center>
+
+    <br>
+    <a name="Footnote-Star"></a>
+    <table align="center" width="65%">
+	<tr>
+	  <td valign="top"><b><sup>*</sup></b></td>
+	  <td>
+	    This work was supported in part by the Office of Naval
+	    Research under contracts N00014-01-1-0796 and
+	    N00014-01-1-0708. The U.S. Government is authorized to
+	    reproduce and distribute reprints for Governmental
+	    purposes, notwithstanding any copyright notices affixed
+	    thereon.<br>
+
+	    &nbsp;&nbsp;&nbsp;&nbsp;The views and conclusions
+	    contained herein are those of the authors, and should not
+	    be interpreted as necessarily representing the official
+	    policies or endorsements, either expressed or implied, of
+	    the above government agencies or the U.S. Government.
+	  </td>
+	</tr>
+    </table>
+
+<!-- ---------------------------------------------------------------------- -->
+<!-- -- INTRODUCTION ------------------------------------------------------ -->
+<!-- ---------------------------------------------------------------------- -->
+
+    <a name="Section-Introduction"></a>
+    <h2>1 Introduction</h2>
+
+    <p>
+      In the interconnected world of computers, malicious code has
+      become an omnipresent and dangerous threat.  Malicious code can
+      infiltrate hosts using a variety of methods such as attacks
+      against known software flaws, hidden functionality in regular
+      programs, and social engineering. Given the devastating effect
+      malicious code has on our cyber infrastructure, identifying
+      malicious programs is an important goal.  Detecting the presence
+      of malicious code on a given host is a crucial component of any
+      defense mechanism.
+    </p>
+
+    <p>
+      Malicious code is usually
+      classified [<a href="#mcgrawmorrisett2000-taxonomy">16</a>] according to its
+      propagation method and goal into the following categories:
+
+    <ul>
+      <li><i>viruses</i> are programs that self-replicate within a
+      host by attaching themselves to programs and/or documents that
+      become carriers of the malicious code;</li>
+
+      <li><i>worms</i> self-replicate across a network;</li>
+
+      <li><i>trojan horses</i> masquerade as useful programs, but
+      contain malicious code to attack the system or leak data;</li>
+
+      <li><i>back doors</i> open the system to external entities by
+      subverting the local security policies to allow remote access
+      and control over a network;</li>
+
+      <li><i>spyware</i> is a useful software package that also
+      transmits private user data to an external entity.</li>
+    </ul>
+    </p>
+
+    <p>
+      Combining two or more of these malicious code categories can
+      lead to powerful attack tools. For example, a worm can contain a
+      payload that installs a back door to allow remote access. When
+      the worm replicates to a new system (via email or other means),
+      the back door is installed on that system, thus providing an
+      attacker with a quick and easy way to gain access to a large set
+      of hosts. Staniford <i>et al.</i> have demonstrated that worms
+      can propagate extremely quickly through a network, and thus
+      potentially cripple the entire cyber infrastructure [<a
+      href="#StanifordPaxson">1</a>]. In a recent outbreak, the
+      Sapphire/SQL Slammer worm reached the peak infection rate in
+      about 10 minutes since launch, doubling every 8.5 seconds [<a
+      href="#caida-sapphire">32</a>]. Once the back-door tool gains a
+      large installed base, the attacker can use the compromised hosts
+      to launch a coordinated attack, such as a distributed
+      denial-of-service (DDoS) attack [<a
+      href="#cert-ddoswhat">2</a>].
+    </p>
+
+    <p>
+      In this paper, we develop a methodology for detecting malicious
+      patterns in executables. Although our method is general, we have
+      initially focused our attention on viruses. A computer virus
+      replicates itself by inserting a copy of its code (the <i>viral
+      code</i>) into a host program. When a user executes the infected
+      program, the virus copy runs, infects more programs, and then
+      the original program continues to execute. To the casual user,
+      there is no perceived difference between the clean and the
+      infected copies of a program until the virus activates its
+      malicious payload.
+    </p>
+
+    <p>
+      The classic virus-detection techniques look for the presence of
+      a virus-specific sequence of instructions (called a <i>virus
+      signature</i>) inside the program: if the signature is found, it
+      is highly probable that the program is infected. For example,
+      the Chernobyl/CIH virus is detected by checking for the
+      hexadecimal sequence [<a href="#wang1998-chernobyl">5</a>]:
+    </p>
+
+    <center>
+      <table>
+	  <tr>
+	    <td>
+	      <hr height="1">
+	      <tt>E800  0000  005B  8D4B  4251  5050</tt><br>
+	      <tt>0F01  4C24  FE5B  83C3  1CFA  8B2B</tt>
+	      <hr height="1">
+	    </td>
+	    <td>
+	    </td>
+	  </tr>
+      </table>
+    </center>
+
+    <p>
+      This corresponds to the following IA-32 instruction sequence,
+      which constitutes part of the virus body:
+    </p>
+
+    <center>
+      <tt>
+      <table>
+	  <tr><td><hr height="1"><tt> E8 00000000</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><hr height="1"><tt> call 0h</td></tr>
+	  <tr><td><tt> 5B</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><tt> pop ebx</td></tr>
+	  <tr><td><tt> 8D 4B 42</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><tt> lea ecx, [ebx + 42h]</td></tr>
+	  <tr><td><tt> 51</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><tt> push ecx</td></tr>
+	  <tr><td><tt> 50</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><tt> push eax</td></tr>
+	  <tr><td><tt> 50</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><tt> push eax</td></tr>
+	  <tr><td><tt> 0F01 4C 24 FE</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><tt> sidt [esp - 02h]</td></tr>
+	  <tr><td><tt> 5B</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><tt> pop ebx</td></tr>
+	  <tr><td><tt> 83 C3 1C</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><tt> add ebx, 1Ch</td></tr>
+	  <tr><td><tt> FA</td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><tt> cli</td></tr>
+	  <tr><td><tt> 8B 2B<hr height="1"></td><td>&nbsp;&nbsp;&nbsp;&nbsp;</td><td><tt> mov ebp, [ebx]<hr height="1"></td></tr>
+      </table>
+      </tt>
+    </center>
+
+    <p>
+      This classic detection approach is effective when the virus code
+      does not change significantly over time. Detection is also
+      easier when viruses originate from the same source code, with
+      only minor modifications and updates. Thus, a virus signature
+      can be common to several virus variants. For example,
+      Chernobyl/CIH versions 1.2, 1.3, and 1.4 differ mainly in the
+      trigger date on which the malicious code becomes active and can
+      be effectively detected by scanning for a single signature,
+      namely the one shown above.
+    </p>
+
+    <p>
+      The virus writers and the antivirus software developers are
+      engaged in an <i>obfuscation-deobfuscation</i> game. Virus
+      writers try to obfuscate the "vanilla" virus so that
+      signatures used by the antivirus software cannot detect these
+      "morphed" viruses.  Therefore, to detect an obfuscated virus,
+      the virus scanners first must undo the obfuscation
+      transformations used by the virus writers. In this game, virus
+      writers are obfuscators and researchers working on malicious
+      code detection are deobfuscators. A method to detect malicious
+      code should be resistant to common obfuscation
+      transformations. This paper introduces such a method. The main
+      contributions of this paper include:
+    </p>
+
+    <p>
+      &bull; <b>The obfuscation-deobfuscation game and attacks on commercial
+      virus scanners</b><br>
+
+      We view malicious code detection as an obfuscation-deobfuscation
+      game between the virus writers and the researchers working to
+      detect malicious code. Background on some common obfuscation
+      techniques used by virus writers is given in <a
+      href="#Section-Background">Section 3</a>. We also have developed
+      an obfuscator for executables. Surprisingly, the three
+      commercial virus scanners we considered could be easily thwarted
+      by simple obfuscation transformations (<a
+      href="#Section-Attacks">Section 4</a>). For example, in some
+      cases the Norton antivirus scanner could not even detect
+      insertions of <tt>nop</tt> instructions.
+    </p>
+
+    <p>
+      &bull; <b>A general architecture for detecting malicious patterns in
+      executables</b><br>
+
+      We introduce a general architecture for detecting malicious
+      patterns in executables.  An overview of the architecture and
+      its novel features is given in <a
+      href="#Section-Architecture">Section 5</a>. External predicates
+      and uninterpreted symbols are two important elements in our
+      architecture. External predicates are used to summarize results
+      of various static analyses, such as points-to and live-range
+      analysis. We allow these external predicates to be referred in
+      the abstraction patterns that describe the malicious
+      code. Moreover, we allow uninterpreted symbols in patterns,
+      which makes the method resistant to renaming, a common
+      obfuscation transformation. Two key components of our
+      architecture, <i>the program annotator</i> and <i>the malicious
+      code detector</i>, are described in Sections <a
+      href="#Section-Annotator">6</a> and <a
+      href="#Section-MChecker">7</a> respectively.
+    </p>
+
+    <p>
+      &bull; <b>Prototype for x86 executables</b><br>
+
+      We have implemented a prototype for detecting malicious patterns
+      in x86 executables. The tool is called a <i><u>s</u>tatic
+      <u>a</u>nalyzer <u>f</u>or <u>e</u>xecutables</i> or
+      <i>SAFE</i>. We have successfully tried SAFE on multiple
+      viruses; for brevity we report on our experience with four
+      specific viruses. Experimental results (<a
+      href="#Section-Experiments">Section 8</a>) demonstrate the
+      efficacy of SAFE.  There are several interesting directions we
+      intend to pursue as future work, which are summarized in
+      <a href="#Section-Conclusion">Section 9</a>.
+    </p>
+
+    <p>
+      &bull; <b>Extensibility of analysis</b><br>
+
+      SAFE depends heavily on static analysis techniques.  As a
+      result, the precision of the tool directly depends on the static
+      analysis techniques that are integrated into it. In other words,
+      <i>SAFE is as good as the static analysis techniques it is built
+      upon</i>. For example, if SAFE uses the result of points-to
+      analysis, it will be able to track values across memory
+      references. In the absence of a points-to analyzer, SAFE makes
+      the conservative assumption that a memory reference can access
+      any memory location (i.e., everything points to everything). We
+      have designed SAFE so that various static analysis techniques
+      can be readily integrated into it. Several simple static
+      analysis techniques are already implemented in SAFE.
+    </p>
+
+<!-- ---------------------------------------------------------------------- -->
+<!-- -- RELATED WORK ------------------------------------------------------ -->
+<!-- ---------------------------------------------------------------------- -->
+
+    <a name="Section-Related"></a>
+    <h2>2 Related Work</h2>
+
+    <a name="Section-Theory"></a>
+    <h3>2.1 Theoretical Discussion</h3>
+
+    <p>
+      The theoretical limits of malicious code detection (specifically
+      of virus detection) have been the focus of many
+      researchers. Cohen [<a href="#cohen1987-viruses">13</a>] and
+      Chess-White [<a href="#chesswhite2000-undetectable">14</a>]
+      showed that in general the problem of virus detection is
+      undecidable. Similarly, several important static analysis
+      problems are undecidable or computationally hard [<a
+      href="#landi1992-undecidability">31</a>, <a
+      href="#myers1981-interdataflow">30</a>].
+    </p>
+
+    <p>
+      However, the problem considered in this paper is slightly
+      different than the one considered by Cohen [<a
+      href="#cohen1987-viruses">13</a>] and Chess-White [<a
+      href="#chesswhite2000-undetectable">14</a>].  Assume that we are
+      given a vanilla virus <span class="Math">V</span> which contains a malicious
+      sequence of instructions <span class="Math">&tau;</span>. Next
+      we are given an obfuscated version <span
+      class="Math">O(V)</span> of the virus. The problem is to find
+      whether there exists a sequence of instructions <span
+      class="Math">&tau;</span> in <span class="Math">O(V)</span>
+      which is "semantically equivalent" to <span
+      class="Math">&tau;</span>. A recent result by Vadhan <i>et
+      al.</i> [<a
+      href="#barakgoldreichimpagliazzorudichsahaivadhanyang2001-impossible">25</a>]
+      proves that in general program obfuscation is impossible. This
+      leads us to believe that a computationally bounded adversary
+      will not be able to obfuscate a virus to completely hide its
+      malicious behavior. We will further explore these theoretical
+      issues in the future.
+    </p>
+
+    <a name="Section-Other"></a>
+    <h3>2.2 Other Detection Techniques</h3>
+
+    <p>
+      Our work is closely related to previous results on static
+      analysis techniques for verifying security properties of
+      software [<a href="#AshcraftEngler">42</a>, <a
+      href="#BishopDilger">47</a>, <a href="#Chess">44</a>, <a
+      href="#ChenWagner">39</a>, <a
+      href="#JensenMetayerThorn">40</a>, <a href="#CAS:LLO95">48</a>].
+      In a larger context, our work is similar to existing research on
+      software verification [<a href="#SLAMSpin">41</a>, <a
+      href="#Bandera">45</a>].  However, there are several important
+      differences. First, viewing malicious code detection as an
+      obfuscation-deobfuscation game is unique. The
+      obfuscation-deobfuscation viewpoint lead us to explore
+      obfuscation attacks upon commercial virus scanners. Second, to
+      our knowledge, all existing work on static analysis techniques
+      for verifying security properties analyze source code.  On the
+      other hand, our analysis technique works on executables. In
+      certain contexts, such as virus detection, source code is not
+      available. Finally, we believe that using uninterpreted
+      variables in the specification of the malicious code is unique
+      (<a href="#Section-Patterns">Section 6.2</a>).
+    </p>
+
+    <p>
+      Currie <i>et al.</i> looked at the problem of automatically
+      checking the equivalence of DSP routines in the context of
+      verifying the correctness of optimizing transformations [<a
+      href="#curriehurajan2000-dspverification">33</a>]. Their
+      approach is similar to ours, but they impose a set of
+      simplifying assumptions for their simulation tool to execute
+      with reasonable performance. Feng and Hu took this approach one
+      step further by using a theorem prover to determine when to
+      unroll loops [<a href="#fenghu2002-vliwverification">34</a>]. In
+      both cases the scope of the problem is limited to VLIW or DSP
+      code and there is limited support for user-specified
+      analyses. Our work is applied to x86 (IA-32) assembly and can
+      take full advantage of static analyses available to the user of
+      our SAFE tool. Necula adopts a similar approach based on
+      comparing a transformed code sequence against the original code
+      sequence in the setting of verifying the correctness of the GNU
+      C compiler [<a
+      href="#necula2000-translationvalidation">35</a>]. Using
+      knowledge of the transformations performed by the compiler,
+      equivalence between the compiler input and the compiler output
+      is proven using a simulation relation. In our work, we require
+      no <i>a priori</i> knowledge of the obfuscation transformations
+      performed, as it would be unrealistic to expect such information
+      in the presence of malicious code.
+    </p>
+
+    <p>
+      We plan to enhance our framework by using the ideas from
+      existing work on type systems for assembly code. We are
+      currently investigating Morrisett <i>et al.</i>'s <i>Typed
+      Assembly Language</i> [<a
+      href="#morrisettcraryglewwalker1998-stal">27</a>, <a
+      href="#morrisettwalkercraryglew1998-tal">26</a>]. We apply a
+      simple type system (<a href="#Section-Annotator">Section 6</a>)
+      to the binaries we analyze by manually inserting the type
+      annotations. We are unaware of a compiler that can produce Typed
+      Assembly Language, and thus we plan to support external type
+      annotations to enhance the power of our static analysis.
+    </p>
+
+    <p>
+      Dynamic monitoring can also be used for malicious code
+      detection. Cohen [<a href="#cohen1987-viruses">13</a>] and
+      Chess-White [<a href="#chesswhite2000-undetectable">14</a>]
+      propose a virus detection model that executes code in a
+      sandbox. Another approach rewrites the binary to introduce
+      checks driven by an enforceable security policy [<a
+      href="#ErlingssonSchneiderIRM">43</a>] (known as the <i>inline
+      reference monitor</i> or the <i>IRM</i> approach). We believe
+      static analysis can be used to improve the efficiency of dynamic
+      analysis techniques, e.g., static analysis can remove redundant
+      checks in the IRM framework. We construct our models for
+      executables similar to the work done in specification-based
+      monitoring [<a href="#giffinjhamiller2002-ids">29</a>, <a
+      href="#deanwagner2001-ids">28</a>], and apply our detection
+      algorithm in a context-insensitive fashion. Other research used
+      context-sensitive analysis by employing push-down systems
+      (PDSs). Analyses described in [<a href="#ChenWagner">39</a>, <a
+      href="#JensenMetayerThorn">40</a>] use the model checking
+      algorithms for pushdown systems [<a href="#CAV:EHRS00">38</a>]
+      to verify security properties of programs. The data structures
+      used in interprocedural slicing [<a href="#kn:HRB90">36</a>],
+      interprocedural DFA [<a href="#kn:RHS95">37</a>], and Boolean
+      programs [<a href="#SLAMSpin">41</a>] are hierarchically
+      structured graphs and can be translated to pushdown systems.
+    </p>
+
+    <a name="Section-OtherObf"></a>
+    <h3>2.3 Other Obfuscators</h3>
+
+    <p>
+      While deciding on the initial obfuscation techniques to focus
+      on, we were influenced by several existing
+      tools. <i>Mistfall</i> (by <i>z0mbie</i>) is a library for
+      binary obfuscation, specifically written to blend malicious code
+      into a host program [<a href="#z0mbie-mistfall">9</a>].  It can
+      encrypt, morph, and blend the virus code into the host
+      program. Our binary obfuscator is very similar to
+      Mistfall. Unfortunately, we could not successfully morph
+      binaries using Mistfall, so we could not perform a direct
+      comparison between our obfuscator and Mistfall. <i>Burneye</i>
+      (by <i>TESO</i>) is a Linux binary encapsulation tool. Burneye
+      encrypts a binary (possibly multiple times), and packages it
+      into a new binary with an extraction tool [<a
+      href="#teso-burneye">10</a>].  In this paper, we have not
+      considered encryption based obfuscation techniques. In the
+      future, we will incorporate encryption based obfuscation
+      techniques into our tool, by incorporating or extending existing
+      libraries.
+    </p>
+
+
+
+
+
+    <a name="Section-Background"></a>
+    <h2>3 Background on Obfuscating Viruses</h2>
+
+    <p>
+      To detect obfuscated viruses, antivirus software have become
+      more complex. This section discusses some common obfuscation
+      transformations used by virus writers and how antivirus software
+      have historically dealt with obfuscated viruses.
+    </p>
+
+    <p>
+      A <i>polymorphic virus</i> uses multiple techniques to prevent
+      signature matching. First, the virus code is encrypted, and only
+      a small in-clear routine is designed to decrypt the code before
+      running the virus. When the polymorphic virus replicates itself
+      by infecting another program, it encrypts the virus body with a
+      newly-generated key, and it changes the decryption routine by
+      generating new code for it. To obfuscate the decryption routine,
+      several transformations are applied to it. These include:
+      <tt>nop</tt>-insertion, code transposition (changing the order
+      of instructions and placing jump instructions to maintain the
+      original semantics), and register reassignment (permuting the
+      register allocation). These transformations effectively change
+      the virus signature (<a href="#Figure-SimpleMutation">Figure
+      1</a>), inhibiting effective signature scanning by an antivirus
+      tool.
+    </p>
+
+    <center>
+      <a name="Figure-SimpleMutation"></a>
+
+      <table cellspacing="0" border="0">
+	<tbody style="font-family: monospace">
+	  <tr style="font-family: serif; font-style: italic">
+	    <td colspan="3">Original code<br><hr height="1"></td>
+	    <td rowspan="21">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+	    <td colspan="3">Obfuscated code<br><hr height="1"></td>
+	  </tr>
+
+	  <tr>
+	    <td>E8 00000000</td>
+	    <td rowspan="12">&nbsp;&nbsp;</td>
+	    <td>call 0h</td>
+	    <td>E8 00000000</td>
+	    <td rowspan="15">&nbsp;&nbsp;</td>
+	    <td>call 0h</td>
+	  </tr>
+	  <tr>
+	    <td>E8 00000000</td>
+	    <td>call 0h</td>
+	    <td>E8 00000000</td>
+	    <td>call 0h</td>
+	  </tr>
+	  <tr>
+	    <td>5B</td>
+	    <td>pop ebx</td>
+	    <td>5B</td>
+	    <td>pop ebx</td>
+	  </tr>
+	  <tr>
+	    <td>8D 4B 42</td>
+	    <td>lea ecx, [ebx + 42h]</td>
+	    <td>8D 4B 42</td>
+	    <td>lea ecx, [ebx + 45h]</td>
+	  </tr>
+	  <tr>
+	    <td>51</td>
+	    <td>push ecx</td>
+	    <td bgcolor="#CCCCCC">90</td>
+	    <td bgcolor="#CCCCCC">nop</td>
+	  </tr>
+	  <tr>
+	    <td>50</td>
+	    <td>push eax</td>
+	    <td>51</td>
+	    <td>push ecx</td>
+	  </tr>
+	  <tr>
+	    <td>50</td>
+	    <td>push eax</td>
+	    <td>50</td>
+	    <td>push eax</td>
+	  </tr>
+	  <tr>
+	    <td>0F01 4C 24 FE</td>
+	    <td>sidt [esp - 02h]</td>
+	    <td>50</td>
+	    <td>push eax</td>
+	  </tr>
+	  <tr>
+	    <td>5B</td>
+	    <td>pop ebx</td>
+	    <td bgcolor="#CCCCCC">90</td>
+	    <td bgcolor="#CCCCCC">nop</td>
+	  </tr>
+	  <tr>
+	    <td>83 C3 1C</td>
+	    <td>add ebx, 1Ch</td>
+	    <td>0F01 4C 24 FE</td>
+	    <td>sidt [esp - 02h]</td>
+	  </tr>
+	  <tr>
+	    <td>FA</td>
+	    <td>cli</td>
+	    <td>5B</td>
+	    <td>pop ebx</td>
+	  </tr>
+	  <tr>
+	    <td>8B 2B</td>
+	    <td>mov ebp, [ebx]</td>
+	    <td>83 C3 1C</td>
+	    <td>add ebx, 1Ch</td>
+	  </tr>
+	  <tr>
+	    <td colspan="3"><hr height="1"></td>
+	    <td bgcolor="#CCCCCC">90</td>
+	    <td bgcolor="#CCCCCC">nop</td>
+	  </tr>
+	  <tr>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td>FA</td>
+	    <td>cli</td>
+	  </tr>
+	  <tr>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td>8B 2B</td>
+	    <td>mov ebp, [ebx]</td>
+	  </tr>
+	  <tr>
+	    <td colspan="4"></td>
+	    <td colspan="3"><hr height="1"></td>
+	  </tr>
+
+	  <tr style="font-family: serif; font-style: italic">
+	    <td colspan="3">Signature<br><hr height="1"></td>
+	    <td colspan="3">New signature<br><hr height="1"></td>
+	  </tr>
+
+	  <tr>
+	    <td colspan="3">E800 0000 005B 8D4B 4251 5050</td>
+	    <td colspan="3">E800 0000 005B 8D4B 42<span style="{ background-color: #CCCCCC }">90</span> 5150</td>
+	  </tr>
+
+	  <tr>
+	    <td colspan="3">0F01 4C24 FE5B 83C3 1CFA 8B2B<br><hr height="1"></td>
+	    <td colspan="3">50<span style="{ background-color: #CCCCCC }">90</span> 0F01 4C24 FE5B 83C3 1C<span style="{ background-color: #CCCCCC }">90</span><br><hr height="1"></td>
+	  </tr>
+
+	</tbody>
+      </table>
+
+      Figure 1: Original code and obfuscated code from Chernobyl/CIH,
+      and their corresponding signatures. Newly added instructions are
+      highlighted.
+
+    </center>
+
+    <p>
+      The obfuscated code in <a href="#Figure-SimpleMutation">Figure
+      1</a> will behave in the same manner as before since the
+      <tt>nop</tt> instruction has no effect other than incrementing
+      the program counter<a
+      href="#Footnote-1"><sup>1</sup></a>. However the signature has
+      changed. Analysis can detect simple obfuscations, like
+      <tt>nop</tt>-insertion, by using regular expressions instead of
+      fixed signatures. To catch <tt>nop</tt> insertions, the
+      signature should allow for any number of <tt>nop</tt>s at
+      instruction boundaries (<a href="#Figure-NopSmartSig">Figure
+      2</a>). In fact, most modern antivirus software use regular
+      expressions as virus signatures.
+    </p>
+
+    <center>
+      <a name="Figure-NopSmartSig"></a>
+
+      <table>
+	<tbody style="font-family: monospace">
+	  <tr> <td colspan="7"> <hr height="1"> </td> </tr>
+	  <tr> <td> E800 </td><td rowspan="5">&nbsp;&nbsp;</td><td> 0000 </td><td rowspan="5">&nbsp;&nbsp;</td><td> 00(90)* </td><td rowspan="5">&nbsp;&nbsp;</td><td> 5B(90)* </td> </tr>
+	  <tr> <td> 8D4B </td><td> 42(90)* </td><td> 51(90)* </td><td> 50(90)* </td> </tr>
+	  <tr> <td> 50(90)* </td><td> 0F01 </td><td> 4C24 </td><td> FE(90)* </td> </tr>
+	  <tr> <td> 5B(90)* </td><td> 83C3 </td><td> 1C(90)* </td><td> FA(90)* </td> </tr>
+	  <tr> <td> 8B2B </td><td> </td><td> </td><td> </td> </tr>
+	  <tr> <td colspan="7"> <hr height="1"> </td> </tr>
+	</tbody>
+      </table>
+
+      Figure 2: Extended signature to catch <tt>nop</tt>-insertion.
+    </center>
+
+    <p>
+      Antivirus software deals with polymorphic viruses by performing
+      heuristic analyses of the code (such as checking only certain
+      program locations for virus code, as most polymorphic viruses
+      attach themselves only at the beginning or end of the executable
+      binary [<a href="#nachenberg1997-usptopolyvirus-2">18</a>]), and
+      even emulating the program in a sandbox to catch the virus in
+      action [<a href="#nachenberg1997-usptopolyvirus-1">17</a>]. The
+      emulation technique is effective because at some point during
+      the execution of the infected program, the virus body appears
+      decrypted in main memory, ready for execution; the detection
+      comes down to frequently scanning the in-memory image of the
+      program for virus signatures while the program executes.
+    </p>
+
+    <p>
+      <i>Metamorphic viruses</i> attempt to evade heuristic detection
+      techniques by using more complex obfuscations. When they
+      replicate, these viruses change their code in a variety of ways,
+      such as code transposition, substitution of equivalent
+      instruction sequences, and register reassignment [<a
+      href="#szorferrie2001-metamorphic">11</a>, <a
+      href="#z0mbie-homepage">7</a>]. Furthermore, they can "weave"
+      the virus code into the host program, making detection by
+      traditional heuristics almost impossible since the virus code is
+      mixed with program code and the virus entry point is no longer
+      at the beginning of the program (these are designated as
+      <u>e</u>ntry <u>p</u>oint <u>o</u>bscuring (EPO) viruses [<a
+      href="#kaspersky2002-epo">15</a>]).
+    </p>
+
+    <p>
+      As virus writers employ more complex obfuscation techniques,
+      heuristic virus-detection techniques are bound to
+      fail. Therefore, <i>there is need to perform a deeper analysis
+      of malicious code based upon more sophisticated static-analysis
+      techniques</i>. In other words, inspection of the code to detect
+      malicious patterns should use structures that are closer to the
+      semantics of the code, as purely syntactic techniques, such as
+      regular expression matching, are no longer adequate.
+    </p>
+
+    <h3>3.1 The Suite of Viruses</h3>
+
+    <p>
+      We have analyzed multiple viruses using our tool, and discuss
+      four of them in this paper. Descriptions of these viruses are
+      given below.
+    </p>
+
+    <a name="Section-DescriptionViruses"></a>
+    <h4>3.1.1 Detailed Description of the Viruses</h4>
+
+    <p>
+      <b>Chernobyl (CIH)</b><br>
+
+      According to the Symantec Antivirus Reseach Center (SARC),
+      <i>Chernobyl/CIH</i> is a virus that infects 32-bit Windows
+      95/98/NT executable files [<a href="#sarc1998-cih">22</a>]. When
+      a user executes an infected program under Windows 95/98/ME, the
+      virus becomes resident in memory. Once the virus is resident,
+      CIH infects other files when they are accessed. Infected files
+      may have the same size as the original files because of CIH's
+      unique mode of infection: the virus searches for empty, unused
+      spaces in the file<a href="#Footnote-2"><sup>2</sup></a>. Next
+      it breaks itself up into smaller pieces and inserts its code
+      into these unused spaces. Chernobyl has two different payloads:
+      the first one overwrites the hard disk with random data,
+      starting at the beginning of the disk (sector 0) using an
+      infinite loop. The second payload tries to cause permanent
+      damage to the computer by corrupting the Flash BIOS.
+    </p>
+
+    <p>
+      <b>zombie-6.b</b><br>
+
+      The <i>z0mbie-6.b</i> virus includes an interesting feature --
+      the polymorphic engine hides every piece of the virus, and the
+      virus code is added to the infected file as a chain of
+      differently-sized routines, making standard signature detection
+      techniques almost useless.
+    </p>
+
+    <p>
+      <b>f0sf0r0</b><br>
+
+      The <i>f0sf0r0</i> virus uses a polymorphic engine combined with
+      an EPO technique to hide its entry point. According to Kaspersky
+      Labs [<a href="#kaspersky">21</a>], when an infected file is run
+      and the virus code gains control, it searches for portable
+      executable files in the system directories and infects
+      them. While infecting, the virus encrypts itself with a
+      polymorphic loop and writes a result to the end of the file. To
+      gain control when the infected file is run, the virus does not
+      modify the program's start address, but instead writes a
+      "<tt>jmp &lt;virus_entry&gt;</tt>" instruction into the middle
+      of the file.
+    </p>
+
+    <p>
+      <b>Hare</b><br>
+
+      Finally, the <i>Hare</i> virus infects the bootloader sectors of
+      floppy disks and hard drives, as well as executable
+      programs. When the payload is triggered, the virus overwrites
+      random sectors on the hard disk, making the data
+      inaccessible. The virus spreads by polymorphically changing its
+      decryption routine and encrypting its main body.
+    </p>
+
+    <p>
+      The Hare and Chernobyl/CIH viruses are well known in the
+      antivirus community, with their presence in the wild peaking in
+      1996 and 1998, respectively. In spite of this, we discovered
+      that <i>current commercial virus scanners could not detect
+      slightly obfuscated versions of these viruses.</i>
+    </p>
+
+    <a name="Section-Attacks"></a>
+    <h2>4 Obfuscation Attacks on Commercial Virus Scanners</h2>
+
+    <p>
+      We tested three commercial virus scanners against several common
+      obfuscation transformations.  To test the resilience of
+      commercial virus scanners to common obfuscation transformations,
+      we have developed an obfuscator for binaries. Our obfuscator
+      supports four common obfuscation transformations: dead-code
+      insertion, code transposition, register reassignment, and
+      instruction substitution. While there are other generic
+      obfuscation techniques [<a
+      href="#collbergthomborsonlow1997-taxonomy">12</a>, <a
+      href="#collbergthomborsonlow1997-opaque">23</a>], those
+      described here seem to be preferred by malicious code writers,
+      possibly because implementing them is easy and they add little
+      to the memory footprint.
+    </p>
+
+    <a name="Section-Obfusc"></a>
+    <h3>4.1 Common Obfuscation Transformations</h3>
+
+    <a name="Section-ObfuscTrash"></a>
+    <h4>4.1.1 Dead-Code Insertion</h4>
+
+    <p>
+      Also known as <i>trash insertion</i>, dead-code insertion adds
+      code to a program without modifying its behavior.  Inserting a
+      sequence of <tt>nop</tt> instructions is the simplest
+      example. More interesting obfuscations involve constructing
+      challenging code sequences that modify the program state, only
+      to restore it immediately.
+    </p>
+
+    <p>
+      Some code sequences are designed to fool antivirus software that
+      solely rely on signature matching as their detection
+      mechanism. Other code sequences are complicated enough to make
+      automatic analysis very time-consuming, if not impossible. For
+      example, passing values through memory rather than registers or
+      the stack requires accurate pointer analysis to recover
+      values. The example shown in <a
+      href="#Figure-ObfuscTrash">Figure 3</a> should clarify this. The
+      code marked by <tt>(*)</tt> can be easily eliminated by
+      automated analysis. On the other hand, the second and third
+      insertions, marked by <tt>(**)</tt>, do cancel out but the
+      analysis is more complex. Our obfuscator supports dead-code
+      insertion.
+    </p>
+
+    <p>
+      Not all dead-code sequence can be detected and eliminated, as
+      this problem reduces to program equivalence (i.e., <i>is this
+      code sequence equivalent to an empty program?</i>), which is
+      undecidable. We believe that many common dead-code sequences can
+      be detected and eliminated with acceptable performance. To quote
+      the documentation of the RPME virus permutation engine [<a
+      href="#z0mbie-rpme2000">8</a>],
+    </p>
+
+    <blockquote>
+      [T]rash [does not make the] program more complex [...]. If [the]
+      detecting algorithm will be written such as I think, then there
+      is no difference between NOP and more complex trash.
+    </blockquote>
+
+    <p>
+      Our detection tool, SAFE, identifies several kinds of such
+      dead-code segments.
+    </p>
+
+    <div align="center">
+      <a name="Figure-ObfuscTrash"></a>
+
+      <table cellspacing="0" cellpadding="2">
+	<tbody style="font-family: monospace">
+	  <tr valign="bottom" style="font-family: sans-serif; font-style: italic">
+	    <td>
+	      Original code<br>
+	      <hr height="1">
+	    </td>
+	    <td>&nbsp;&nbsp;</td>
+	    <td>&nbsp;&nbsp;</td>
+	    <td colspan="3">
+	      Code obfuscated through<br>
+	      dead-code insertion<br>
+	      <hr height="1">
+	    </td>
+	    <td>&nbsp;&nbsp;</td>
+	    <td colspan="2">
+	      Code obfuscated through<br>
+	      code transposition<br>
+	      <hr height="1">
+	    </td>
+	    <td>&nbsp;&nbsp;</td>
+	    <td>&nbsp;&nbsp;</td>
+	    <td>
+	      Code obfuscated through<br>
+	      instruction substitution<br>
+	      <hr height="1">
+	    </td>
+	  </tr>
+	  <tr>
+	    <td>call 0h</td>
+	    <td></td>
+	    <td></td>
+	    <td>call 0h</td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td>call 0h</td>
+	    <td></td>
+	    <td></td>
+	    <td>call 0h</td>
+	  </tr>
+	  <tr>
+	    <td>pop ebx</td>
+	    <td></td>
+	    <td></td>
+	    <td>pop ebx</td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td>pop ebx</td>
+	    <td></td>
+	    <td></td>
+	    <td>pop ebx</td>
+	  </tr>
+	  <tr>
+	    <td>lea ecx, [ebx+42h]</td>
+	    <td></td>
+	    <td></td>
+	    <td>lea ecx, [ebx+42h]</td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td bgcolor="#CCCCCC">jmp S2</td>
+	    <td></td>
+	    <td></td>
+	    <td>lea ecx, [ebx+42h]</td>
+	  </tr>
+	  <tr>
+	    <td>push ecx</td>
+	    <td></td>
+	    <td></td>
+	    <td bgcolor="#CCCCCC">nop</td>
+	    <td></td>
+	    <td>(*)</td>
+	    <td></td>
+	    <td>S3:</td>
+	    <td>push eax</td>
+	    <td></td>
+	    <td></td>
+	    <td bgcolor="#CCCCCC">sub esp, 03h</td>
+	  </tr>
+	  <tr>
+	    <td>push eax</td>
+	    <td></td>
+	    <td></td>
+	    <td bgcolor="#CCCCCC">nop</td>
+	    <td></td>
+	    <td>(*)</td>
+	    <td></td>
+	    <td></td>
+	    <td>push eax</td>
+	    <td></td>
+	    <td></td>
+	    <td>sidt [esp - 02h]</td>
+	  </tr>
+	  <tr>
+	    <td>push eax</td>
+	    <td></td>
+	    <td></td>
+	    <td>push ecx</td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td>sidt [esp - 02h]</td>
+	    <td></td>
+	    <td></td>
+	    <td bgcolor="#CCCCCC">add [esp], 1Ch</td>
+	  </tr>
+	  <tr>
+	    <td>sidt [esp - 02h]</td>
+	    <td></td>
+	    <td></td>
+	    <td>push eax</td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td bgcolor="#CCCCCC">jmp S4</td>
+	    <td></td>
+	    <td></td>
+	    <td bgcolor="#CCCCCC">mov ebx, [esp]</td>
+	  </tr>
+	  <tr>
+	    <td>pop ebx</td>
+	    <td></td>
+	    <td></td>
+	    <td bgcolor="#CCCCCC">inc eax</td>
+	    <td></td>
+	    <td>(**)</td>
+	    <td></td>
+	    <td></td>
+	    <td>add ebx, 1Ch</td>
+	    <td></td>
+	    <td></td>
+	    <td bgcolor="#CCCCCC">inc esp</td>
+	  </tr>
+	  <tr>
+	    <td>add ebx, 1Ch</td>
+	    <td></td>
+	    <td></td>
+	    <td>push eax</td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td bgcolor="#CCCCCC">jmp S6</td>
+	    <td></td>
+	    <td></td>
+	    <td>cli</td>
+	  </tr>
+	  <tr>
+	    <td>cli</td>
+	    <td></td>
+	    <td></td>
+	    <td bgcolor="#CCCCCC">dec [esp - 0h]</td>
+	    <td></td>
+	    <td>(**)</td>
+	    <td></td>
+	    <td>S2:</td>
+	    <td>lea ecx, [ebx+42h      ]</td>
+	    <td></td>
+	    <td></td>
+	    <td>mov ebp, [ebx]</td>
+	  </tr>
+	  <tr>
+	    <td>mov ebp, [ebx]</td>
+	    <td></td>
+	    <td></td>
+	    <td bgcolor="#CCCCCC">dec eax</td>
+	    <td></td>
+	    <td>(**)</td>
+	    <td></td>
+	    <td></td>
+	    <td>push ecx</td>
+	    <td></td>
+	    <td></td>
+	    <td><hr height="1"></td>
+	  </tr>
+	  <tr>
+	    <td><hr height="1"></td>
+	    <td></td>
+	    <td></td>
+	    <td>sidt [esp - 02h]</td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td bgcolor="#CCCCCC">jmp S3</td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	  </tr>
+	  <tr>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td>pop ebx</td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td>S4:</td>
+	    <td>pop ebx</td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	  </tr>
+	  <tr>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td>add ebx, 1Ch</td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td>cli</td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	  </tr>
+	  <tr>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td>cli</td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td bgcolor="#CCCCCC">jmp S5</td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	  </tr>
+	  <tr>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td>mov ebp, [ebx]</td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td>S5:</td>
+	    <td>mov ebp, [ebx]</td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	  </tr>
+	  <tr>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	    <td colspan="3"><hr height="1"></td>
+	    <td></td>
+	    <td colspan="2"><hr height="1"></td>
+	    <td></td>
+	    <td></td>
+	    <td></td>
+	  </tr>
+	</tbody>
+      </table>
+
+      Figure 3: Examples of obfuscation through dead-code insertion,
+      code transposition, and instruction substitution. Newly added
+      instructions are highlighted.
+
+    </div>
+
+
+    <a name="Section-ObfuscTransposition"></a>
+    <h4>4.1.2 Code Transposition</h4>
+
+    <p>
+      Code transposition shuffles the instructions so that the order
+      in the binary image is different from the execution order, or
+      from the order of instructions assumed in the signature used by
+      the antivirus software. To achieve the first variation, we
+      randomly reorder the instructions and insert unconditional
+      branches or <i>jumps</i> to restore the original
+      control-flow. The second variation swaps instructions if they
+      are not interdependent, similar to compiler code generation, but
+      with the different goal of randomizing the instruction stream.
+    </p>
+
+    <p>
+      The two versions of this obfuscation technique differ in their
+      complexity. The code transposition technique based upon
+      unconditional branches is relatively easy to implement. The
+      second technique that interchanges independent instructions is
+      more complicated because the independence of instructions must
+      be ascertained. On the analysis side, code transposition can
+      complicate matters only for a human. Most automatic analysis
+      tools (including ours) use an intermediate representation, such
+      as the control flow graph (CFG) or the program dependence graph
+      (PDG) [<a href="#kn:HRB90">36</a>], that is not sensitive to
+      superfluous changes in control flow. Note that an optimizer acts
+      as a deobfuscator in this case by finding the unnecessary
+      unconditional branches and removing them from the program
+      code. Currently, our obfuscator supports only code transposition
+      based upon inserting unconditional branches.
+    </p>
+
+    <a name="Section-RegReass"></a>
+    <h4>4.1.3 Register Reassignment</h4>
+
+    <p>
+      The register reassignment transformation replaces usage of one
+      register with another in a specific live range. This technique
+      exchanges register names and has no other effect on program
+      behavior. For example, if register <tt>ebx</tt> is dead
+      throughout a given live range of the register <tt>eax</tt>, it
+      can replace <tt>eax</tt> in that live range. In certain cases,
+      register reassignment requires insertion of prologue and
+      epilogue code around the live range to restore the state of
+      various registers. Our binary obfuscator supports this code
+      transformation.
+    </p>
+
+    <p>
+      The purpose of this transformation is to subvert the antivirus
+      software analyses that rely upon signature-matching. There is no
+      real obfuscatory value gained in this process. Conceptually, the
+      deobfuscation challenge is equally complex before or after the
+      register reassignment.
+    </p>
+
+    <a name="Section-ObfuscSubstitution"></a>
+    <h4>4.1.4 Instruction Substitution</h4>
+
+    <p>
+      This obfuscation technique uses a dictionary of equivalent
+      instruction sequences to replace one instruction sequence with
+      another. Since this transformation relies upon human knowledge
+      of equivalent instructions, it poses the toughest challenge for
+      automatic detection of malicious code.  The IA-32 instruction
+      set is especially rich, and provides several ways of performing
+      the same operation. Coupled with several architecturally
+      ambivalent features (e.g., a memory-based stack that can be
+      accessed both as a stack using dedicated instructions and as a
+      memory area using standard memory operations), the IA-32
+      assembly language provides ample opportunity for instruction
+      substitution.
+    </p>
+
+    <p>
+      To handle obfuscation based upon instruction substitution, an
+      analysis tool must maintain a dictionary of equivalent
+      instruction sequences, similar to the dictionary used to
+      generate them. This is not a comprehensive solution, but it can
+      cope with the common cases. In the case of IA-32, the problem
+      can be slightly simplified by using a simple intermediate
+      language that "unwinds" the complex operations corresponding to
+      each IA-32 instruction. In some cases, a theorem prover such as
+      Simplify [<a href="#Simplify">49</a>] or PVS [<a
+      href="#PVS">46</a>] can also be used to prove that two sequences
+      of instructions are equivalent.
+    </p>
+
+
+    <h3>4.2 Testing Commercial Antivirus Tools</h3>
+
+    <p>
+      We tested three commercial virus scanners using obfuscated
+      versions of the four viruses described earlier. The results were
+      quite surprising: <i>a combination of <tt>nop</tt>-insertion and
+      code transposition was enough to create obfuscated versions of
+      the viruses that the commercial virus scanners could not
+      detect</i>. Moreover, the Norton antivirus software could not
+      detect an obfuscated version of the Chernobyl virus using just
+      <tt>nop</tt>-insertions. SAFE was resistant to the two
+      obfuscation transformations. The results are summarized in <a
+      href="#Table-AVComparison">Table 1</a>. A &radic; indicates
+      that the antivirus software detected the virus. A &times;
+      means that the software did not detect the virus. Note that
+      unobfuscated versions of all four viruses were detected by all
+      the tools.
+    </p>
+
+    <div align="center">
+      <a name="Table-AVComparison"></a>
+
+      <table align="center" bgcolor="#CCCCCC" border="0" cellspacing="1" cellpadding="5">
+	<tbody bgcolor="white">
+
+	  <tr style="font-variant: bold" valign="bottom">
+	    <td colspan="2"></td>
+	    <td>Norton<sup>&reg;</sup><br>Antivirus<br>7.0</td>
+	    <td>McAfee<sup>&reg;</sup><br>VirusScan<br>6.01</td>
+	    <td>Command<sup>&reg;</sup><br>Antivirus<br>4.61.2</td>
+	    <td>SAFE</td>
+	  </tr>
+
+	  <tr bgcolor="#CCCCCC">
+	    <td rowspan="2">Chernobyl</td>
+	    <td>original</td>
+	    <td style="text-align: center">&radic;</td>
+	    <td style="text-align: center">&radic;</td>
+	    <td style="text-align: center">&radic;</td>
+	    <td style="text-align: center">&radic;</td>
+	  </tr>
+	  <tr bgcolor="#CCCCCC">
+	    <td>obfuscated</td>
+	    <td style="text-align: center">&times;<sup>[1]</sup></td>
+	    <td style="text-align: center">&times;<sup>[1,2]</sup></td>
+	    <td style="text-align: center">&times;<sup>[1,2]</sup></td>
+	    <td style="text-align: center">&radic;</td>
+	  </tr>
+
+	  <tr>
+	    <td rowspan="2">z0mbie-6.b</td>
+	    <td>original</td>
+	    <td style="text-align: center">&radic;</td>
+	    <td style="text-align: center">&radic;</td>
+	    <td style="text-align: center">&radic;</td>
+	    <td style="text-align: center">&radic;</td>
+	  </tr>
+	  <tr>
+	    <td>obfuscated</td>
+	    <td style="text-align: center">&times;<sup>[1,2]</sup></td>
+	    <td style="text-align: center">&times;<sup>[1,2]</sup></td>
+	    <td style="text-align: center">&times;<sup>[1,2]</sup></td>
+	    <td style="text-align: center">&radic;</td>
+	  </tr>
+
+	  <tr bgcolor="#CCCCCC">
+	    <td rowspan="2">f0sf0r0</td>
+	    <td>original</td>
+	    <td style="text-align: center">&radic;</td>
+	    <td style="text-align: center">&radic;</td>
+	    <td style="text-align: center">&radic;</td>
+	    <td style="text-align: center">&radic;</td>
+	  </tr>
+	  <tr bgcolor="#CCCCCC">
+	    <td>obfuscated</td>
+	    <td style="text-align: center">&times;<sup>[1,2]</sup></td>
+	    <td style="text-align: center">&times;<sup>[1,2]</sup></td>
+	    <td style="text-align: center">&times;<sup>[1,2]</sup></td>
+	    <td style="text-align: center">&radic;</td>
+	  </tr>
+
+	  <tr>
+	    <td rowspan="2">Hare</td>
+	    <td>original</td>
+	    <td style="text-align: center">&radic;</td>
+	    <td style="text-align: center">&radic;</td>
+	    <td style="text-align: center">&radic;</td>
+	    <td style="text-align: center">&radic;</td>
+	  </tr>
+	  <tr>
+	    <td>obfuscated</td>
+	    <td style="text-align: center">&times;<sup>[1,2]</sup></td>
+	    <td style="text-align: center">&times;<sup>[1,2]</sup></td>
+	    <td style="text-align: center">&times;<sup>[1,2]</sup></td>
+	    <td style="text-align: center">&radic;</td>
+	  </tr>
+
+	</tbody>
+      </table>
+
+      <br>
+      <table border="0">
+	<tbody>
+	  <tr>
+	    <td align="right">Obfuscations considered:</td>
+	    <td align="left"><sup>[1]</sup> = <tt>nop</tt>-insertion (a form of dead-code insertion)</td>
+	  </tr>
+	  <tr>
+	    <td></td>
+	    <td align="left"><sup>[2]</sup> = code transposition</td>
+	  </tr>
+	</tbody>
+      </table>
+      <br>
+
+      Table 1: Results of testing various virus scanners on obfuscated
+      viruses.
+
+    </div>
+
+
+
+
+    <a name="Section-Architecture"></a>
+    <h2>5 Architecture</h2>
+
+    <p>
+      This section gives an overview of the architecture of
+      <i>SAFE</i> (<a href="#Figure-Arch">Figure 4</a>). Subsequent
+      sections provide detailed descriptions of the major components
+      of SAFE.
+    </p>
+
+    <div align="center">
+      <a name="Figure-Arch"></a>
+
+      <p style="text-align: center">
+	<img src="images/overall_architecture.png">
+      </p>
+
+      Figure 4: Architecture of the static analyzer for executables
+      (SAFE).
+
+    </div>
+
+    <p>
+      To detect malicious patterns in executables, we build an
+      abstract representation of the malicious code (here a
+      virus). The abstract representation is the "generalization" of
+      the malicious code, e.g., it incorporates obfuscation
+      transformations, such as superfluous changes in control flow and
+      register reassignments.  Similarly, one must construct an
+      abstract representation of the executable in which we are trying
+      to find a malicious pattern. Once the generalization of the
+      malicious code and the abstract representation of the executable
+      are created, we can then detect the malicious code in the
+      executable. We now describe each component of SAFE.
+    </p>
+
+    <p>
+      <b>Generalizing the malicious code: Building the malicious code
+      automaton</b><br>
+
+      The malicious code is generalized into an automaton with
+      uninterpreted symbols. Uninterpreted symbols (<a
+      href="#Section-Patterns">Section 6.2</a>) provide a generic way
+      of representing data dependencies between variables without
+      specifically referring to the storage location of each variable.
+    </p>
+
+    <p>
+      <b>Pattern-definition loader</b><br>
+
+      This component takes a library of <i>abstraction patterns</i>
+      and creates an internal representation. These abstraction
+      patterns are used as alphabet symbols by the malicious code
+      automaton.
+    </p>
+
+    <p>
+      <b>The executable loader</b><br>
+
+      This component transforms the executable into an internal
+      representation, here the collection of control flow graphs
+      (CFGs), one for each program procedure. The executable loader
+      (<a href="#Figure-ExeLoader">Figure 5</a>) uses two
+      off-the-shelf components, <i>IDA Pro</i> and
+      <i>CodeSurfer</i>. IDA Pro (by DataRescue [<a
+      href="#datarescue">20</a>]) is a commercial interactive
+      disassembler. <i>CodeSurfer</i> (by GrammaTech, Inc. [<a
+      href="#grammatech">19</a>]) is a program-understanding tool that
+      performs a variety of static analyses. CodeSurfer provides an
+      API for access to various structures, such as the CFGs and the
+      call graph, and to results of a variety of static analyses, such
+      as points-to analysis. In collaboration with GrammaTech, we have
+      developed a connector that transforms IDA Pro internal
+      structures into an intermediate form that CodeSurfer can parse.
+    </p>
+
+    <div align="center">
+      <a name="Figure-ExeLoader"></a>
+
+      <p style="text-align: center">
+	<img src="images/infrastructure_executable_loader.png">
+      </p>
+
+      Figure 5: Implementation of executable loader module.
+
+    </div>
+
+    <p>
+      <b>The annotator</b><br>
+
+      This component inputs a CFG from the executable and the set of
+      abstraction patterns and produces an annotated CFG, the abstract
+      representation of a program procedure. The annotated CFG
+      includes information that indicates where a specific abstraction
+      pattern was found in the executable. The annotator runs for each
+      procedure in the program, transforming each CFG. <a
+      href="#Section-Annotator">Section 6</a> describes the annotator
+      in detail.
+    </p>
+
+    <p>
+      <b>The detector</b><br>
+
+      This component computes whether the malicious code (represented
+      by the malicious code automaton) appears in the abstract
+      representation of the executable (created by the
+      annotator). This component uses an algorithm based upon language
+      containment and unification. Details can be found in <a
+      href="#Section-MChecker">Section 7</a>.
+    </p>
+
+    <p>
+      Throughout the rest of the paper, the malicious code fragment
+      shown in <a href="#Figure-CIH14a">Figure 6</a> is used as a
+      running example. This code fragment was extracted from the
+      Chernobyl virus version 1.4.
+    </p>
+
+    <div align="center">
+      <a name="Figure-CIH14a"></a>
+
+      <table border="0">
+	<tbody style="font-family: monospace">
+
+	  <tr>
+	    <td colspan="3" style="font-family: serif; font-style: italic">Original Code</td>
+	  </tr>
+
+	  <tr>
+	    <td colspan="3"><hr height="1"></td>
+	  </tr>
+
+	  <tr>
+	    <td>WVCTF:</td><td></td><td></td>
+	  </tr>
+	  <tr>
+	    <td></td><td>mov</td><td>eax, dr1 </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>mov</td><td>ebx, [eax+10h] </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>mov</td><td>edi, [eax] </td>
+	  </tr>
+	  <tr>
+	    <td>LOWVCTF:</td><td></td><td></td>
+	  </tr>
+	  <tr>
+	    <td></td><td>pop</td><td>ecx </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>jecxz</td><td>SFMM </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>mov</td><td>esi, ecx </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>mov</td><td>eax, 0d601h </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>pop</td><td>edx </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>pop</td><td>ecx </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>call</td><td>edi </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>jmp</td><td>LOWVCTF </td>
+	  </tr>
+	  <tr>
+	    <td>SFMM:</td><td></td><td></td>
+	  </tr>
+	  <tr>
+	    <td></td><td>pop</td><td>ebx </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>pop</td><td>eax </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>stc</td><td></td>
+	  </tr>
+	  <tr>
+	    <td></td><td>pushf</td><td></td>
+	  </tr>
+
+	  <tr>
+	    <td colspan="3"><hr height="1"></td>
+	  </tr>
+
+	</tbody>
+      </table>
+
+      Figure 6: Original code fragment from Chernobyl virus version
+      1.4.
+
+    </div>
+
+    <p>
+      To obtain the obfuscated code fragment depicted (<a
+      href="#Figure-CIH14b">Figure 7</a>), we applied the following
+      obfuscation transformations: dead-code insertion, code
+      transposition, and register reassignment. Incidentally, the
+      three commercial antivirus software (Norton, McAfee, and
+      Command) detected the original code fragment shown. However, the
+      obfuscated version was not detected by any of the three
+      commercial antivirus software.
+    </p>
+
+    <div align="center">
+      <a name="Figure-CIH14b"></a>
+
+      <table border="0">
+	<tbody style="font-family: monospace">
+
+	  <tr>
+	    <td colspan="3" style="font-family: serif; font-style: italic">Obfuscated Code</td>
+	  </tr>
+
+	  <tr>
+	    <td colspan="3"><hr height="1"></td>
+	  </tr>
+
+	  <tr>
+	    <td>WVCTF:</td><td></td><td></td>
+	  </tr>
+	  <tr>
+	    <td></td><td>mov</td><td>eax, dr1 </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>jmp</td><td>Loc1 </td>
+	  </tr>
+	  <tr>
+	    <td>Loc2:</td><td></td><td></td>
+	  </tr>
+	  <tr>
+	    <td></td><td>mov</td><td>edi, [eax] </td>
+	  </tr>
+	  <tr>
+	    <td>LOWVCTF:</td><td></td><td></td>
+	  </tr>
+	  <tr>
+	    <td></td><td>pop</td><td>ecx </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>jecxz</td><td>SFMM </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>nop</td><td></td>
+	  </tr>
+	  <tr>
+	    <td></td><td>mov</td><td>esi, ecx </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>nop</td><td></td>
+	  </tr>
+	  <tr>
+	    <td></td><td>nop</td><td></td>
+	  </tr>
+	  <tr>
+	    <td></td><td>mov</td><td>eax, 0d601h </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>jmp</td><td>Loc3 </td>
+	  </tr>
+	  <tr>
+	    <td>Loc1:</td><td></td><td></td>
+	  </tr>
+	  <tr>
+	    <td></td><td>mov</td><td>ebx, [eax+10h] </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>jmp</td><td>Loc2 </td>
+	  </tr>
+	  <tr>
+	    <td>Loc3:</td><td></td><td></td>
+	  </tr>
+	  <tr>
+	    <td></td><td>pop</td><td>edx </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>pop</td><td>ecx </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>nop</td><td></td>
+	  </tr>
+	  <tr>
+	    <td></td><td>call</td><td>edi </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>jmp</td><td>LOWVCTF </td>
+	  </tr>
+	  <tr>
+	    <td>SFMM:</td><td></td><td></td>
+	  </tr>
+	  <tr>
+	    <td></td><td>pop</td><td>ebx </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>pop</td><td>eax </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>push</td><td>eax </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>pop</td><td>eax </td>
+	  </tr>
+	  <tr>
+	    <td></td><td>stc</td><td></td>
+	  </tr>
+	  <tr>
+	    <td></td><td>pushf</td><td></td>
+	  </tr>
+
+	  <tr>
+	    <td colspan="3"><hr height="1"></td>
+	  </tr>
+
+	</tbody>
+      </table>
+
+      Figure 7: Obfuscated version based upon code in <a
+      href="#Figure-CIH14a">Figure 6</a>.
+
+    </div>
+
+
+
+
+    <a name="Section-Annotator"></a>
+    <h2>6 Program Annotator</h2>
+
+    <p>
+      This section describes the program annotator in detail and the
+      data structures and static analysis concepts used in the
+      detection algorithm. The program annotator inputs the CFG of the
+      executable and a set of abstraction patterns and outputs an
+      annotated CFG. The annotated CFG associates with each node <span
+      class="Math">n</span> in the CFG a set of patterns that match
+      the program at the point corresponding to the node <span
+      class="Math">n</span>. The precise syntax for an abstraction
+      pattern and the semantics of matching are provided later in the
+      section.
+    </p>
+
+    <p>
+      <a href="#Figure-CIH14CFGAnnot">Figure 8</a> shows the CFG and a
+      simple annotated CFG corresponding to the obfuscated code from
+      <a href="#Figure-CIH14b">Figure 7</a>. Note that one node in the
+      annotated CFG can correspond to several nodes in the original
+      CFG.  For example, the nodes annotated with "IrrelevantInstr"
+      corresponds to one or more <tt>nop</tt> instructions.
+    </p>
+
+    <p>
+      The annotations that appear in <a
+      href="#Figure-CIH14CFGAnnot">Figure 8</a> seem intuitive, but
+      formulating them within a static-analysis framework requires
+      formal definitions. We enhance the SAFE framework with a type
+      system for x86 based on the typestate system described in [<a
+      href="#xu2000-safety">6</a>]. However, other type systems
+      designed for assembly languages, such as <i>Typed Assembly
+      Language</i> [<a
+      href="#morrisettcraryglewwalker1998-stal">27</a>, <a
+      href="#morrisettwalkercraryglew1998-tal">26</a>], could be used
+      in the SAFE framework. Definitions, patterns, and the matching
+      procedure are described in Sections <a
+      href="#Section-Definitions">6.1</a>, <a
+      href="#Section-Patterns">6.2</a> and <a
+      href="#Section-Matching">6.3</a> respectively.
+    </p>
+
+    <div align="center">
+      <a name="Figure-CIH14CFGAnnot"></a>
+
+      <table align="center">
+	<tbody>
+	  <tr>
+	    <td><img src="images/cih-cfg-2.png"></td>
+	    <td><img src="images/cih-annot-cfg.png"></td>
+	  </tr>
+	</tbody>
+      </table>
+      <br>
+
+      Figure 8: Control flow graph of obfuscated code fragment, and
+      annotations.
+
+    </div>
+
+
+    <a name="Section-Definitions"></a>
+    <h3>6.1 Basic Definitions</h3>
+
+    <p>
+      This section provides the formal definitions used in the rest of
+      the paper.
+    </p>
+
+    <p>
+      <b>Program Points</b><br>
+
+      An <i>instruction</i> <span class="Math">I</span> is a function
+      application, <span class="Math">I : &tau;<sub>1</sub> &times;
+      &hellip; &times; &tau;<sub>k</sub> &rarr; &tau;</span>. While
+      the type system does not preclude higher-order functions or
+      function composition, it is important to note that most assembly
+      languages (including x86) do not support these concepts. A
+      <i>program</i> <span class="Math">P</span> is a sequence of
+      instructions <span class="Math">&lt;I<sub>1</sub>, &hellip;,
+      I<sub>N</sub>&gt;</span>.  During program execution, the
+      instructions are processed in the sequential order they appear
+      in the program, with the exception of control-flow instructions
+      that can change the sequential execution order. The index of the
+      instruction in the program sequence is called a <i>program
+      point</i> (or <i>program counter</i>), denoted by the function
+      <span class="Math">pc : {I<sub>1</sub>, &hellip;, I<sub>N</sub>}
+      &rarr; [1, &hellip;, N]</span>, and defined as <span
+      class="Math">pc(I<sub>j</sub>) = j, &forall; 1 &le; j &le;
+      N</span>.  The set of all program points for program <span
+      class="Math">P</span> is <span class="Math">ProgramPoints(P) =
+      {1, &hellip;, N}</span>.  The <span class="Math">pc</span>
+      function provides a total ordering over the set of program
+      instructions.
+    </p>
+
+    <p>
+      <b>Control Flow Graph</b><br>
+
+      A <i>basic block</i> <span class="Math">B</span> is a maximal
+      sequence of instructions <span class="Math">&lt;I<sub>l</sub>,
+      &hellip;, I<sub>m</sub>&gt;</span> that contains at most one
+      control-flow instruction, which must appear at the end. Thus,
+      the execution within a basic block is by definition
+      sequential. Let <span class="Math">V</span> be the set of basic
+      blocks for a program <span class="Math">P</span>, and <span
+      class="Math">E &sube; V &times; V &times; { T, F }</span> be the
+      set of control flow transitions between basic blocks. Each edge
+      is marked with either <span class="Math">T</span> or <span
+      class="Math">F</span> corresponding to the condition
+      (<i>true</i> or <i>false</i>) on which that edge is
+      followed. Unconditional jumps have outgoing edges always marked
+      with <span class="Math">T</span>. The directed graph <span
+      class="Math">CFG( P ) = &lt;V, E &gt;</span> is called the
+      <i>control flow graph</i>.
+    </p>
+
+    <p>
+      <b>Predicates</b><br>
+
+      Predicates are the mechanism by which we incorporate results of
+      various static analyses such as live range and points-to
+      analysis. These predicates can be used in the definition of
+      abstraction patterns. <a href="#Table-Pred">Table 2</a> lists
+      predicates that are currently available in our system. For
+      example, code between two program points <span
+      class="Math">p<sub>1</sub></span> and <span
+      class="Math">p<sub>2</sub></span> can be verified as dead-code
+      (<a href="#Section-ObfuscTrash">Section 4.1.1</a>) by checking
+      that for every variable <span class="Math">m</span> that is live
+      in the program range <span class="Math">[p<sub>1</sub>,
+      p<sub>2</sub>]</span>, its value at point <span
+      class="Math">p<sub>2</sub></span> is the same as its value at
+      point <span class="Math">p<sub>1</sub></span>. The change in
+      <span class="Math">m</span>'s value between two program points
+      <span class="Math">p<sub>1</sub></span> and <span
+      class="Math">p<sub>2</sub></span> is denoted by <span
+      class="Math">Delta(m, p<sub>1</sub>, p<sub>2</sub>)</span> and
+      can be implemented using polyhedral analysis [<a
+      href="#cousothalbwachs1978-polyhedral">24</a>].
+    </p>
+
+    <div align="center">
+      <a name="Table-Pred"></a>
+
+      <table border="0" bgcolor="black" cellspacing="1" cellpadding="0">
+	<tbody>
+	  <tr>
+	    <td>
+	      <table bgcolor="white" cellspacing="0" cellpadding="5">
+		<tbody>
+
+		  <tr bgcolor="#CCCCCC">
+		    <td><i>Dominators( B )</i></td>
+		    <td>the set of basic blocks that dominate the basic block <i>B</i></td>
+		  </tr>
+		  <tr>
+		    <td><i>PostDominators( B )</i></td>
+		    <td>the set of basic blocks that are dominated by the basic block <i>B</i></td>
+		  </tr>
+		  <tr bgcolor="#CCCCCC">
+		    <td><i>Pred( B )</i></td>
+		    <td>the set of basic blocks that immediately precede <i>B</i></td>
+		  </tr>
+		  <tr>
+		    <td><i>Succ( B )</i></td>
+		    <td>the set of basic blocks that immediately follow <i>B</i></td>
+		  </tr>
+		  <tr bgcolor="#CCCCCC">
+		    <td><i>First( B )</i></td>
+		    <td>the first instruction of the basic block <i>B</i></td>
+		  </tr>
+		  <tr>
+		    <td><i>Last( B )</i></td>
+		    <td>the last instruction of the basic block <i>B</i></td>
+		  </tr>
+		  <tr bgcolor="#CCCCCC">
+		    <td><i>Previous( I )</i></td>
+		    <td>
+		      <table>
+			<tbody>
+			  <tr>
+			    <td>&cup;<i><sub>B' &isin; Pred( B<sub>I</sub> )</sub> Last( B' )</i></td>
+			    <td>if <i>I = First( B<sub>I</sub> )</i></td>
+			  </tr>
+			  <tr>
+			    <td colspan="2">-or-</td>
+			  </tr>
+			  <tr>
+			    <td><i>I'</i></td>
+			    <td>if <i>B<sub>I</sub> = &lt; &hellip;, I', I, &hellip; &gt;</i></td>
+			  </tr>
+			</tbody>
+		      </table>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td><i>Next( I )</i></td>
+		    <td>
+		      <table>
+			<tbody>
+			  <tr>
+			    <td>&cup;<i><sub>B' &isin; Succ( B<sub>I</sub> )</sub> First( B' )</i></td>
+			    <td>if <i>I = Last( B<sub>I</sub> )</i></td>
+			  </tr>
+			  <tr>
+			    <td colspan="2">-or-</td>
+			  </tr>
+			  <tr>
+			    <td><i>I'</i></td>
+			    <td>if <i>B<sub>I</sub> = &lt; &hellip;, I, I', &hellip; &gt;</i></td>
+			  </tr>
+			</tbody>
+		      </table>
+		    </td>
+		  </tr>
+		  <tr bgcolor="#CCCCCC">
+		    <td><i>Kills( p, a )</i></td>
+		    <td><i>true</i> if the instruction at program point <i>p</i> kills variable <i>a</i></td>
+		  </tr>
+		  <tr>
+		    <td><i>Uses( p, a )</i></td>
+		    <td><i>true</i> if the instruction at program point <i>p</i> uses variable <i>a</i></td>
+		  </tr>
+		  <tr bgcolor="#CCCCCC">
+		    <td><i>Alias( p, x, y )</i></td>
+		    <td><i>true</i> if variable <i>x</i> is an alias for <i>y</i> at program point <i>p</i></td>
+		  </tr>
+		  <tr>
+		    <td><i>LiveRangeStart( p, a )</i></td>
+		    <td>the set of program points that start the <i>a</i>'s live range that includes <i>p</i></td>
+		  </tr>
+		  <tr bgcolor="#CCCCCC">
+		    <td><i>LiveRangeEnd( p, a )</i></td>
+		    <td>the set of program points that end the <i>a</i>'s live range that includes <i>p</i></td>
+		  </tr>
+		  <tr>
+		    <td><i>Delta( p, m, n )</i></td>
+		    <td>the difference between integer variables <i>m</i> and <i>n</i> at program point <i>p</i></td>
+		  </tr>
+		  <tr bgcolor="#CCCCCC">
+		    <td><i>Delta( m, p_1, p_2 )</i></td>
+		    <td>the change in <i>m</i>'s value between program points <i>p<sub>1</sub></i> and <i>p<sub>2</sub></i></td>
+		  </tr>
+		  <tr>
+		    <td><i>PointsTo( p, x, a )</i></td>
+		    <td><i>true</i> if variable <i>x</i> points to location of <i>a</i> at program point <i>p</i></td>
+		  </tr>
+
+		</tbody>
+	      </table>
+	    </td>
+	  </tr>
+	</tbody>
+      </table>
+      <br>
+
+      Table 2: Examples of static analysis predicates.
+
+    </div>
+
+    <p>
+      Explanations of the static analysis predicates shown in <a
+      href="#Table-Pred">Table 2</a> are standard and can be found in
+      a compiler textbook (such as [<a
+      href="#muchnik1997-compiler">3</a>]).
+    </p>
+
+    <p>
+      <b>Instructions and Data Types</b><br>
+
+      The type constructors build upon simple integer types (listed
+      below as the <i>ground</i> class of types), and allow for array
+      types (with two variations: the pointer-to-start-of-array type
+      and the pointer-to-middle-of-array type), structures and unions,
+      pointers, and functions. Two special types <span
+      class="Math">&perp;(n)</span> and <span class="Math"><span
+      style="font-family: sans-serif">T</span>(n)</span> complete the
+      type system lattice. <span class="Math">&perp;(n)</span> and
+      <span class="Math"><span style="font-family:
+      sans-serif">T</span>(n)</span> represent types that are stored on
+      <span class="Math">n</span> bits, with <span
+      class="Math">&perp;(n)</span> being the least specific ("any")
+      type and <span class="Math"><span style="font-family:
+      sans-serif">T</span>(n)</span> being the most specific type. <a
+      href="#Table-Typetable">Table 3</a> describes the constructors
+      allowed in our type system.
+    </p>
+
+    <div align="center">
+      <a name="Table-Typetable"></a>
+
+      <table border="0" bgcolor="black" cellspacing="1" cellpadding="4">
+	<tbody>
+	  <tr>
+	    <td bgcolor="white">
+	      <table cellspacing="2">
+		<tbody>
+		  <tr>
+		    <td style="text-align: right">&tau;</td>
+		    <td>::</td>
+		    <td>ground</td>
+		    <td><i>Ground types</i></td>
+		  </tr>
+		  <tr>
+		    <td></td>
+		    <td>|</td>
+		    <td>&tau;<tt>[</tt>n<tt>]</tt></td>
+		    <td><i>Pointer to the base of an array of type</i> &tau; <i>and of size</i> n</td>
+		  </tr>
+		  <tr>
+		    <td></td>
+		    <td>|</td>
+		    <td>&tau;<tt>(</tt>n<tt>]</tt></td>
+		    <td><i>Pointer into the middle of an array of type</i> &tau; <i>and of size</i> n</td>
+		  </tr>
+		  <tr>
+		    <td></td>
+		    <td>|</td>
+		    <td>&tau; <tt>ptr</tt></td>
+		    <td><i>Pointer to</i> &tau;</td>
+		  </tr>
+		  <tr>
+		    <td></td>
+		    <td>|</td>
+		    <td>s <tt>{</tt> &mu;<sub>1</sub>, &hellip;, &mu;<sub>k</sub> <tt>}</tt></td>
+		    <td><i>Structure (product of types of </i> &mu; <sub>i</sub><i>)</i></td>
+		  </tr>
+		  <tr>
+		    <td></td>
+		    <td>|</td>
+		    <td>u<tt>{</tt>&mu;<sub>1</sub>, &hellip;, &mu;<sub>k</sub><tt>}</tt></td>
+		    <td><i>Union</i></td>
+		  </tr>
+		  <tr>
+		    <td></td>
+		    <td>|</td>
+		    <td>&tau;<sub>1</sub> &times; &hellip; &times; &tau;<sub>k</sub> &rarr; &tau;</td>
+		    <td><i>Function</i></td>
+		  </tr>
+		  <tr>
+		    <td></td>
+		    <td>|</td>
+		    <td><span style="font-family: sans">T</span><tt>(</tt>n<tt>)</tt></td>
+		    <td><i>Top type of</i> n <i>bits</i></td>
+		  </tr>
+		  <tr>
+		    <td></td>
+		    <td>|</td>
+		    <td>&perp;<tt>(</tt>n<tt>)</tt></td>
+		    <td><i>Bottom type of</i> n <i>bits (type "any" of</i> n <i>bits)</i></td>
+		  </tr>
+		  <tr>
+		    <td><br></td>
+		    <td></td>
+		    <td></td>
+		    <td></td>
+		  </tr>
+		  <tr>
+		    <td style="text-align: right">&mu;</td>
+		    <td>::</td>
+		    <td><tt>(</tt><i>l</i>, &tau; <i>i</i><tt>)</tt></td>
+		    <td><i>Member labeled</i> l <i>of type</i> &tau; <i>at offset</i> i</td>
+		  </tr>
+		  <tr>
+		    <td><br></td>
+		    <td></td>
+		    <td></td>
+		    <td></td>
+		  </tr>
+		  <tr>
+		    <td style="text-align: right">ground</td>
+		    <td>::</td>
+		    <td colspan="2">
+		      <tt>int(</tt><i>g</i><tt>:</tt><i>s</i><tt>:</tt><i>v</i><tt>)</tt> |
+		      <tt>uint(</tt><i>g</i><tt>:</tt><i>s</i><tt>:</tt><i>v</i><tt>)</tt>
+		      | &hellip;
+		    </td>
+		  </tr>
+		</tbody>
+	      </table>
+	    </td>
+	  </tr>
+	</tbody>
+      </table>
+      <br>
+
+      Table 3: A simple type system.
+    </div>
+
+    <p>
+      The type <span class="Math">&mu;(l, &tau;, i)</span> represents
+      the type of a field member of a structure. The field has a type
+      <span class="Math">&tau;</span> (independent of the types of all
+      other fields in the same structure), an offset <span
+      class="Math">i</span> that uniquely determines the location of
+      the field within the structure, and a label <span
+      class="Math">l</span> that identifies the field within the
+      structure (in some cases this label might be undefined).
+    </p>
+
+    <p>
+      Physical subtyping takes into account the layout of values in
+      memory [<a href="#chandrareps1999-physical">4</a>, <a
+      href="#xu2000-safety">6</a>]. If a type <span
+      class="Math">&tau;</span> is a <i>physical subtype</i> of <span
+      class="Math">&tau;'</span> (denoted it by <span
+      class="Math">&tau; &le; &tau;'</span>), then the memory layout
+      of a value of type <span class="Math">&tau;'</span> is a prefix
+      of the memory layout of a value of type <span
+      class="Math">&tau;</span>. We will not describe the rules of
+      physical subtyping here as we refer the reader to Xu's thesis
+      [<a href="#xu2000-safety">6</a>] for a detailed account of the
+      typestate system (including subtyping rules).
+    </p>
+
+    <p>
+      The type <span class="Math">int(g:s:v)</span> represents a
+      signed integer, and it covers a wide variety of values within
+      storage locations. It is parametrized using three parameters as
+      follows: <span class="Math">g</span> represents the number of
+      highest bits that are ignored, <span class="Math">s</span> is
+      the number of middle bits that represent the sign, and <span
+      class="Math">v</span> is the number of lowest bits that
+      represent the value. Thus the type <span
+      class="Math">int(g:s:v)</span> uses a total of <span
+      class="Math">g + s + v</span> bits.
+    </p>
+
+    <div align="center">
+      <img src="images/ground-int.gif">
+    </div>
+
+    <p>
+      The type <span class="Math">uint(g:s:v)</span> represents an
+      unsigned integer, and it is just a variation of <span
+      class="Math">int(g:s:v)</span>, with the middle <span
+      class="Math">s</span> sign bits always set to zero.
+    </p>
+
+    <p>
+      The notation <span class="Math">int(g:s:v)</span> allows for the
+      separation of the data and storage location type. In most
+      assembly languages, it is possible to use a storage location
+      larger than that required by the data type stored in it. For
+      example, if a byte is stored right-aligned in a (32-bit) word,
+      its associated type is <span class="Math">int(24:1:7)</span>.
+      This means that an instruction such as <i>xor on least
+      significant byte within 32-bit word</i> will preserve the
+      leftmost 24 bits of the 32-bit word, even though the instruction
+      addresses the memory on 32-bit word boundary.
+    </p>
+
+    <p>
+      This separation between data and storage location raises the
+      issue of alignment information, i.e., most computer systems
+      require or prefer data to be at a memory address aligned to the
+      data size. For example, 32-bit integers should be aligned on
+      4-byte boundaries, with the drawback that accessing an unaligned
+      32-bit integer leads to either a slowdown (due to several
+      aligned memory accesses) or an exception that requires handling
+      in software. Presently, we do not use alignment information as
+      it does not seem to provide a significant covert way of changing
+      the program flow.
+    </p>
+
+    <div align="center">
+      <a name="Figure-CIHTypes"></a>
+
+      <table>
+	<tbody style="font-family: monospace">
+
+	  <tr style="font-family: serif; font-style: italic">
+	    <td>Code<br><hr height="1"></td>
+	    <td rowspan="14">&nbsp;&nbsp;&nbsp;&nbsp;</td>
+	    <td>Type<br><hr height="1"></td>
+	  </tr>
+
+	  <tr>
+	    <td>call 0h</td>
+	    <td></td>
+	  </tr>
+	  <tr>
+	    <td>pop ebx</td>
+	    <td>ebx : &perp;(<span style="font-family: serif">32</span>) </td>
+	  </tr>
+	  <tr>
+	    <td>lea ecx, [ebx + 42h]</td>
+	    <td>ecx : &perp;(<span style="font-family: serif">32</span>), </td>
+	  </tr>
+	  <tr>
+	    <td></td>
+	    <td>ebx : ptr &perp;(<span style="font-family: serif">32</span>) </td>
+	  </tr>
+	  <tr>
+	    <td>push ecx</td>
+	    <td>ecx : &perp;(<span style="font-family: serif">32</span>) </td>
+	  </tr>
+	  <tr>
+	    <td>push eax</td>
+	    <td>eax : &perp;(<span style="font-family: serif">32</span>) </td>
+	  </tr>
+	  <tr>
+	    <td>push eax</td>
+	    <td>eax : &perp;(<span style="font-family: serif">32</span>) </td>
+	  </tr>
+	  <tr>
+	    <td>sidt [esp - 02h]</td>
+	    <td></td>
+	  </tr>
+	  <tr>
+	    <td>pop ebx</td>
+	    <td>eax : &perp;(<span style="font-family: serif">32</span>) </td>
+	  </tr>
+	  <tr>
+	    <td>add ebx, 1Ch</td>
+	    <td>ebx : int(<span style="font-family: serif">0</span>:<span style="font-family: serif">1</span>:<span style="font-family: serif">31</span) </td>
+	  </tr>
+	  <tr>
+	    <td>cli</td>
+	    <td></td>
+	  </tr>
+	  <tr>
+	    <td>mov ebp, [ebx]</td>
+	    <td>ebp : &perp;(<span style="font-family: serif">32</span>), </td>
+	  </tr>
+	  <tr>
+	    <td><br><hr height="1"></td>
+	    <td>ebx : ptr &perp;(<span style="font-family: serif">32</span>)<br><hr height="1"></td>
+	  </tr>
+
+	</tbody>
+      </table>
+      <br>
+
+      Figure 9: Inferred types from Chernobyl/CIH virus code.
+
+    </div>
+
+    <p>
+      <a href="#Figure-CIHTypes">Figure 9</a> shows the types for
+      operands in a section of code from the Chernobyl/CIH virus. <a
+      href="#Table-IA32Types">Table 4</a> illustrates the type system
+      for Intel IA-32 architecture. There are other IA-32 data types
+      that are not covered in <a href="#Table-IA32Types">Table 4</a>,
+      including bit strings, byte strings, 64- and 128-bit packed SIMD
+      types, and BCD and packed BCD formats. The IA-32 logical address
+      is a combination of a 16-bit segment selector and a 32-bit
+      segment offset, thus its type is the cross product of a 16-bit
+      unsigned integer and a 32-bit pointer.
+    </p>
+
+    <div align="center">
+      <a name="Table-IA32Types"></a>
+
+      <table>
+	<tbody style="font-family: monospace">
+
+	  <tr style="font-family: serif; font-style: italic">
+	    <td>IA-32 Datatype</td>
+	    <td>Type Expression</td>
+	  </tr>
+
+	  <tr>
+	    <td colspan="2"><hr></td>
+	  </tr>
+
+	  <tr>
+	    <td>byte unsigned int</td>
+	    <td>uint(<span style="font-family: serif">0</span>:<span style="font-family: serif">0</span>:<span style="font-family: serif">8</span>)</td>
+	  </tr>
+	  <tr>
+	    <td>word unsigned int</td>
+	    <td>uint(<span style="font-family: serif">0</span>:<span style="font-family: serif">0</span>:<span style="font-family: serif">16</span>)</td>
+	  </tr>
+	  <tr>
+	    <td>doubleword unsigned int</td>
+	    <td>uint(<span style="font-family: serif">0</span>:<span style="font-family: serif">0</span>:<span style="font-family: serif">32</span>)</td>
+	  </tr>
+	  <tr>
+	    <td>quadword unsigned int</td>
+	    <td>uint(<span style="font-family: serif">0</span>:<span style="font-family: serif">0</span>:<span style="font-family: serif">64</span>)</td>
+	  </tr>
+	  <tr>
+	    <td>double quadword unsigned int</td>
+	    <td>uint(<span style="font-family: serif">0</span>:<span style="font-family: serif">0</span>:<span style="font-family: serif">128</span>)</td>
+	  </tr>
+	  <tr>
+	    <td colspan="2"><hr></td>
+	  <tr>
+	    <td>byte signed int</td>
+	    <td>int(<span style="font-family: serif">0</span>:<span style="font-family: serif">1</span>:<span style="font-family: serif">7</span>)</td>
+	  </tr>
+	  <tr>
+	    <td>word signed int</td>
+	    <td>int(<span style="font-family: serif">0</span>:<span style="font-family: serif">1</span>:<span style="font-family: serif">15</span>)</td>
+	  </tr>
+	  <tr>
+	    <td>doubleword signed int</td>
+	    <td>int(<span style="font-family: serif">0</span>:<span style="font-family: serif">1</span>:<span style="font-family: serif">31</span>)</td>
+	  </tr>
+	  <tr>
+	    <td>quadword signed int</td>
+	    <td>int(<span style="font-family: serif">0</span>:<span style="font-family: serif">1</span>:<span style="font-family: serif">63</span>)</td>
+	  </tr>
+	  <tr>
+	    <td>double quadword signed int</td>
+	    <td>int(<span style="font-family: serif">0</span>:<span style="font-family: serif">1</span>:<span style="font-family: serif">127</span>)</td>
+	  </tr>
+	  <tr>
+	    <td colspan="2"><hr></td>
+	  </tr>
+	  <tr>
+	    <td>single precision float</td>
+	    <td>float(<span style="font-family: serif">0</span>:<span style="font-family: serif">1</span>:<span style="font-family: serif">31</span>)</td>
+	  </tr>
+	  <tr>
+	    <td>double precision float</td>
+	    <td>float(<span style="font-family: serif">0</span>:<span style="font-family: serif">1</span>:<span style="font-family: serif">63</span>)</td>
+	  </tr>
+	  <tr>
+	    <td>double extended precision float</td>
+	    <td>float(<span style="font-family: serif">0</span>:<span style="font-family: serif">1</span>:<span style="font-family: serif">79</span>)</td>
+	  </tr>
+	  <tr>
+	    <td colspan="2"><hr></td>
+	  <tr>
+	    <td>near pointer</td>
+	    <td>&perp;(<span style="font-family: serif">32</span>)</td>
+	  </tr>
+	  <tr>
+	    <td>far pointer (logical address)</td>
+	    <td>uint(<span style="font-family: serif">0</span>:<span style="font-family: serif">0</span>:<span style="font-family: serif">16</span>) &times; uint(<span style="font-family: serif">0</span>:<span style="font-family: serif">0</span>:<span style="font-family: serif">32</span>) &rarr; &perp;(<span style="font-family: serif">48</span>)</td>
+	  </tr>
+	  <tr>
+	    <td colspan="2"><hr></td>
+	  <tr>
+	    <td>eax, ebx, ecx, edx</td>
+	    <td>&perp;(<span style="font-family: serif">32</span>)</td>
+	  </tr>
+	  <tr>
+	    <td>esi, edi, ebp, esp</td>
+	    <td>&perp;(<span style="font-family: serif">32</span>)</td>
+	  </tr>
+	  <tr>
+	    <td>eip</td>
+	    <td>int(<span style="font-family: serif">0</span>:<span style="font-family: serif">1</span>:<span style="font-family: serif">31</span>)</td>
+	  </tr>
+	  <tr>
+	    <td>cs, ds, ss, es, fs, gs</td>
+	    <td>&perp;(<span style="font-family: serif">16</span>)</td>
+	  </tr>
+	  <tr>
+	    <td>ax, bx, cx, dx</td>
+	    <td>&perp;(<span style="font-family: serif">16</span>)</td>
+	  </tr>
+	  <tr>
+	    <td>al, bl, cl, dl</td>
+	    <td>&perp;(<span style="font-family: serif">8</span>)</td>
+	  </tr>
+	  <tr>
+	    <td>ah, bh, ch, dh</td>
+	    <td>&perp;(<span style="font-family: serif">8</span>)</td>
+	  </tr>
+
+	  <tr>
+	    <td colspan="2"><hr></td>
+	  </tr>
+
+	</tbody>
+      </table>
+      <br>
+
+      Table 4: IA-32 datatypes and their corresponding expression in
+      the type system from <a href="#Table-Typetable">Table 3</a>.
+
+    </div>
+
+
+
+    <a name="Section-Patterns"></a>
+    <h3>6.2 Abstraction Patterns</h3>
+
+    <p>
+      An abstraction pattern <span class="Math">&Gamma;</span> is a
+      3-tuple <span class="Math">(V, O, C)</span>, where <span
+      class="Math">V</span> is a list of typed variables, <span
+      class="Math">O</span> is a sequence of instructions, and <span
+      class="Math">C</span> is a boolean expression combining one or
+      more static analysis predicates over program points. Formally, a
+      pattern <span class="Math">&Gamma;=(V, O, C)</span> is a 3-tuple
+      defined as follows:
+    </p>
+
+    <table align="center">
+      <tbody class="Math">
+	<tr>
+	  <td>V</td>
+	  <td style="color: black; font-weight: normal">=</td>
+	  <td>{x<sub>1</sub> : &tau;<sub>1</sub>, &hellip;, x<sub>k</sub> : &tau;<sub>k</sub>}</td>
+	</tr>
+	<tr>
+	  <td>O</td>
+	  <td style="color: black; font-weight: normal">=</td>
+	  <td>&lt;I(v<sub>1</sub>, &hellip;, v<sub>m</sub>) | I : &tau;<sub>1</sub> &times; &hellip; &times; &tau;<sub>m</sub> &rarr; &tau;&gt;</td>
+	</tr>
+	<tr valign="top">
+	  <td>C</td>
+	  <td style="color: black; font-weight: normal">=</td>
+	  <td style="color: black; font-weight: normal">
+	    boolean expression involving static<br>
+	    analysis predicates and logical operators
+	  </td>
+	</tr>
+      </tbody>
+    </table>
+
+    <p>
+      An instruction from the sequence <span class="Math">O</span> has
+      a number of arguments <span
+      class="Math">(v<sub>i</sub>)<sub>i&ge;0</sub></span>, where each
+      argument is either a literal value or a free variable <span
+      class="Math">x<sub>j</sub></span>. We write <span
+      class="Math">&Gamma;(x<sub>1</sub> : &tau;<sub>1</sub>,
+      &hellip;, x<sub>k</sub> : &tau;<sub>k</sub>)</span> to denote
+      the pattern <span class="Math">&Gamma; = (V, O, C)</span> with
+      free variables <span class="Math">x<sub>1</sub>, &hellip;,
+      x<sub>k</sub></span>.  An example of a pattern is shown below.
+    </p>
+
+    <div align="center">
+      <img src="images/pattern-example.gif">
+    </div>
+
+    <p>
+      This pattern represents two instructions that pop a register
+      <span class="Math">X</span> off the stack and then add a
+      constant value to it (<tt>0x03AF</tt>). Note the use of
+      uninterpreted symbol <span class="Math">X</span> in the
+      pattern. Use of the uninterpreted symbols in a pattern allows it
+      to match multiple sequences of instructions, e.g., the patterns
+      shown above matches any instantiation of the pattern where <span
+      class="Math">X</span> is assigned a specific register. The type
+      <span class="Math">int(0:1:31)</span> of <span
+      class="Math">X</span> represents an integer with 31 bits of
+      storage and one sign bit.
+    </p>
+
+    <p>
+      We define a <i>binding</i> <span class="Math">B</span> as a set
+      of pairs <span class="Math">[variable v, value
+      x]</span>. Formally, a binding <span class="Math">B</span> is
+      defined as <span class="Math">{ [x,v] | x &isin; V, x : &tau;, v
+      : &tau;', &tau; &le; &tau;' }</span>.  If a pair <span
+      class="Math">[x, v]</span> occurs in a binding <span
+      class="Math">B</span>, then we write <span class="Math">B(x) =
+      v</span>. Two bindings <span class="Math">B<sub>1</sub></span>
+      and <span class="Math">B<sub>2</sub></span> are said to be
+      <i>compatible</i> if they do not bind the same variable to
+      different values:
+    </p>
+
+    <div class="Math" align="center">
+      Compatible(B<sub>1</sub>, B<sub>2</sub>) = &forall; x &isin; V
+      . ( [x, y<sub>1</sub>] &isin; B<sub>1</sub> &and; [x,
+      y<sub>2</sub>] &isin; B<sub>2</sub> ) &rArr; ( y<sub>1</sub> =
+      y<sub>2</sub> )
+    </div>
+
+    <p>
+      The <i>union of two compatible bindings</i> <span
+      class="Math">B<sub>1</sub></span> and <span
+      class="Math">B<sub>2</sub></span> includes all the pairs from
+      both bindings. For incompatible bindings, the union operation
+      returns an empty binding.
+    </p>
+
+    <div align="center">
+      <img src="images/binding-union.gif">
+    </div>
+
+    <p>
+      When matching an abstraction pattern against a sequence of
+      instructions, we use unification to bind the free variables of
+      <span class="Math">&Gamma;</span> to actual values. The
+      function:<br><br>
+
+      <span class="Math">
+	<center>
+      Unify( &lt;&hellip;, op<sub>i</sub>( x<sub>i,1</sub>,
+      &hellip;, x<sub>i,n<sub>i</sub></sub> ), &hellip;&gt;<sub>1
+	&le; i &le; m</sub>, &Gamma; )
+      </center>
+      </span><br>
+
+      returns a ``most general'' binding <span class="Math">B</span>
+      if the instruction sequence <span class="Math">&lt;&hellip;,
+      op<sub>i</sub>( x<sub>i,1</sub>, &hellip;,
+      x<sub>i,n<sub>i</sub></sub> ), &hellip;&gt;<sub>1 &le; i &le;
+      m</sub></span> can be unified with the sequence of instructions
+      <span class="Math">O</span> specified in the pattern <span
+      class="Math">&Gamma;</span>. If the two instruction sequences
+      cannot be unified, <span class="Math">Unify</span> returns
+      <i>false</i>. Definitions and algorithms related to unification
+      are standard and can be found in [<a href="#Fitting">50</a>].<a
+      href="#Footnote-3"><sup>3</sup></a>
+    </p>
+
+
+
+    <a name="Section-Matching"></a>
+    <h3>6.3 Annotator Operation</h3>
+
+    <p>
+      The annotator associates a set of matching patterns with each
+      node in the CFG. The annotated CFG of a program procedure <span
+      class="Math">P</span> with respect to a set of patterns <span
+      class="Math">&Sigma;</span> is denoted by <span
+      class="Math">P<sub>&Sigma;</sub></span>. Assume that a node
+      <span class="Math">n</span> in the CFG corresponds to the
+      program point <span class="Math">p</span> and the instruction at
+      <span class="Math">p</span> is <span
+      class="Math">I<sub>p</sub></span>. The annotator attempts to
+      match the (possibly interprocedural) instruction sequence <span
+      class="Math">S(n) = &lt;&hellip;,
+      Previous<sup>2</sup>(I<sub>p</sub>), Previous(I<sub>p</sub>),
+      I<sub>p</sub>&gt;</span> with the patterns in the set <span
+      class="Math">&Sigma; = {&Gamma;<sub>1</sub>, &hellip;,
+      &Gamma;<sub>m</sub>}</span>. The CFG node <span
+      class="Math">n</span> is then labeled with the list of pairs of
+      patterns and bindings that satisfy the following condition:
+    </p>
+
+    <div class="Math" align="center">
+      Annotation(n) = { [&Gamma;, B] : &Gamma; &isin; {&Gamma;<sub>1</sub>, &hellip;, &Gamma;<sub>m</sub>} &and; B = Unify( S(n), &Gamma; ) }
+    </div>
+
+    <p>
+      If <span class="Math">Unify( S(n), &Gamma; )</span> returns
+      <i>false</i> (because unification is not possible), then the
+      node <span class="Math">n</span> is not annotated with <span
+      class="Math">[&Gamma;, B]</span>. Note that a pattern <span
+      class="Math">&Gamma;</span> might appear several times (albeit
+      with different bindings) in <span
+      class="Math">Annotation(n)</span>.  However, the pair <span
+      class="Math">[&Gamma;, B]</span> is unique in the annotation set
+      of a given node.
+    </p>
+
+
+
+
+    <a name="Section-MChecker"></a>
+    <h2>7 Detector</h2>
+
+    <p>
+      The detector takes as its inputs an annotated CFG for an
+      executable program procedure and a malicious code automaton. If
+      the malicious pattern described by the malicious code automaton
+      is also found in the annotated CFG, the detector returns the
+      sequence of instructions exhibiting the pattern. The detector
+      returns <i>no</i> if the malicious pattern cannot be found in
+      the annotated CFG.
+    </p>
+
+
+    <a name="Section-VirSpec"></a>
+    <h3>7.1 The Malicious-Code Automaton</h3>
+
+    <p>
+      Intuitively, the malicious code automaton is a generalization of
+      the vanilla virus, i.e., the malicious code automaton also
+      represents obfuscated strains of the virus.  Formally, a <i>
+      malicious code automaton</i> (or <i>MCA</i>) <span
+      class="Math">A</span> is a 6-tuple <span class="Math">(V,
+      &Sigma;, S, &delta;, S<sub>0</sub>, F)</span>, where
+    </p>
+
+    <ul>
+
+      <li>
+	<span class="Math">V = { v<sub>1</sub> : &tau;<sub>1</sub> ,
+	&hellip;, v<sub>k</sub> : &tau;<sub>k</sub> }</span> is a
+	<i>set of typed variables</i>,
+      </li>
+
+      <li>
+	<span class="Math">&Sigma; = {&Gamma;<sub>1</sub>, &hellip;,
+	&Gamma;<sub>n</sub>}</span> is a <i>finite alphabet</i> of
+	patterns parametrized by variables from <span
+	class="Math">V</span>, for <span class="Math">1 &le; i &le;
+	n</span>, <span class="Math">P<sub>i</sub> = (V<sub>i</sub>,
+	O<sub>i</sub>, C<sub>i</sub>)</span> where <span
+	class="Math">V<sub>i</sub> &sube; V</span>,
+      </li>
+
+      <li>
+	<span class="Math">S</span> is a finite set of <i>states</i>,
+      </li>
+
+      <li>
+	<span class="Math">&delta; : S &times; &Sigma; &rarr;
+	2<sup>S</sup></span> is a <i>transition function</i>,
+      </li>
+
+      <li>
+	<span class="Math">S<sub>0</sub> &sube; S</span> is a
+	non-empty set of <i>initial states</i>,
+      </li>
+
+      <li>
+	<span class="Math">F &sube; S</span> is a non-empty set of
+	<i>final states</i>.
+      </li>
+
+    </ul>
+
+    <p>
+      An MCA is a generalization of an ordinary finite-state automaton
+      in which the alphabets are a finite set of patterns defined over
+      a set of typed variables. Given a binding <span
+      class="Math">B</span> for the variables <span
+      class="Math">V={v<sub>1</sub>, &hellip;, v<sub>k</sub> }</span>,
+      the finite-state automaton obtained by substituting <span
+      class="Math">B(v<sub>i</sub>)</span> for <span
+      class="Math">v<sub>i</sub></span> for all <span class="Math">1
+      &le; i &le; k</span> in <span class="Math">A</span> is denoted
+      by <span class="Math">B(A)</span>. Note that <span
+      class="Math">B(A)</span> is a "vanilla" finite-state
+      automaton. We explain this using an example. Consider the MCA
+      <span class="Math">A</span> shown in <a
+      href="#Figure-CIH14Small">Figure 10</a> with <span
+      class="Math">V={A, B, C, D}</span>. The automata obtained from
+      <span class="Math">A</span> corresponding to the bindings <span
+      class="Math">B<sub>1</sub></span> and <span
+      class="Math">B<sub>2</sub></span> are shown in <a
+      href="#Figure-CIH14Small">Figure 10</a>. The uninterpreted
+      variables in the MCA were introduced to handle obfuscation
+      transformations based on register reassignment. The malicious
+      code automaton corresponding to the code fragment shown in <a
+      href="#Figure-CIH14a">Figure 6</a> (from the Chernobyl virus) is
+      depicted in <a href="#Figure-CIH14Auto">Figure 11</a>.
+    </p>
+
+    <div align="center">
+      <a name="Figure-CIH14Small"></a>
+
+      <table border="0">
+	<tbody style="font-family: monospace">
+	  <tr>
+	    <td valign="top" rowspan="21">
+	      <table border="0" bgcolor="black" cellpadding="5" cellspacing="1">
+		<tbody bgcolor="white">
+		  <tr>
+		    <td><img src="images/sample-vir-auto.png"></td>
+		  </tr>
+		</tbody>
+	      </table>
+	    </td>
+	    <td rowspan="21">&nbsp;&nbsp;</td>
+	    <td colspan="2"><hr height="1"></td>
+	  </tr>
+	  <tr>
+	    <td>mov</td>
+	    <td>esi, ecx</td>
+	  </tr>
+	  <tr>
+	    <td>mov</td>
+	    <td>eax, 0d601h</td>
+	  </tr>
+	  <tr>
+	    <td>pop</td>
+	    <td>edx</td>
+	  </tr>
+	  <tr>
+	    <td>pop</td>
+	    <td>ecx</td>
+	  </tr>
+	  <tr>
+	    <td colspan="3"><hr height="1"></td>
+	  </tr>
+	  <tr style="font-family: serif">
+	    <td>B<sub>1</sub> = { </td>
+	    <td>[A, <tt>esi</tt>],</td>
+	  </tr>
+	  <tr style="font-family: serif">
+	    <td></td>
+	    <td>[B, <tt>ecx</tt>],</td>
+	  </tr>
+	  <tr style="font-family: serif">
+	    <td></td>
+	    <td>[C, <tt>eax</tt>],</td>
+	  </tr>
+	  <tr style="font-family: serif">
+	    <td></td>
+	    <td>[D, <tt>edx</tt>] }</td>
+	  </tr>
+
+	  <tr>
+	    <td colspan="2"><br></td>
+	  </tr>
+
+	  <tr>
+	    <td colspan="2"><hr height="1"></td>
+	  </tr>
+	  <tr>
+	    <td>mov</td>
+	    <td>esi, eax</td>
+	  </tr>
+	  <tr>
+	    <td>mov</td>
+	    <td>ebx, 0d601h</td>
+	  </tr>
+	  <tr>
+	    <td>pop</td>
+	    <td>ecx</td>
+	  </tr>
+	  <tr>
+	    <td>pop</td>
+	    <td>eax</td>
+	  </tr>
+	  <tr>
+	    <td colspan="2"><hr height="1"></td>
+	  </tr>
+	  <tr style="font-family: serif">
+	    <td>B<sub>2</sub> = { </td>
+	    <td>[A, <tt>esi</tt>],</td>
+	  </tr>
+	  <tr style="font-family: serif">
+	    <td></td>
+	    <td>[B, <tt>eax</tt>],</td>
+	  </tr>
+	  <tr style="font-family: serif">
+	    <td></td>
+	    <td>[C, <tt>ebx</tt>],</td>
+	  </tr>
+	  <tr style="font-family: serif">
+	    <td></td>
+	    <td>[D, <tt>ecx</tt>] }</td>
+	  </tr>
+	</tbody>
+      </table>
+      <br>
+
+      Figure 10: Malicious code automaton for a Chernobyl virus code
+      fragment, and instantiations with different register
+      assignments, shown with their respective bindings.
+
+    </div>
+
+    <br>
+
+    <div align="center">
+      <a name="Figure-CIH14Auto"></a>
+
+      <center>
+	<img src="images/cih-vir-auto.png">
+      </center>
+      <br>
+
+      Figure 11: Malicious code automaton corresponding to code
+      fragment from <a href="#Figure-CIH14a">Figure 6</a>.
+
+    </div>
+
+
+    <a name="Section-MCOp"></a>
+    <h3>7.2 Detector Operation</h3>
+
+    <p>
+      The detector takes as its inputs the annotated CFG <span
+      class="Math">P<sub>&Sigma;</sub></span> of a program procedure
+      <SPAN class="Math">P</SPAN> and a malicious code automaton MCA
+      <span class="Math">A=(V, &Sigma;, S,&delta;, S<sub>0</sub>,
+      F)</span>. Note that the set of patterns <span
+      class="Math">&Sigma;</span> is used both to construct the
+      annotated CFG and as the alphabet of the malicious code
+      automaton.  Intuitively, the detector determines whether there
+      exists a malicious pattern that occurs in <span
+      class="Math">A</span> and <span
+      class="Math">P<sub>&Sigma;</sub></span>. We formalize this
+      intuitive notion. The annotated CFG <span
+      class="Math">P<sub>&Sigma;</sub></span> is a finite-state
+      automaton where nodes are states, edges represent transitions,
+      the node corresponding to the entry point is the initial state,
+      and every node is a final state. Our detector determines whether
+      the following language is empty:<br>
+
+      <center><img align="center" src="images/language-check.gif"></center>
+      <br>
+
+      In the expression given above, <span
+      class="Math">L(P<sub>&Sigma;</sub>)</span> is the language
+      corresponding to the annotated CFG and <span
+      class="Math">B<sub><i>All</i></sub></span> is the set of all
+      bindings to the variables in the set <span
+      class="Math">V</span>.  In other words, the detector determines
+      whether there exists a binding <span class="Math">B</span> such
+      that the intersection of the languages <span
+      class="Math">P<sub>&Sigma;</sub></span> and <span
+      class="Math">B(A)</span> is non-empty.
+    </p>
+
+    <p>
+      Our detection algorithm is very similar to the classic algorithm
+      for determining whether the intersection of two regular
+      languages is non-empty [<a
+      href="#HopcroftMotwaniUllman">51</a>]. However, due to the
+      presence of variables, we must perform unification during the
+      algorithm. Our algorithm (<a
+      href="#Algorithm-ModelChecking">Figure 12</a>) combines the
+      classic algorithm for computing the intersection of two regular
+      languages with unification. We have implemented the algorithm as
+      a data-flow analysis.
+    </p>
+
+    <ul>
+
+      <li>
+	For each node <span class="Math">n</span> of the annotated CFG
+	<SPAN CLASS="MATH">P<sub>A</sub></SPAN> we associate pre and
+	post lists <span
+	class="Math">L<sub>n</sub><sup>pre</sup></span> and <span
+	class="Math">L<sub>n</sub><sup>post</sup></span>
+	respectively. Each element of a list is a pair <span
+	class="Math">[s,B]</span>, where <span class="Math">s</span>
+	is the state of the MCA <span class="Math">A</span> and <span
+	class="Math">B</span> is the binding of variables.
+	Intuitively, if <span class="Math">[s,B] &isin;
+	L<sub>n</sub><sup>pre</sup></span>, then it is possible for
+	<span class="Math">A</span> with the binding <span
+	class="Math">B</span> (i.e. for <span
+	class="Math">B(A)</span>) to be in state <span
+	class="Math">s</span> just before node <span
+	class="Math">n</span>.
+      </li>
+
+      <li>
+	<b>Initial condition:</b>
+
+	Initially, both lists associated with all nodes except the
+	start node <span class="Math">n<sub>0</sub></span> are
+	empty. The pre list associated with the start node is the list
+	of all pairs <span class="Math">[s, &empty;]</span>, where
+	<span class="Math">s</span> is an initial state of the MCA
+	<span class="Math">A</span>, and the post list associated with
+	the start node is empty.
+      </li>
+
+      <li>
+	<b>The do-until loop:</b>
+
+	The do-until loop updates the pre and post lists of all the
+	nodes. At the end of the loop, the worklist <span
+	class="Math"><i>WS</i></span> contains the set of nodes whose
+	pre or post information has changed. The loop executes until
+	the pre and post information associated with the nodes does
+	not change, and a fixed point is reached. The join operation
+	that computes <span
+	class="Math">L<sub>i</sub><sup>pre</sup></span> takes the list
+	of state-binding pairs from all of the <span
+	class="Math">L<sub>j</sub><sup>post</sup></span> sets for
+	program points preceding <span class="Math">i</span> and
+	copies them to <span
+	class="Math">L<sub>i</sub><sup>pre</sup></span> only if there
+	are no repeated states. In case of repeated states, the
+	conflicting pairs are merged into a single pair only if the
+	bindings are compatible. If the bindings are incompatible,
+	both pairs are thrown out.
+      </li>
+
+      <li>
+	<b>Diagnostic feedback:</b>
+
+	Suppose our algorithm returns a non-empty set, meaning a
+	malicious pattern is common to the annotated CFG <span
+	class="Math">P<sub>&Sigma;</sub></span> and MCA <span
+	class="Math">A</span>. In this case, we return the sequence of
+	instructions in the executable corresponding to the malicious
+	pattern. This is achieved by keeping an additional structure
+	with the algorithm. Every time the post list for a node <span
+	class="Math">n</span> is updated by taking a transition in
+	<span class="Math">A</span> (see the statement <span
+	class="Math">14</span> in <a
+	href="#Algorithm-ModelChecking">Figure 12</a>), we store the
+	predecessor of the added state, i.e., if <span
+	class="Math">[&delta;(s, &Gamma;), B<sub>s</sub> &cup;
+	B]</span> is added to <span
+	class="Math">L<sub>n</sub><sup>post</sup></span>, then we add
+	an edge from <span class="Math">s</span> to <span
+	class="Math">&delta;(s, &Gamma;)</span> (along with the
+	binding <span class="Math">B<sub>s</sub> &cup; B</span>) in
+	the associated structure. Suppose we detect that <span
+	class="Math">L<sub>n</sub><sup>post</sup></span> contains a
+	state <span class="Math">[s, B<sub>s</sub>]</span>, where
+	<span class="Math">s</span> is a final state of the MCA <span
+	class="Math">A</span>. Then we traceback the associated
+	structure from <span class="Math">s</span> until we reach an
+	initial state of <span class="Math">A</span> (storing the
+	instructions occurring along the way).
+      </li>
+
+    </ul>
+
+    <div align="center">
+      <a name="Algorithm-ModelChecking"></a>
+
+      <table bgcolor="black" border="0" cellpadding="10" cellspacing="1">
+	<tbody bgcolor="white">
+	  <tr>
+	    <td>
+
+	      <b>Input:</b> A list of patterns <span
+	      class="Math">&Sigma; = {P<sub>1</sub>, &hellip;,
+	      P<sub>r</sub>}</span>, a malicious code automaton <span
+	      class="Math">A = (V, &Sigma;, S, &delta;, S<sub>0</sub>,
+	      F)</span>, and an annotated CFG <span
+	      class="Math">P<sub>&Sigma;</sub> = &lt;N, E&gt;</span>.
+	      <br>
+
+	      <b>Output:</b> <i>true</i> if the program is likely
+	      infected, <i>false</i> otherwise.
+	      <br>
+
+	      <br>
+
+	      <span style="font-variant:
+	      small-caps">MaliciousCodeChecking</span>(<span
+	      class="Math">&Sigma;</span>, <span
+	      class="Math">A</span>, <span
+	      class="Math">P<sub>&Sigma;</sub></span>)
+	      <table>
+		<tbody>
+		  <tr>
+		    <td>(1)&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		    <td>
+		      <span class="Math">L<sup>pre</sup><sub>n<sub>0</sub></sub> &larr; { [s, &empty;] | s &isin; S<sub>0</sub> }</span>, where <span class="Math">n<sub>0</sub> &isin; N</span> is the entry node of <span class="Math">P<sub>&Sigma;</sub></span>
+		    </td>
+		    <td rowspan="7"></td>
+		  </tr>
+		  <tr>
+		    <td>(2)&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		    <td>
+		      <b>foreach</b> <span class="Math">n &isin; N \ { n<sub>0</sub> }</span> <b>do</b> <span class="Math">L<sub>n</sub><sup>pre</sup> &larr; &empty;</span>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>(3)&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		    <td>
+		      <b>foreach</b> <span class="Math">n &isin; N</span> <b>do</b> <span class="Math">L<sub>n</sub><sup>post</sup> &larr; &empty;</span>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>(4)&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		    <td>
+		      <span class="Math"><i>WS</i> &larr; &empty;</span>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>(5)&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		    <td>
+		      <b>do</b>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>(6)&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		    <td>
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      <span class="Math"><i>WS</i><sub>old</sub> &larr; <i>WS</i></span>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>(7)&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		    <td>
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      <span class="Math"><i>WS</i> &larr; &empty;</span>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>(8)&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		    <td>
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      <b>foreach</b> <span class="Math">n &isin; N</span>
+		    </td>
+		    <td>&nbsp;&nbsp;&nbsp;&nbsp;// update pre information</td>
+		  </tr>
+		  <tr>
+		    <td>(9)&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		    <td>
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      <b>if</b> <span class="Math">L<sub>n</sub><sup>pre</sup> &ne; &cup;<sub>m &isin; Previous(n)</sub> L<sub>m</sub><sup>post</sup></span>
+		    </td>
+		    <td rowspan="3"></td>
+		  </tr>
+		  <tr>
+		    <td>(10)&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		    <td>
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      <span class="Math">L<sub>n</sub><sup>pre</sup> &larr; &cup;<sub>m &isin; Previous(n)</sub> L<sub>m</sub><sup>post</sup></span>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>(11)&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		    <td>
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      <span class="Math"><i>WS</i> &larr; <i>WS</i> &cup; { n }</span>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>(12)&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		    <td>
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      <b>foreach</b> <span class="Math">n &isin; N</span>
+		    </td>
+		    <td>&nbsp;&nbsp;&nbsp;&nbsp;// update post information</td>
+		  </tr>
+		  <tr>
+		    <td>(13)&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		    <td>
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      <span class="Math">NewL<sub>n</sub><sup>post</sup> &larr; &empty;</span>
+		    </td>
+		    <td rowspan="2"></td>
+		  </tr>
+		  <tr>
+		    <td>(14)&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		    <td>
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      <b>foreach</b> <span class="Math">[s, B<sub>s</sub>] &isin; L<sub>n</sub><sup>pre</sup></span>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>(15)&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		    <td>
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      <b>foreach</b> <span class="Math">[&Gamma;, B] &isin; Annotation(n) &and; Compatible(B<sub>s</sub>, B)</span>
+		    </td>
+		    <td>&nbsp;&nbsp;&nbsp;&nbsp;// follow a transition</td>
+		  </tr>
+		  <tr>
+		    <td>(16)&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		    <td>
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      <b>add</b> <span class="Math">[&delta;( s, &Gamma; ), B<sub>s</sub> &cup; B]</span> <b>to</b> <span class="Math">NewL<sub>n</sub><sup>post</sup></span>
+		    </td>
+		    <td rowspan="6"></td>
+		  </tr>
+		  <tr>
+		    <td>(17)&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		    <td>
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      <b>if</b> <span class="Math">L<sub>n</sub><sup>post</sup> &ne; NewL<sub>n</sub><sup>post</sup></span>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>(18)&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		    <td>
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      <span class="Math">L<sub>n</sub><sup>post</sup> &larr; NewL<sub>n</sub><sup>post</sup></span>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>(19)&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		    <td>
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+		      <span class="Math"><i>WS</i> &larr; <i>WS</i> &cup; { n }</span>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>(20)&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		    <td>
+		      <b>until</b> <span class="Math"><i>WS</i> = &empty;</span>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td>(21)&nbsp;&nbsp;&nbsp;&nbsp;</td>
+		    <td>
+		      <b>return</b> <span class="Math"> &exist; n &isin; N . &exist; [s, B<sub>s</sub>] &isin; L<sub>n</sub><sup>post</sup> . s &isin; F</span>
+		    </td>
+		  </tr>
+		</tbody>
+	      </table>
+	    </td>
+	  </tr>
+	</tbody>
+      </table>
+      <br>
+
+      Figure 12: Algorithm to check a program model against a
+      malicious code specification.
+
+    </div>
+
+
+
+    <a name="Section-Experiments"></a>
+    <h2>8 Experimental Data</h2>
+
+    <p>
+      The three major goals of our experiments were to measure the
+      execution time of our tool and find the false positive and
+      negative rates.  We constructed ten obfuscated versions of the
+      four viruses. Let <span class="Math">V<sub>i, k</sub></span>
+      (for <span class="Math">1 &le; i &le; 4</span> and <span
+      class="Math">1 &le; k &le; 10</span>) denote the <span
+      class="Math">k</span>-th version of the <span
+      class="Math">i</span>-th virus. The obfuscated versions were
+      created by varying the obfuscation parameters, e.g., number of
+      nops and inserted jumps. For the <span class="Math">i</span>-th
+      virus, <span class="Math">V<sub>i, 1</sub></span> denoted the
+      "vanilla" or the unobfuscated version of the virus. Let <SPAN
+      CLASS="MATH">M<sub>1</sub>, M<sub>2</sub>, M<sub>3</sub></SPAN>
+      and <SPAN CLASS="MATH">M<sub>4</sub></SPAN> be the malicious
+      code automata corresponding to the four viruses.
+    </p>
+
+
+    <h3>8.1 Testing Environment</h3>
+
+    <p>
+      The testing environment consisted of a Microsoft Windows 2000
+      machine. The hardware configuration included an AMD Athlon 1 GHz
+      processor and 1 GB of RAM. We used CodeSurfer version 1.5
+      patchlevel 0 and IDA Pro version 4.1.7.600.
+    </p>
+
+
+    <h3>8.2 Testing on Malicious Code</h3>
+
+    <p>
+      We will describe the testing with respect to the first
+      virus. The testing for the other viruses is analogous. First, we
+      ran SAFE on the 10 versions of the first virus <span
+      class="Math">V<sub>1,1</sub>, &hellip;, V<sub>1,10</sub></span>
+      with malicious code automaton <SPAN
+      CLASS="MATH">M<sub>1</sub></SPAN>.  This experiment gave us the
+      false negative rate, i.e., the pattern corresponding to <SPAN
+      CLASS="MATH">M<sub>1</sub></SPAN> should be detected in all
+      versions of the virus.
+    </p>
+
+    <div align="center">
+      <a name="Table-VirScanTimes"></a>
+
+      <table border="0" bgcolor="#CCCCCC" cellspacing="1" cellpadding="5">
+	<tbody style="background-color: white">
+	  <tr>
+	    <td rowspan="2"></td>
+	    <td text-align: center; style="text-align: center" colspan="2">Annotator</td>
+	    <td text-align: center; style="text-align: center" colspan="2">Detector</td>
+	  </tr>
+	  <tr>
+	    <td style="text-align: center">avg.</td>
+	    <td text-align: center; style="text-align: center">(std. dev.)</td>
+	    <td text-align: center; style="text-align: center">avg.</td>
+	    <td text-align: center; style="text-align: center">(std. dev.)</td>
+	  </tr>
+	  <tr>
+	    <td>Chernobyl</td>
+	    <td>1.444 s</td>
+	    <td>(0.497 s)</td>
+	    <td>0.535 s</td>
+	    <td>(0.043 s)</td>
+	  </tr>
+	  <tr>
+	    <td>z0mbie-6.b</td>
+	    <td>4.600 s</td>
+	    <td>(2.059 s)</td>
+	    <td>1.149 s</td>
+	    <td>(0.041 s)</td>
+	  </tr>
+	  <tr>
+	    <td>f0sf0r0</td>
+	    <td>4.900 s</td>
+	    <td>(2.844 s)</td>
+	    <td>0.923 s</td>
+	    <td>(0.192 s)</td>
+	  </tr>
+	  <tr>
+	    <td>Hare</td>
+	    <td>9.142 s</td>
+	    <td>(1.551 s)</td>
+	    <td>1.604 s</td>
+	    <td>(0.104 s)</td>
+	  </tr>
+	</tbody>
+      </table>
+      <br>
+
+      Table 5: SAFE performance when checking obfuscated viruses for
+      false negatives.
+
+    </div>
+
+    <p>
+      Next, we executed SAFE on the versions of the viruses <span
+      class="Math">V<sub>i,k</sub></span> with the malicious code
+      automaton <span class="Math">M<sub>j</sub></span> (where <span
+      class="Math">i &ne; j</span>). This helped us find the false
+      positive rate of SAFE.
+    </p>
+
+    <p>
+      In our experiments, we found that SAFE's false positive and
+      negative rate were <span class="Math">0</span>. We also measured
+      the execution times for each run. Since IDA Pro and CodeSurfer
+      were not implemented by us, we did not measure the execution
+      times for these components. We report the average and standard
+      deviation of the execution times in Tables <a
+      href="#Table-VirScanTimes">5</a> and <a
+      href="#Table-VirScanTimesFP">6</a>.
+    </p>
+
+    <div align="center">
+      <a name="Table-VirScanTimesFP"></a>
+
+      <table border="0" bgcolor="#CCCCCC" cellspacing="1" cellpadding="5">
+	<tbody style="background-color: white">
+	  <tr>
+	    <td rowspan="2"></td>
+	    <td text-align: center; style="text-align: center" colspan="2">Annotator</td>
+	    <td text-align: center; style="text-align: center" colspan="2">Detector</td>
+	  </tr>
+	  <tr>
+	    <td style="text-align: center">avg.</td>
+	    <td text-align: center; style="text-align: center">(std. dev.)</td>
+	    <td text-align: center; style="text-align: center">avg.</td>
+	    <td text-align: center; style="text-align: center">(std. dev.)</td>
+	  </tr>
+	  <tr>
+	    <td>z0mbie-6.b</td>
+	    <td>3.400 s</td>
+	    <td>(1.428 s)</td>
+	    <td>1.400 s</td>
+	    <td>(0.420 s)</td>
+	  </tr>
+	  <tr>
+	    <td>f0sf0r0</td>
+	    <td>4.900 s</td>
+	    <td>(1.136 s)</td>
+	    <td>0.840 s</td>
+	    <td>(0.082 s)</td>
+	  </tr>
+	  <tr>
+	    <td>Hare</td>
+	    <td>1.000 s</td>
+	    <td>(0.000 s)</td>
+	    <td>0.220 s</td>
+	    <td>(0.019 s)</td>
+	  </tr>
+	</tbody>
+      </table>
+      <br>
+
+      Table 6: SAFE performance when checking obfuscated viruses for false positives against the Chernobyl/CIH virus.
+
+    </div>
+
+
+    <h3>8.3 Testing on Benign Code</h3>
+
+    <p>
+      We considered a suite of benign programs (see <a
+      href="#Section-DescriptionExecutables">Section 8.3.1</a> for
+      descriptions). For each benign program, we executed SAFE on the
+      malicious code automaton corresponding to the four viruses. Our
+      detector reported "negative" in each case, i.e., the false
+      positive rate is <span class="Math">0</span>. The average and
+      variance of the execution times are reported in <a
+      href="#Table-ProgScanTimes">Table 7</a>. As can be seen from the
+      results, for certain cases the execution times are unacceptably
+      large. We will address performance enhancements to SAFE in the
+      future.
+    </p>
+
+
+    <a name="Section-DescriptionExecutables"></a>
+    <h4>8.3.1 Descriptions of the Benign Executables</h4>
+
+    <ul>
+
+      <li>
+	tiffdither.exe is a command line utility in the
+	\textit{cygwin} toolkit version 1.3.70, a UNIX environment for
+	Windows developed by Red Hat.
+      </li>
+
+      <li>
+	winmine.exe is the Microsoft Windows 2000 Minesweeper game,
+	version 5.0.2135.1.
+      </li>
+
+      <li>
+	spyxx.exe is a Microsoft Visual Studio 6.0 Spy++ utility, that
+	allows the querying of properties and monitoring of messages
+	of Windows applications. The executable we tested was marked
+	as version 6.0.8168.0.
+      </li>
+
+      <li>
+	QuickTimePlayer.exe is part of the Apple QuickTime media
+	player, version 5.0.2.15.
+      </li>
+
+    </ul>
+
+    <div align="center">
+      <a name="Table-ProgScanTimes"></a>
+
+      <table border="0" bgcolor="#CCCCCC" cellspacing="1" cellpadding="5">
+	<tbody style="background-color: white">
+	  <tr>
+	    <td rowspan="2"></td>
+	    <td style="text-align: center" rowspan="2">Executable<br>size</td>
+	    <td style="text-align: center" rowspan="2"><tt>.text</tt><br>size</td>
+	    <td style="text-align: center" rowspan="2">Procedure<br>count</td>
+	    <td style="text-align: center" colspan="2">Annotator</td>
+	    <td style="text-align: center" colspan="2">Detector</td>
+	  </tr>
+	  <tr>
+	    <td style="text-align: center">avg.</td>
+	    <td style="text-align: center">(std. dev.)</td>
+	    <td style="text-align: center">avg.</td>
+	    <td style="text-align: center">(std. dev.)</td>
+	  </tr>
+	  <tr>
+	    <td>tiffdither.exe</td>
+	    <td style="text-align: right">9,216 B</td>
+	    <td style="text-align: right">6,656 B</td>
+	    <td style="text-align: right">29</td>
+	    <td style="text-align: right">6.333 s</td>
+	    <td style="text-align: right">(0.471 s)</td>
+	    <td style="text-align: right">1.030 s</td>
+	    <td style="text-align: right">(0.043 s)</td>
+	  </tr>
+	  <tr>
+	    <td>winmine.exe</td>
+	    <td style="text-align: right">96,528 B</td>
+	    <td style="text-align: right">12,120 B</td>
+	    <td style="text-align: right">85</td>
+	    <td style="text-align: right">15.667 s</td>
+	    <td style="text-align: right">(1.700 s)</td>
+	    <td style="text-align: right">2.283 s</td>
+	    <td style="text-align: right">(0.131 s)</td>
+	  </tr>
+	  <tr>
+	    <td>spyxx.exe</td>
+	    <td style="text-align: right">499,768 B</td>
+	    <td style="text-align: right">307,200 B</td>
+	    <td style="text-align: right">1,765</td>
+	    <td style="text-align: right">193.667 s</td>
+	    <td style="text-align: right">(11.557 s)</td>
+	    <td style="text-align: right">30.917 s</td>
+	    <td style="text-align: right">(6.625 s)</td>
+	  </tr>
+	  <tr>
+	    <td>QuickTimePlayer.exe</td>
+	    <td style="text-align: right">1,043,968 B</td>
+	    <td style="text-align: right">499,712 B</td>
+	    <td style="text-align: right">4,767</td>
+	    <td style="text-align: right">799.333 s</td>
+	    <td style="text-align: right">(5.437 s)</td>
+	    <td style="text-align: right">160.580 s</td>
+	    <td style="text-align: right">(4.455 s)</td>
+	  </tr>
+	</tbody>
+      </table>
+      <br>
+
+      Table 7: SAFE performance in seconds when checking clean
+      programs against the Chernobyl/CIH virus.
+
+    </div>
+
+
+
+    <a name="Section-Conclusion"></a>
+    <h2>9 Conclusion and Future Work</h2>
+
+    <p>
+      We presented a unique view of malicious code detection as a
+      obfuscation-deobfuscation game. We used this viewpoint to
+      explore obfuscation attacks on commercial virus scanners, and
+      found that three popular virus scanners were susceptible to
+      these attacks. We presented a static analysis framework for
+      detecting malicious code patterns in executables. Based upon our
+      framework, we have implemented SAFE, a static analyzer for
+      executables that detects malicious patterns in executables and
+      is resilient to common obfuscation transformations.
+    </p>
+
+    <p>
+      For future work, we will investigate the use of theorem provers
+      during the construction of the annotated CFG. For instance, SLAM
+      [<a href="#SLAMSpin">41</a>] uses the theorem prover Simplify
+      [<a href="#Simplify">49</a>] for predicate abstraction of C
+      programs. Our detection algorithm is context insensitive and
+      does not track the calling context of the executable. We will
+      investigate the use of push-down systems, which would make our
+      algorithm context sensitive. However, the existing PDS formalism
+      does not allow uninterpreted variables, so it will have to be
+      extended to be used in our context.
+    </p>
+
+    <p>
+      <b>Availability</b><br>
+
+      The SAFE prototype remains in development and we are not
+      distributing it at this time. Please contact Mihai
+      Christodorescu, <a
+      href="mailto:mihai@cs.wisc.edu"><tt>&lt;mihai@cs.wisc.edu&gt;</tt></a>,
+      for further updates.
+    </p>
+
+    <p>
+      <b>Acknowledgments</b><br>
+
+      We would like to thank Thomas Reps and Jonathon Giffin for
+      providing us with invaluable comments on earlier drafts of the
+      paper. We would also like to thank the members and collaborators
+      of the <a href="http://www.cs.wisc.edu/wisa">Wisconsin Safety
+      Analyzer (WiSA)</a> research group for their insightful feedback
+      and support throughout the development of this work.
+    </p>
+
+
+
+
+    <h2>Bibliography</h2>
+
+    <dl>
+
+      <dt>
+	<a name="StanifordPaxson"></a>
+	[1]
+      </dt>
+      <dd>
+	S. Staniford, V. Paxson, and N. Weaver.
+	How to 0wn the internet in your spare time.
+	In <i>Proceedings of the 11th USENIX Security Symposium (Security
+	  '02)</i>, pages 149 - 167. USENIX, August 2002.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="cert-ddoswhat"></a>
+	[2]
+      </dt>
+      <dd>
+	CERT Coordination Center.
+	Denial of service attacks, 2001.<br />
+	[ <a href="http://www.cert.org/tech_tips/denial_of_service.html">.html</a> ]
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="muchnik1997-compiler"></a>
+	[3]
+      </dt>
+      <dd>
+	S.S. Muchnick.
+	<i>Advanced Compiler Design and Implementation</i>.
+	Morgan Kaufmann, 1997.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="chandrareps1999-physical"></a>
+	[4]
+      </dt>
+      <dd>
+	S. Chandra and T.W. Reps.
+	Physical type checking for C.
+	In <i>Workshop on Program Analysis For Software Tools and
+	  Engineering</i>, pages 66 - 75. ACM SIGPLAN - SIGSOFT, September 1999.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="wang1998-chernobyl"></a>
+	[5]
+      </dt>
+      <dd>
+	R. Wang.
+	Flash in the pan?
+	<i>Virus Bulletin</i>, July 1998.
+	Virus Analysis Library.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="xu2000-safety"></a>
+	[6]
+      </dt>
+      <dd>
+	Z. Xu.
+	<i>Safety-Checking of Machine Code</i>.
+	PhD thesis, University of Wisconsin, Madison, 2000.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="z0mbie-homepage"></a>
+	[7]
+      </dt>
+      <dd>
+	z0mbie.
+	z0mbie's homepage.<br />
+	[ <a href="http://z0mbie.host.sk">http</a> ]
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="z0mbie-rpme2000"></a>
+	[8]
+      </dt>
+      <dd>
+	z0mbie.
+	RPME mutation engine.<br />
+	[ <a href="http://z0mbie.host.sk/rpme.zip">http</a> ]
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="z0mbie-mistfall"></a>
+	[9]
+      </dt>
+      <dd>
+	z0mbie.
+	Automated reverse engineering: Mistfall engine.<br />
+	[ <a href="http://z0mbie.host.sk/autorev.txt">.txt</a> ]
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="teso-burneye"></a>
+	[10]
+      </dt>
+      <dd>
+	TESO.
+	burneye elf encryption program.<br />
+	[ <a href="https://teso.scene.at">http</a> ]
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="szorferrie2001-metamorphic"></a>
+	[11]
+      </dt>
+      <dd>
+	P. Ször and P. Ferrie.
+	Hunting for metamorphic.
+	In <i>Proceedings of Virus Bulletin Conference</i>, pages 123 - 144,
+	September 2001.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="collbergthomborsonlow1997-taxonomy"></a>
+	[12]
+      </dt>
+      <dd>
+	C. Collberg, C. Thomborson, and D. Low.
+	A taxonomy of obfuscating transformations.
+	Technical Report 148, Department of Computer Sciences, The University
+	of Auckland, July 1997.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="cohen1987-viruses"></a>
+	[13]
+      </dt>
+      <dd>
+	F. Cohen.
+	Computer viruses: Theory and experiments.
+	<i>Computers and Security</i>, 6:22 - 35, 1987.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="chesswhite2000-undetectable"></a>
+	[14]
+      </dt>
+      <dd>
+	D.M. Chess and S.R. White.
+	An undetectable computer virus.
+	In <i>Proceedings of Virus Bulletin Conference</i>, 2000.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="kaspersky2002-epo"></a>
+	[15]
+      </dt>
+      <dd>
+	E. Kaspersky.
+	<i>Viruses Without an Entry Point</i>, volume Virus List
+	Encyclopaedia, chapter Ways of Infection.
+	Kaspersky Labs, 2002.<br />
+	[ <a href="http://www.viruslist.com/eng/viruslistbooks.asp?id=32&key=0000100007000020000100003">http</a> ]
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="mcgrawmorrisett2000-taxonomy"></a>
+	[16]
+      </dt>
+      <dd>
+	G. McGraw and G. Morrisett.
+	Attacking malicious code: Report to the infosec research council.
+	<i>IEEE Software</i>, 17(5):33 - 41, September/October 2000.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="nachenberg1997-usptopolyvirus-1"></a>
+	[17]
+      </dt>
+      <dd>
+	C. Nachenberg.
+	Polymorphic virus detection module.
+	<i>United States Patent # 5,696,822</i>, December 9, 1997.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="nachenberg1997-usptopolyvirus-2"></a>
+	[18]
+      </dt>
+      <dd>
+	C. Nachenberg.
+	Polymorphic virus detection module.
+	<i>United States Patent # 5,826,013</i>, October 20, 1998.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="grammatech"></a>
+	[19]
+      </dt>
+      <dd>
+	GrammaTech Inc.
+	Codesurfer - code analysis and understanding tool.<br />
+	[ <a href="http://www.grammatech.com/products/codesurfer/index.html">.html</a> ]
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="datarescue"></a>
+	[20]
+      </dt>
+      <dd>
+	DataRescue sa/nv.
+	Ida pro - interactive disassembler.<br />
+	[ <a href="http://www.datarescue.com/idabase/">http</a> ]
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="kaspersky"></a>
+	[21]
+      </dt>
+      <dd>
+	Kaspersky Labs.<br />
+	[ <a href="http://www.kasperskylabs.com">http</a> ]
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="sarc1998-cih"></a>
+	[22]
+      </dt>
+      <dd>
+	M. Samamura.
+	<i>W95.CIH</i>, volume Expanded Threat List and Virus Encyclopaedia.
+	Symantec Antivirus Research Center, 1998.<br />
+	[ <a href="http://securityresponse.symantec.com/avcenter/venc/data/cih.html">.html</a> ]
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="collbergthomborsonlow1997-opaque"></a>
+	[23]
+      </dt>
+      <dd>
+	C. Collberg, C. Thomborson, and D. Low.
+	Manufacturing cheap, resilient, and stealthy opaque constructs.
+	In <i>Principles of Programming Languages 1998, POPL'98</i>, San
+	Diego, CA, January 1998.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="cousothalbwachs1978-polyhedral"></a>
+	[24]
+      </dt>
+      <dd>
+	P. Cousot and N. Halbwachs.
+	Automatic discovery of linear restraints among variables of a
+	program.
+	In <i>Proceedings of 5th ACM Symposium on Principles of Programming
+	  Languages, POPL '78</i>, Tucson, AZ, January 1978.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="barakgoldreichimpagliazzorudichsahaivadhanyang2001-impossible"></a>
+	[25]
+      </dt>
+      <dd>
+	B. Barak, O. Goldreich, R. Impagliazzo, S. Rudich, A. Sahai, S. Vadhan, and
+	K. Yang.
+	On the (im)possibility of obfuscating programs.
+	In <i>Advances in Cryptology - CRYPTO `01</i>, volume 2139 of <i>
+	  Lecture Notes in Computer Science</i>, pages 1 - 18, Santa Barbara, CA, August
+	2001. Springer-Verlag.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="morrisettwalkercraryglew1998-tal"></a>
+	[26]
+      </dt>
+      <dd>
+	G. Morrisett, D. Walker, K. Crary, and N. Glew.
+	From System F to Typed Assembly Language.
+	In <i>Twenty-Fifth ACM SIGPLAN-SIGACT Symposium on Principles of
+	  Programming Languages</i>, pages 85 - 97, San Diego, CA, January 1998.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="morrisettcraryglewwalker1998-stal"></a>
+	[27]
+      </dt>
+      <dd>
+	G. Morrisett, K. Crary, N. Glew, and D. Walker.
+	Stack-Based Typed Assembly Language.
+	In Xavier Leroy and Atsushi Ohori, editors, <i>1998 Workshop on
+	  Types in Compilation</i>, volume 1473 of <i>Lecture Notes in Computer
+	  Science</i>, pages 28 - 52, Kyoto, Japan, March 1998. Springer-Verlag.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="deanwagner2001-ids"></a>
+	[28]
+      </dt>
+      <dd>
+	D. Wagner and D. Dean.
+	Intrusion detection via static analysis.
+	In <i>2001 IEEE Symposium on Security and Privacy</i>, Oakland, CA,
+	May 2001.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="giffinjhamiller2002-ids"></a>
+	[29]
+      </dt>
+      <dd>
+	J.T. Giffin, S. Jha, and B.P. Miller.
+	Detecting manipulated remote call streams.
+	In <i>11th USENIX Security Symposium</i>, San Francisco, CA, August
+	2002.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="myers1981-interdataflow"></a>
+	[30]
+      </dt>
+      <dd>
+	E.M. Myers.
+	A precise interprocedural data flow algorithm.
+	In <i>Conference Record of the 8th Annual ACM Symposium on
+	  Principles of Programming Languages (POPL)</i>, pages 219 - 230, Williamsburg,
+	VA, January 1981.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="landi1992-undecidability"></a>
+	[31]
+      </dt>
+      <dd>
+	W. Landi.
+	Undecidability of static analysis.
+	<i>ACM Letters on Programming Languages and Systems</i>, 1(4):323 -
+	337, December 1992.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="caida-sapphire"></a>
+	[32]
+      </dt>
+      <dd>
+	D. Moore, V. Paxson, S. Savage, C. Shannon, S. Staniford, and N. Weaver.
+	The spread of the Sapphire/Slammer worm.<br />
+	[ <a href="http://www.caida.org/outreach/papers/2003/sapphire/sapphire.html">.html</a> ]
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="curriehurajan2000-dspverification"></a>
+	[33]
+      </dt>
+      <dd>
+	David W. Currie, Alan J. Hu, and Sreeranga Rajan.
+	Automatic formal verification of dsp software.
+	In <i>Proceedings of the 37th conference on Design automation</i>,
+	pages 130-135. ACM Press, 2000.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="fenghu2002-vliwverification"></a>
+	[34]
+      </dt>
+      <dd>
+	Xiushan Feng and Alan J. Hu.
+	Automatic formal verification for scheduled vliw code.
+	In <i>Proceedings of the joint conference on Languages, compilers
+	  and tools for embedded systems</i>, pages 85-92. ACM Press, 2002.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="necula2000-translationvalidation"></a>
+	[35]
+      </dt>
+      <dd>
+	George C. Necula.
+	Translation validation for an optimizing compiler.
+	In <i>Proceedings of the ACM SIGPLAN '00 conference on Programming
+	  language design and implementation</i>, pages 83-94. ACM Press, 2000.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="kn:HRB90"></a>
+	[36]
+      </dt>
+      <dd>
+	S. Horwitz, T. Reps, and D. Binkley.
+	Interprocedural slicing using dependence graphs.
+	<i>ACM Transactions on Programming Languages and Systems (TOPLAS)</i>,
+	12(1):26-60, January 1990.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="kn:RHS95"></a>
+	[37]
+      </dt>
+      <dd>
+	T. Reps, S. Horwitz, and M. Sagiv.
+	Precise interprocedural dataflow analysis via graph reachability.
+	In <i>Symposium on Principles of Programming Languages</i>, pages
+	49-61, New York, NY, 1995. ACM Press.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="CAV:EHRS00"></a>
+	[38]
+      </dt>
+      <dd>
+	J. Esparza, D. Hansel, P. Rossmanith, and S. Schwoon.
+	Efficient algorithms for model checking pushdown systems.
+	In <i>Proceedings of Computer-Aided Verification</i>, volume 1855 of
+	<i>Lecture Notes in Computer Science</i>, pages 232-247, July 2000.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="ChenWagner"></a>
+	[39]
+      </dt>
+      <dd>
+	H. Chen and D. Wagner.
+	MOPS: an infrastructure for examining security properties of
+	software.
+	In <i>9th ACM Conference on Computer and Communications Security
+	  (CCS)</i>, November 2002.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="JensenMetayerThorn"></a>
+	[40]
+      </dt>
+      <dd>
+	T. Jensen, D.L. Metayer, and T. Thorn.
+	Verification of control flow based security properties.
+	In <i>1999 IEEE Symposium on Security and Privacy</i>, May 1999.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="SLAMSpin"></a>
+	[41]
+      </dt>
+      <dd>
+	T. Ball and S.K. Rajamani.
+	Automatically validating temporal safety properties of interfaces.
+	In <i>SPIN 2001, Workshop on Model Checking of Software</i>, 2001.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="AshcraftEngler"></a>
+	[42]
+      </dt>
+      <dd>
+	K. Ashcraft and D. Engler.
+	Using programmer-written compiler extensions to catch security holes.
+	In <i>2002 IEEE Symposium on Security and Privacy</i>, pages 143-159,
+	May 2002.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="ErlingssonSchneiderIRM"></a>
+	[43]
+      </dt>
+      <dd>
+	U. Erlingsson and F. B. Schneider.
+	IRM enforcement of Java stack inspection.
+	In <i>2000 IEEE Symposium on Security and Privacy</i>, pages 246-255,
+	May 2000.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="Chess"></a>
+	[44]
+      </dt>
+      <dd>
+	B.V. Chess.
+	Improving computer security using extending static checking.
+	In <i>2002 IEEE Symposium on Security and Privacy</i>, pages 160-173,
+	May 2002.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="Bandera"></a>
+	[45]
+      </dt>
+      <dd>
+	J. Corbett, M. Dwyer, J. Hatcliff, C. Pasareanu, Robby, S. Laubach, and
+	H. Zheng.
+	Bandera: Extracting finite-state models from Java source code.
+	In <i>ICSE 2000: International Conference on Software Engineering</i>,
+	pages 439-448, 2000.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="PVS"></a>
+	[46]
+      </dt>
+      <dd>
+	S. Owre, S. Rajan, J. Rushby, N. Shankar, and M. Srivas.
+	PVS: Combining specification, proof checking, and model checking.
+	In <i>CAV 96: Computer-Aided Verification</i>, pages 411-414, 1996.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="BishopDilger"></a>
+	[47]
+      </dt>
+      <dd>
+	M. Bishop and M. Dilger.
+	Checking for race conditions in file accesses.
+	<i>Computing Systems</i>, 9(2), 1996.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="CAS:LLO95"></a>
+	[48]
+      </dt>
+      <dd>
+	R.W. Lo, K.N. Levitt, and R.A. Olsson.
+	MCF: A malicious code filter.
+	<i>Computers &amp; Society</i>, 14(6):541-566, 1995.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="Simplify"></a>
+	[49]
+      </dt>
+      <dd>
+	D. Detlefs, G. Nelson, and J. Saxe.
+	Simplify theorem prover.<br />
+	[ <a href="http://research.compaq.com/SRC/esc/simplify.html">.html</a> ]
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="Fitting"></a>
+	[50]
+      </dt>
+      <dd>
+	M. Fitting.
+	<i>First-Order Logic and Automated Theorem Proving</i>.
+	Springer-Verlag, 1996.<br />
+
+	<p>
+      </dd>
+
+
+      <dt>
+	<a name="HopcroftMotwaniUllman"></a>
+	[51]
+      </dt>
+      <dd>
+	J.E. Hopcroft, R. Motwani, and J.D. Ullman.
+	<i>Introduction to Automata Theory, Languages, and Computation</i>.
+	Addison Wesley, 2001.<br />
+
+	<p>
+      </dd>
+    </dl>
+
+
+    <b>Notes:</b>
+
+    <ol>
+
+      <li><a name="Footnote-1"></a>
+
+        Note that the subroutine address computation had to be updated
+        to take into account the new <tt>nop</tt>s. This is a trivial
+        computation and can be implemented by adding the number of
+        inserted <tt>nop</tt>s to the initial offset hard-coded in the
+        virus-morphing code.
+
+      </li>
+
+      <li><a name="Footnote-2"></a>
+
+        Most executable formats require that the various sections of
+        the executable file start at certain aligned addresses, to
+        respect the target platform's idiosyncrasies. The extra space
+        between the end of one section and the beginning of the next
+        is usually padded with nulls.
+
+      </li>
+
+      <li><a name="Footnote-3"></a>
+
+	We use one-way matching which is simpler than full
+	unification. Note that the instruction sequence does not
+	contain any variables. We instantiate variables in the pattern
+	so that they match the corresponding terms in the instruction
+	sequence.
+
+      </li>
+
+    </ol>
+
+
+
+
+    <hr>
+    <address>Mihai Christodorescu <a href="mailto:mihai@cs.wisc.edu"><tt>&lt;mihai@cs.wisc.edu&gt;</tt></a></address>
+
+    This paper can be found online at <a
+    href="http://www.cs.wisc.edu/~mihai/my_work/papers/index.html#11"><tt>http://www.cs.wisc.edu/~mihai/my_work/papers/index.html#11</tt></a>.<br>
+
+    This paper was converted from LaTeX using <a
+    href="http://www.lri.fr/~filliatr/bibtex2html/">bibtex2html</a>
+    1.57 and <a
+    href="http://cbl.leeds.ac.uk/nikos/tex2html/doc/latex2html/latex2html.html">LaTeX2HTML</a>
+    1.67.<br>
+
+<!-- Created: Wed May  7 14:56:50 CDT 2003 -->
+<!-- hhmts start -->
+Last modified: Thu Oct 16 10:23:01 CDT 2003
+<!-- hhmts end -->
+  </body>
+</html>

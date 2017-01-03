@@ -1,0 +1,153 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Mihai Christodorescu: Summary for Protection and the Control of Information Sharing in Multics</title>
+<script language="JavaScript">
+      menuName = new Array();
+      depth = 2;
+    </script><script src="../../browser_script.js" language="JavaScript"></script>
+<link type="text/css" href="../../default_style.css" rel="stylesheet">
+</head>
+<body MARGINHEIGHT="0" MARGINWIDTH="0" LEFTMARGIN="0" TOPMARGIN="0">
+<div class="PageHeader">
+<div style="border-bottom: 1px solid #bbaa66;">
+<div style="border-bottom: 1px solid #ddcc88;">
+<div class="spacer"></div>
+<div class="row">
+<span class="left">Mihai Christodorescu: <a class="OnsiteTopLink" href="../index.html">main</a> / work&nbsp;page</span><span class="right"><a class="Onsite" style="margin-right: 0.5em;" href="../..//calendar.html">
+                Calendar
+              </a><a class="Onsite" href="../..//contact.html">
+                Contact info
+              </a></span>
+</div>
+<div class="spacer"></div>
+</div>
+</div>
+</div>
+<br>
+<h1 class="PageTitle">
+	Summary for<br>
+<i>Protection and the Control of Information Sharing in Multics</i>
+<br>
+</h1>
+<table cellspacing="0" cellpadding="10" border="0" width="75%" align="center">
+<tr>
+<td>
+<table border="0" cellspacing="0" cellpadding="5" width="100%" bgcolor="#ddddff">
+<tr valign="top">
+<td align="right">Title:</td><td><b>Protection and the Control of Information Sharing in Multics</b></td>
+</tr>
+<tr valign="top">
+<td align="right">Author:</td><td><b>Jerome H. Saltzer</b></td>
+</tr>
+<tr valign="top">
+<td align="right">Organization:</td><td>Massachusetts Institute of Technology</td>
+</tr>
+<tr valign="top">
+<td align="right">Print&nbsp;Information:</td><td><i>Symposium on Operating System Principles</i>
+<br>ACM<br>Yorktown Heights, NY, 1973</td>
+</tr>
+<tr valign="top">
+<td align="right">Online:</td><td>1. 
+    <a class="Offsite" href="http://www.cs.utexas.edu/users/dahlin/Classes/GradOS/papers/p388-saltzer.pdf">PDF</a></td>
+</tr>
+</table>
+<br>
+
+    
+<p>
+      The paper describes the security concepts and the design of the
+      security system in Multics. The goal is to provide:
+      <ul>
+        
+<li>controlled sharing</li>
+        
+<li>user authentication</li>
+        
+<li>inter-user isolation</li>
+        
+<li>supervisor-user protection</li>
+        
+<li>user-written proprietary programs</li>
+        
+<li>control of special privileges</li>
+      
+</ul>
+    
+</p>
+
+    
+<p>
+      The paper opens by listing and explaining the design principles
+      that drove the Multics project. They are the following: (1)
+      default situation is lack of access (i.e. protection is based on
+      permission); (2) every access is checked; (3) design is not
+      secret; (4) the principle of least privilege
+      (a.k.a. <i>need-to-know</i> basis); (5) ease of
+      use. Furthermore, the paper emphasizes the importance of
+      <i>decentralization of the setting of protection
+      specifications</i>, which means that users and supervisors alike
+      can set permissions in they respective protected subsystems.
+    </p>
+
+    
+<p>
+      A protected subsystem is a collection of programs and data such
+      that the data may be accessed only by programs in the subsystem,
+      and programs may be entered only at designed entry points.
+    </p>
+
+    
+<p>
+      A generic organized storage system is the basis of information
+      storage in Multics. The access control mechanism mediates access
+      to this storage system, thus handling all the necessary
+      protection responsibility. The access control list associates a
+      principal with a list of permissions.
+    </p>
+
+    
+<p>
+      A principal in the system is identified by 3 components: (a)
+      user id; (b) project id (a.k.a. group id); and (c) compartment
+      id (a.k.a. role id). User authentication is done through
+      password, generated from English digraphs.
+    </p>
+
+    
+<p>
+      In the hierarchical file structure, new directories and files
+      receive the initial access control list from the parent
+      directory, through access control list inheritance.
+    </p>
+
+    
+<p>
+      Memory protection uses segments as the unit of protection,
+      corresponding to data storage segments. The private descriptor
+      segment is associated with the logical address not physical
+      address, so different principals can have different levels of
+      access to the same physical page. The association of access
+      control data is different from storage system ACLs, where the
+      access control data is located with the physical segment.
+    </p>
+
+  
+</td>
+</tr>
+</table>
+<br>
+<div class="MaintainerInfo">
+<div>
+<div>
+<div>
+	    Copyright 1998-2003 Mihai Christodorescu. All rights reserved. <br>
+	    Maintained by Mihai Christodorescu (<a href="http://www.cs.wisc.edu/~mihai">http://www.cs.wisc.edu/~mihai</a>). <br>
+            Created: Thu Dec 24 22:21:54 PST 1998<br>
+            Last modified: Mon Mar  4 11:35:30 CST 2002</div>
+</div>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,364 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Mihai Christodorescu: CS368-3: Fall 1999: C++ for Java Programmers</title>
+<link type="text/css" rel="stylesheet" href="../../default_style.css">
+<script type="text/javascript">
+      menuName = new Array(  );
+      depth = 2;
+    </script><script type="text/javascript" src="../../browser_script.js"></script>
+</head>
+<!--PathToRoot="../.."-->
+<!--DocDepth=2-->
+<body MARGINHEIGHT="0" MARGINWIDTH="0" LEFTMARGIN="0" TOPMARGIN="0">
+<div class="PageHeader">
+<div style="border-bottom: 1px solid #bbaa66;">
+<div style="border-bottom: 1px solid #ddcc88;">
+<div class="spacer"></div>
+<div class="row">
+<span class="left">Mihai Christodorescu: <a class="OnsiteTopLink" href="../../index.html">main</a> / <a class="OnsiteTopLink" href="../index.html">work</a> / <a class="OnsiteTopLink" href="./index.html">courses</a> / fall 1999 cs 368-2</span><span class="right"><a class="Onsite" style="margin-right: 0.5em;" href="../../calendar.html">
+                Calendar
+              </a><a class="Onsite" href="../../contact.html">
+                Contact info
+              </a></span>
+</div>
+<div class="spacer"></div>
+</div>
+</div>
+</div>
+<br>
+<table cellspacing="0" cellpadding="10" border="0" width="75%" align="center">
+<tr>
+<td>
+<h1 align="center">
+              Mihai's CS368-3 (Fall 1999):<br>C++ for Java Programmers<br>
+<img border="0" width="300" height="1" src="../../images/black_dot.png"></h1>
+<p>
+              The Computer Science 368-3 course covers C++ and is for
+              students with previous Java experience. This page is
+              <b>not</b> the main class page. The main class page used to
+              be found at:
+	      <blockquote>
+<a href="http://www.cs.wisc.edu/~cs368-3/SECTION3/cs368.html" class="Offsite">http://www.cs.wisc.edu/~cs368-3/SECTION3/cs368.html</a>
+</blockquote>
+	      Please refer to that page before asking any questions.
+	    </p>
+<p>
+	      Below you will find questions and answers related to the
+	      on-line lessons, the homework, and the programming
+	      assignments. The questions are listed by date, with the
+	      most recent at the top. Please check the whole list of
+	      questions before contacting the TA or the
+	      professor. Thanks.
+	    </p>
+</td>
+</tr>
+<tr bgcolor="blanchedalmond">
+<td>
+<p align="right">Thu Nov 18, 1999</p>
+<b>Q:</b>
+<br>About programming assignment #1:<br>Is the average read from the input file, or do I have to compute it?</td>
+</tr>
+<tr bgcolor="gainsboro">
+<td><b>A:</b>
+<br>
+        You have to computer the average for each student. The input file contains the following information (not all on one line):<br>
+        
+<br>
+        
+<tt>&lt;9-digit student id&gt; &lt;grade 1&gt; &lt;grade 2&gt; ... &lt;grade #NUMGRADES&gt;</tt>
+<br>
+        
+<br>
+        (the angle brackets <tt>&lt;</tt>, <tt>&gt;</tt> are NOT part
+        of the format, they just delimit the information in the line
+        above).
+      </td>
+</tr>
+<tr>
+<td height="5"></td>
+</tr>
+<tr bgcolor="blanchedalmond">
+<td>
+<p align="right">Thu Nov 18, 1999</p>
+<b>Q:</b>
+<br>About programming assignment #1:<br>What would be a reasonable <tt>MAX_STUDENT</tt> size for the size of my array of students?</td>
+</tr>
+<tr bgcolor="gainsboro">
+<td><b>A:</b>
+<br>
+        You can assume there will not be more than 100 student records
+        in the input file. That limits the number of students to the
+        range 0 - 100.
+      </td>
+</tr>
+<tr>
+<td height="5"></td>
+</tr>
+<tr bgcolor="blanchedalmond">
+<td>
+<p align="right">Wed Nov 10, 1999</p>
+<b>Q:</b>
+<br>Wed Nov 10, 1999</td>
+</tr>
+<tr bgcolor="gainsboro">
+<td><b>A:</b>
+<br>
+        Once you edited your files, use the following command:<br>
+        
+<br>
+        
+<tt>% g++ -g -W -Wall &lt;source files&gt;</tt>
+<br>
+        
+<br>
+        This will compile the C++ files given on the command line and,
+        if successful, it will create an executable named
+        <tt>a.out</tt>. To run the executable, just type:<br>
+        
+<br>
+	
+<tt>% ./a.out</tt>
+<br>
+        
+<br>
+        The options given to g++ are as follows:<br>
+        
+<br>
+        
+<tt>-g</tt> : compile with debug information. Useful if you
+        plan to run the debugger on your program.<br>
+        
+<tt>-W -Wall</tt> : print out warnings during
+        compilation. This is make g++ print warnings about your
+        code. In some cases, the warnings are false, but most of the
+        time it is a good idea to go back to the source and fix it.<br>
+        
+<br>
+        Sometimes you want g++ to create an executable with a certain
+        name, not the generic <tt>a.out</tt>. To do this, use the
+        <tt>-o</tt> option:<br>
+        
+<br>
+        
+<tt>% g++ -g -W -Wall &lt;source files&gt; -o &lt;executable name&gt;</tt>
+<br>
+        
+<br>
+	This will create an executable with the name you specified.<br>
+        
+<br>
+        Examples:<br>
+<br>
+        
+<tt>% g++ -g -W -Wall file1.C</tt>
+<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;compile <tt>file1.C</tt> with debug
+        information and warnings and put the executable in file
+        <tt>a.out</tt>.<br>
+        
+<br>
+        
+<tt>% g++ -g file1.C</tt>
+<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;compile <tt>file1.C</tt> with debug
+        information, but without warnings, and put the executable in
+        file <tt>a.out</tt>.<br>
+        
+<br>
+        
+<tt>% g++ file1.C -o file1</tt>
+<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;compile <tt>file1.C</tt> without debug
+        information, and without warnings, and put the executable in
+        file <tt>file1</tt>.
+        <br>
+      
+</td>
+</tr>
+<tr>
+<td height="5"></td>
+</tr>
+<tr bgcolor="blanchedalmond">
+<td>
+<p align="right">Wed Nov 11, 1999</p>
+<b>Q:</b>
+<br>How do I turn-in my solution?</td>
+</tr>
+<tr bgcolor="gainsboro">
+<td><b>A:</b>
+<br>
+        The turn-in amounts to no more than copying the required
+        solution files in the correct turn-in directory. Here is what
+        you need to do:<br>
+        
+<ol>
+          
+<li>put your solution file(s) in your CS private directory
+            (<tt>~/private/</tt>)<br>
+            
+<br>
+            If your solution file(s) is/are on a computer outside the
+            CSL lab (your home computer, for example), you can FTP the
+            files to your CS private directory. For more information
+            on that please check the CSL page <a class="Offsite" href="http://www.cs.wisc.edu/csl/doc/howto/remote/index.html">http://www.cs.wisc.edu/csl/doc/howto/remote/index.html</a>.<br>
+            
+<br>
+            If you create your solution files on an NT CSL computer,
+            save the files in the <tt>U:\private</tt> directory.<br>
+            
+<br>
+            If you create your solution files on an Unix CSL computer,
+            save the files in your private directory
+            (<tt>~/private/</tt>).<br>
+            
+<br>
+          
+</li>
+          
+<li>open a terminal on one of the nova computers<br>
+            
+<br>
+            You can do that remotely, by ssh or telnet, or by logging
+            in to any of the <tt>nova</tt> machines in the CSL Unix
+            lab.<br>
+            
+<br>
+            If you are on the nova machines in the CSL Unix lab, open
+            an <tt>xterm</tt>.<br>
+            
+<br>
+          
+</li>
+	  
+<li>make sure you are in your private directory<br>
+            
+<br>
+            Type the following at the terminal command line:<br>
+            
+<br>
+            
+<tt>% cd ~/private/</tt>
+<br>
+            
+<br>
+            (note: <tt>%</tt> is part of the prompt, you do not have
+            to type it)<br>
+            
+<br>
+          
+</li>
+          
+<li>copy the solution file(s) to the turnin directory<br>
+            
+<br>
+            Type the following at the terminal command line:<br>
+            
+<br>
+            
+<tt>% cp &lt;files&gt; &lt;turn-in path&gt;</tt>
+<br>
+            
+<br>
+          
+</li>
+          
+<li>check whether the files were copied<br>
+            
+<br>
+            Type the following at the terminal command line:<br>
+            
+<br>
+            
+<tt>% ls &lt;turn-in path&gt;</tt>
+<br>
+            
+<br>
+            You should see the solution file(s) required by the assignment.
+          </li>
+        
+</ol>
+<br>
+        That's it!<br>
+        
+<br>
+        
+<tt>&lt;files&gt;</tt> is the list of files you have to turn
+        in, named as required by the assignment. For example, for
+        Written Assignment #1, there is only one file to turn in,
+        named <tt>hw1</tt>.<br>
+        
+<br>
+        
+<tt>&lt;turn-in path&gt;</tt> is the name of the directory you
+        have to turn in your files into, as specified by the
+        assignment. For example, for Written Assignment #1, the
+        turn-in path is
+        <nobr><tt>~cs368-3/public/SECTION3/turnin/HW1/&lt;your login
+        name&gt;</tt></nobr>.<br>
+        
+<br>
+        If I turned in my HW1 solution, I would do the following:<br>
+        
+<ul>
+          
+<li>edit the file <tt>hw1</tt> and save it in <tt>~/private/</tt>
+</li>
+          
+<li>
+<tt>% cd ~/private/</tt>
+</li>
+          
+<li>
+<tt>% cp hw1 ~cs368-3/public/SECTION3/turnin/HW1/mihai</tt>
+</li>
+          
+<li>
+<tt>% ls ~cs368-3/public/SECTION3/turnin/HW1/mihai</tt>
+</li>
+        
+</ul>
+      
+</td>
+</tr>
+<tr>
+<td height="5"></td>
+</tr>
+<tr bgcolor="blanchedalmond">
+<td>
+<p align="right">Thu Nov 11, 1999</p>
+<b>Q:</b>
+<br>I took some Computer Science classes a while ago. Now, whatever accounts I had there are expired. But in order to use the computers at CS for this course, I need to have a login... so what should I do?</td>
+</tr>
+<tr bgcolor="gainsboro">
+<td><b>A:</b>
+<br>
+        Your account with the CS department should have been
+        reactivated. Try logging in to one of the machines in the CS
+        labs.<br>
+        
+<br>
+        If that does not work, or if you forgot your password, please
+        go to the CSL office, 2350 Computer Sciences and Statistics,
+        and have your account activated asap.
+      </td>
+</tr>
+<tr>
+<td height="5"></td>
+</tr>
+</table>
+<br>
+<div class="MaintainerInfo">
+<div>
+<div>
+<div>
+	    Copyright 1998-2005 Mihai Christodorescu. All rights reserved. <br>
+            Maintained by Mihai Christodorescu (<a href="http://mihai.christodorescu.org">http://mihai.christodorescu.org</a>). <br>
+            Created: Mon Dec 21 21:12:13 PST 1998<br>
+            Last modified: Sat Oct  1 23:06:25 CDT 2005</div>
+</div>
+</div>
+</div>
+</body>
+</html>

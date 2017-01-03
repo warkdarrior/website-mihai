@@ -1,0 +1,252 @@
+@import url( "http://www.cs.wisc.edu/~mihai/default_style.css" );
+
+BODY
+{
+/*  font-family: sans-serif; */
+}
+
+/* ---------------------------------------------------------------------- */
+
+.Cuprins1
+{
+  font-weight: bold;
+
+  padding-top: 1em;
+
+  padding-bottom: 1em;
+  border-bottom: 1px dashed green;
+
+  padding-left: 1em;
+  border-left: 1px dashed green;
+
+  padding-right: 1em;
+  border-right: 1px dashed green;
+}
+.Cuprins1 DIV
+{
+  padding-left: 1em;
+}
+
+.Cuprins2
+{
+  font-weight: normal;
+}
+.Cuprins2 DIV
+{
+  padding-left: 1em;
+}
+
+.Cuprins3
+{
+  font-weight: normal;
+}
+.Cuprins3 DIV
+{
+  padding-left: 1em;
+}
+
+.Cuprins4
+{
+  font-weight: normal;
+}
+.Cuprins4 DIV
+{
+  padding-left: 1em;
+}
+
+/* ---------------------------------------------------------------------- */
+
+.RetetaInIndex
+{
+  font-weight: normal;
+}
+
+.GrupDeReteteInIndex
+{
+  font-weight: normal;
+  margin-top: 1em;
+  padding-left: 2em;
+}
+
+/* ---------------------------------------------------------------------- */
+
+.MainContents
+{
+  padding: 5px;
+  text-align: justify;
+  width: 75%;
+
+/*   border: 1px solid red; */
+/*   padding: 1em; */
+}
+
+.Introducere
+{
+  text-align: justify;
+  margin-left: 2em;
+}
+
+/* ---------------------------------------------------------------------- */
+
+.GrupDeRetete
+{
+  padding-bottom: 2em;
+
+/*   border: 1px solid red; */
+/*   padding: 1em; */
+}
+.TitluGrup
+{
+  text-align: center;
+  font-size: larger;
+  font-weight: bold;
+  margin: 2em 0em 1em 0em;
+}
+.IntroducereGrup
+{
+  width: 85%;
+  text-indent: 3em;
+  text-align: justify;
+}
+
+/* ---------------------------------------------------------------------- */
+
+.GrupDeRetete1
+{
+  padding: 1em 1em 1em 1em;
+}
+.TitluGrup1
+{
+  font-size: larger;
+  font-weight: bold;
+}
+.IntroducereGrup1
+{
+  text-align: justify;
+  margin-left: 2em;
+}
+
+/* ---------------------------------------------------------------------- */
+
+.GrupDeRetete2
+{
+  margin-left: 2em;
+  margin-top: 1em;
+}
+.TitluGrup2
+{
+  font-weight: bold;
+}
+.IntroducereGrup2
+{
+  text-align: justify;
+  margin-left: 2em;
+}
+
+/* ---------------------------------------------------------------------- */
+
+.GrupDeRetete3
+{
+  margin-left: 2em;
+  margin-top: 1em;
+}
+.TitluGrup3
+{
+  font-weight: bold;
+}
+.IntroducereGrup3
+{
+  text-align: justify;
+  margin-left: 2em;
+}
+
+/* ---------------------------------------------------------------------- */
+
+.Reteta
+{
+  margin-bottom: 2em;
+  border-bottom: 1px dashed #bbbbbb;
+}
+.UltimaReteta
+{
+}
+
+.TitluReteta
+{
+  margin-left: 4em;
+  font-size: larger;
+  font-weight: bold;
+}
+
+.IntroducereReteta
+{
+  width: 85%;
+  text-indent: 3em;
+  text-align: justify;
+}
+
+.ListaDeIngrediente
+{
+  background-color: #FFFFCC;
+  margin-top: 0.3em;
+  padding: 4px;
+  margin-bottom: 0.3em;
+}
+.Ingredient
+{
+  font-style: italic;
+}
+
+.Instructiuni
+{
+}
+
+/* ---------------------------------------------------------------------- */
+
+.Masura
+{
+  text-align: right;
+  padding-right: 1em;
+}
+
+.TitluMasura
+{ 
+  text-align: right;
+  padding-right: 1em;
+  padding-left: 1em;
+  border-bottom: 1px solid green;
+}
+
+.AlimentMasurat
+{
+  text-align: left;
+  padding-right: 1em;
+  padding-left: 1em;
+  border-right: 1px solid green;
+  visibility: visible;
+}
+
+/* ---------------------------------------------------------------------- */
+
+.FotografiiDeReteta
+{
+  padding: 0.25em 0em 0.25em 0em;
+}
+
+.InvitatieFotoDeReteta
+{
+  text-align: right;
+  font-style: italic;
+}
+
+.FotoDeReteta
+{
+  margin-top: 1em;
+}
+
+IMG.FotoReteta
+{
+  width: 100;
+  border-width: 1px;
+  padding: 2px;
+}

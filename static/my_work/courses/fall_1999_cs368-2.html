@@ -1,0 +1,319 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Mihai Christodorescu: CS368-2: Fall 1999: C++ for Java Programmers</title>
+<link type="text/css" rel="stylesheet" href="../../default_style.css">
+<script type="text/javascript">
+      menuName = new Array(  );
+      depth = 2;
+    </script><script type="text/javascript" src="../../browser_script.js"></script>
+</head>
+<!--PathToRoot="../.."-->
+<!--DocDepth=2-->
+<body MARGINHEIGHT="0" MARGINWIDTH="0" LEFTMARGIN="0" TOPMARGIN="0">
+<div class="PageHeader">
+<div style="border-bottom: 1px solid #bbaa66;">
+<div style="border-bottom: 1px solid #ddcc88;">
+<div class="spacer"></div>
+<div class="row">
+<span class="left">Mihai Christodorescu: <a class="OnsiteTopLink" href="../../index.html">main</a> / <a class="OnsiteTopLink" href="../index.html">work</a> / <a class="OnsiteTopLink" href="./index.html">courses</a> / fall 1999 cs 368-2</span><span class="right"><a class="Onsite" style="margin-right: 0.5em;" href="../../calendar.html">
+                Calendar
+              </a><a class="Onsite" href="../../contact.html">
+                Contact info
+              </a></span>
+</div>
+<div class="spacer"></div>
+</div>
+</div>
+</div>
+<br>
+<table cellspacing="0" cellpadding="10" border="0" width="75%" align="center">
+<tr>
+<td>
+<h1 align="center">
+              Mihai's CS368-2 (Fall 1999):<br>C++ for Java Programmers<br>
+<img border="0" width="300" height="1" src="../../images/black_dot.png"></h1>
+<p>
+	      The Computer Science 368-2 course covers C++ and is
+              for students with previous Java experience.
+	      This page is <b>not</b> the main class page. The main
+	      class page used to be located at:
+	      <blockquote>
+<a href="http://www.cs.wisc.edu/~cs368-2/" class="Offsite">http://www.cs.wisc.edu/~cs368-2/</a>
+</blockquote>
+	      Please refer to that page before asking any questions.
+	    </p>
+<p>
+	      Below you will find questions and answers related to
+	      the on-line lessons, the homework, and the programming assignments. The questions
+	      are listed by date, with the most recent at the top. Please check the whole list
+	      of questions before contacting the TA or the professor. Thanks.
+	    </p>
+</td>
+</tr>
+<tr bgcolor="blanchedalmond">
+<td>
+<p align="right">Mon Oct 25, 1999</p>
+<b>Q:</b>
+<br>Why do we need header files? What do I put in header files?</td>
+</tr>
+<tr bgcolor="gainsboro">
+<td><b>A:</b>
+<br>
+        Header files allow you to share common information among
+        various source files.<br>
+        
+<br>
+        For a function, we define the <i>function declaration</i> as the return type, the name of the function, and the list of arguments. The <i>function definition</i> is the function declaration followed by the function body. For example:<br>
+        
+<br>
+        
+<pre>
+// function declaration&lt;br /&gt;
+double compute_root( double a, double b, double c );
+
+// function definition
+double compute_root( double a, double b, double c )
+{
+    double delta = b * b - 4 * a * c;
+
+    if( delta &lt; 0 )
+    {
+        cout &lt;&lt; "Error!" &lt;&lt; endl;
+        return 0.0;
+    }
+
+    return ( - b + sqrt( delta ) ) / ( 2 * a );
+}     </pre>
+        Obviously, the declaration and the definition have to match
+        for the same function!<br>
+        
+<br>
+        Suppose you create some functions called A, B, and C and you put them in the same source file called myfuncs.C. Let's suppose that the function A needs to call another small function called A1. We can put A1 in myfuncs.C also.<br>
+        
+<br>
+        In C++ (and C), the functions A, B, C, and A1 are only known
+        inside the file myfuncs.C. Inside that file, any function (A,
+        B, C, or A1) can call any other function. If you write a main
+        function and put it in a file main.C, it will not know about
+        the functions A, B, C, or A1. If you try to call A (or B, or
+        C, or A1) from main, you will get a compile-time error,
+        because the compiler does not know about those functions when
+        it reads the main.C file.<br>
+        
+<br>
+        To fix this, we have to somehow have main.C know about the
+        functions it uses. The easiest way to do this is to put the
+        function definitions for the function used by main inside the
+        main.C file. So we can do this for every file that uses the
+        functions A, B, or C. This is one solution, but it is
+        incomplete. What happens if we add one parameter to the
+        arguments of the function A? Then we have to go and modify all
+        the files that use the function A to know about the new
+        parameter! This is cumbersome and prone to error.<br>
+        
+<br>
+        We can just put the function declarations in a header file
+        named myfuncs.h (so we know it contains declarations for
+        functions in myfuncs.C) and <tt>#include</tt> myfuncs.h in
+        each source file that uses those functions. This way, we just
+        need to modify the header file myfuncs.h and the source file
+        myfuncs.C whenever we change the function arguments.<br>
+        
+<br>
+        So header files (.h) help us share common information among
+        source files (.C).
+        <ul>
+          
+<li>for <b>functions</b>:<br>
+            If functions A, B, and C, in file1.C are called from
+            file2.C, create a header file named file1.h, put the
+            declarations of A, B, and C in file1.h, and <tt>#include
+            "file1.h"</tt> in file2.C.
+          </li>
+          
+<li>for structures (<b>struct</b>, <b>union</b>, <b>class</b>):
+            <br>
+            If the structure is used by functions in file1.C
+            <b>and</b> file2.C, create a header file named common.h,
+            put the definition of the structure in common.h, and
+            <tt>#include "common.h"</tt> in <b>both</b> file1.C and
+            file2.C.
+          </li>
+          
+<li>for constants (<b>const int</b>, <b>const double</b>, ...):<br>
+            Similar to structures.
+          </li>
+        
+</ul>
+        Obviously, the rules above can be extended to more than two
+        files.<br>
+        
+<br>
+        Keep in mind that these rules are not part of the language,
+        the compiler does not enforce them, but they are standard
+        programming practice.
+      </td>
+</tr>
+<tr>
+<td height="5"></td>
+</tr>
+<tr bgcolor="blanchedalmond">
+<td>
+<p align="right">Wed Oct 13, 1999</p>
+<b>Q:</b>
+<br>I cannot turn in my homework. It says "permission denied." Help!</td>
+</tr>
+<tr bgcolor="gainsboro">
+<td><b>A:</b>
+<br>
+        Here is what you need to do:<br>
+        
+<ol>
+          
+<li>put your solution file(s) in your CS private directory
+            (<tt>~/private/</tt>)<br>
+            
+<br>
+	    If your solution file(s) is/are on a computer outside the
+	    CSL lab (your home computer, for example), you can FTP the
+	    files to your CS private directory. For more information
+	    on that please check the CSL page <a class="Offsite" href="http://www.cs.wisc.edu/csl/doc/howto/remote/index.html">http://www.cs.wisc.edu/csl/doc/howto/remote/index.html</a>.<br>
+            
+<br>
+            If you create your solution files on an NT CSL computer,
+            save the files in the <tt>U:\private</tt> directory.<br>
+            
+<br>
+            If you create your solution files on an Unix CSL computer,
+            save the files in your private directory
+            (<tt>~/private/</tt>).<br>
+            
+<br>
+          
+</li>
+          
+<li>open a terminal on one of the nova computers<br>
+            
+<br>
+            You can do that remotely, by ssh or telnet, or by logging
+            in to any of the <tt>nova</tt> machines in the CSL Unix
+            lab.<br>
+            
+<br>
+            If you are on the nova machines in the CSL Unix lab, open
+            an <tt>xterm</tt>.<br>
+            
+<br>
+          
+</li>
+          
+<li>make sure you are in your private directory<br>
+            
+<br>
+            Type the following at the terminal command line:<br>
+            
+<br>
+            
+<tt>% cd ~/private/</tt>
+<br>
+            
+<br>
+            (note: <tt>%</tt> is part of the prompt, you do not have to type it)<br>
+            
+<br>
+          
+</li>
+          
+<li>copy the solution file(s) to the turnin directory<br>
+            
+<br>
+            Type the following at the terminal command line:<br>
+            
+<br>
+            
+<tt>% cp &lt;files&gt; &lt;turn-in path&gt;</tt>
+<br>
+            
+<br>
+          
+</li>
+          
+<li>check whether the files were copied<br>
+            
+<br>
+            Type the following at the terminal command line:<br>
+            
+<br>
+            
+<tt>% ls &lt;turn-in path&gt;</tt>
+<br>
+            
+<br>
+            You should see the solution file(s) required by the
+            assignment.
+          </li>
+        
+</ol>
+<br>
+        That's it!<br>
+        
+<br>
+        
+<tt>&lt;files&gt;</tt> is the list of files you have to turn
+        in, named as required by the assignment. For example, for
+        Written Assignment #1, there was only one file to turn in,
+        named "hw1".<br>
+        
+<br>
+        
+<tt>&lt;turn-in path&gt;</tt> is the name of the directory
+        you have to turn in your files into, as specified by the
+        assignment. For example, for Written Assignment #1, the
+        turn-in path was
+        <nobr><tt>"~cs368-2/public/SECTION2/turnin/HW1/&lt;your login name&gt;"</tt></nobr>.
+        If I were to turn in my HW1 solution, I would use the
+        path <nobr><tt>~cs368-2/public/SECTION2/turnin/HW1/mihai</tt></nobr>.
+      </td>
+</tr>
+<tr>
+<td height="5"></td>
+</tr>
+<tr bgcolor="blanchedalmond">
+<td>
+<p align="right">Thu Oct 7, 1999</p>
+<b>Q:</b>
+<br>I took some Computer Science classes a while ago. Now, whatever accounts I had there are expired. But in order to use the computers at CS for this course, I need to have a login... so what should I do?</td>
+</tr>
+<tr bgcolor="gainsboro">
+<td><b>A:</b>
+<br>
+        Your account with the CS department should have been
+        reactivated. Try logging in to one of the machines in the CS
+        labs.<br>
+        
+<br>
+        If that does not work, or if you forgot your password, please
+        go to the CSL office, 2350 Computer Sciences and Statistics,
+        and have your account activated ASAP.
+      </td>
+</tr>
+<tr>
+<td height="5"></td>
+</tr>
+</table>
+<br>
+<div class="MaintainerInfo">
+<div>
+<div>
+<div>
+	    Copyright 1998-2005 Mihai Christodorescu. All rights reserved. <br>
+            Maintained by Mihai Christodorescu (<a href="http://mihai.christodorescu.org">http://mihai.christodorescu.org</a>). <br>
+            Created: Mon Dec 21 21:12:13 PST 1998<br>
+            Last modified: Sat Oct  1 23:06:21 CDT 2005</div>
+</div>
+</div>
+</div>
+</body>
+</html>

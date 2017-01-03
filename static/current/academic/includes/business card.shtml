@@ -1,0 +1,41 @@
+      <div class="businesscard">
+	<div class="photo"> <img src="<!--#echo encoding="none" var="path_to_root" -->/images/mihai_ucsb_dec2002.jpg" alt="Photo of Mihai Christodorescu" /> </div>
+
+	<div class="name">Mihai Christodorescu</div>
+	<div class="position"> Research Assistant </div>
+
+	<div class="address">
+	  <div> <a href="http://www.cs.wisc.edu"> Department of Computer Sciences </a> </div>
+	  <div> <a href="http://www.wisc.edu"> University of Wisconsin, Madison </a> </div>
+	  <div> 1210 W Dayton St </div>
+	  <div> Office 7372 </div>
+	  <div> Madison, WI 53706-1685 </div>
+	</div>
+
+	<div class="comm">
+	  <table>
+<!--#if expr="${HTTP_USER_AGENT} = /MSIE/" -->
+	    <tbody style="font-size: smaller;">
+<!--#else -->
+	    <tbody>
+<!--#endif -->
+	      <tr> <td class="tag"> Telephone: </td>
+		   <td class="value"> +1 608 262-6625 </td> </tr>
+	      <tr> <td class="tag"> Fax: </td>
+		   <td class="value"> +1 608 262-9777 </td> </tr>
+	      <tr> <td class="tag"> Website: </td>
+                   <td class="value"> <a href="http://www.cs.wisc.edu/~mihai"> http://www.cs.wisc.edu/~mihai </a> </td> </tr>
+	      <tr> <td class="tag"> Email: </td>
+                   <td class="value"> <a href="mailto:mihai@cs.wisc.edu"> mihai@cs.wisc.edu </a> </td> </tr>
+	      <tr> <td class="tag"> ICQ: </td>
+                   <td class="value"> 3954659 </td> </tr>
+	      <tr> <td class="tag"> AIM: </td>
+                   <td class="value"> yodMihai </td> </tr>
+	      <tr> <td class="tag"> Yahoo! IM: </td>
+                   <td class="value"> warkda </td> </tr>
+	      <tr> <td class="tag"> Skype: </td>
+                   <td class="value"> warkdarrior </td> </tr>
+	    </tbody>
+	  </table>
+	</div>
+      </div>

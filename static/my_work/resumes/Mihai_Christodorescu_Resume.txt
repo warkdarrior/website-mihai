@@ -1,0 +1,196 @@
+Mihai Christodorescu
+
+
+Contact
+=======
+  phone number: (608) 658-3671 or (805) 389-1794
+  email: mihai@cs.wisc.edu
+
+
+Education
+=========
+
+Courses: 
+--------
+  Programming Languages and Compilers
+  Advanced Programming Languages and Compilers
+  Principles of Programming Languages
+  Compilers and Translation of Programming Languages
+  Software Engineering
+  Operating Systems
+  Advanced Operating Systems
+  Computer Architecture
+  Advanced Architecture
+  Foundation of Scientific Computing
+  Data Structures and Algorithms
+  Advanced Algorithms and Data Structures
+  Automata and Formal Languages
+  Logic Design and Switching Theory
+  Theory of Programming Languages
+  Machine Intelligence
+
+Ph.D. Computer Science, May 2005
+--------------------------------
+  University of Wisconsin at Madison
+  Computer Sciences Department, Sept. 1999 - present 
+
+B.S. Computer Science, June 1999
+--------------------------------
+  University of California at Santa Barbara
+  Computer Science Department, Sept. 1996 - June 1999
+
+  Graduated with High Honors. 
+
+Polytechnic University of Bucharest, Romania
+--------------------------------------------
+  Computer Science Department
+  Sept. 1995 - June 1996.
+  Took part in the ACM Regional Contest as member of the University's
+  team.
+
+Computer Science High School, Bucharest, Romania 
+------------------------------------------------
+  Courses in programming (Basic, Pascal, FoxPro, C).
+  Attested as a Computer Operator in the senior year. 
+
+
+Job History and Experience
+==========================
+
+Senior Software Engineer:
+------------------------
+  May 2000 - May 2001:
+  at Yodlee inc. (http://www.yodlee.com)
+  Redwood City, CA.
+
+  Optimized a web-based data extraction system for maximum
+  performance. Researched ways to connect web-based transactional
+  systems in a reliable way. Designed an oversaw the implementation of
+  an extranet service with multiple data output formats (HTML, XML).
+
+Embedded Systems Developer:
+--------------------------
+  April 1999 - June 1999:
+  at Green Hills Software (http://www.ghs.com)
+  Santa Barbara, CA.
+
+  Ported a cross-platform linker to new targets. Evaluated existing
+  commonalities among embedded CPUs to simplify linker code and speed
+  link time. Translated C-based linker modules to new C++ architectue.
+
+Application Software Developer:
+------------------------------
+  February 1999 - April 1999
+  at ZBE (http://www.zbe.com)
+  Goleta, CA. 
+
+  Redesigning and implementing new printer control and spooling
+  utilities for high-performance and high-quality specialized
+  printers. Studied old code for reusability capabilities.
+
+SNA Server Developer:
+--------------------
+  June 1998 - Sept. 1998 (summer internship)
+  at Microsoft (http://www.microsoft.com)
+  Redmond, WA.
+
+  Completely redesigned the single sign-on user management system,
+  improving the response time as well as the recoverability of the
+  Host Security product. Learned new technologies in a short amount of
+  time (such as COM, DCOM, OLE, and OLEDB). Analyzed and proofed the
+  code against threading issues, resource contention, and timing
+  issues.
+
+NT Systems Developer:
+--------------------
+  June 1997 - June 1998
+  at Pontis Research Inc. (http://www.pontisresearch.com)
+  Camarillo, CA. 
+
+  Specialized in distributed security in heterogeneous environments,
+  with emphasis on NT security and integration of security
+  systems. Tested CTOS-to-NT security interface. Developed and tested
+  NT NetWare Single Sign-on" product. Developed a transaction based
+  unified NT security API with rollback capabilities.
+
+Web Designer:
+------------
+  Nov 1996 - June 1997
+  at University of California at Santa Barbara (http://www.ucsb.edu)
+  School of Environmental Science and Management (http://www.bren.ucsb.edu)
+  Student Computing Facilities
+  Santa Barbara, CA.
+
+  Managed the departmental network of Windows NT, Windows 95, and
+  PowerPC computers. Designed web pages for internal use (help pages),
+  as well as a prototype for a database with web interface.
+
+Computer-based Test Technician:
+------------------------------
+  Sept. 1995 - Sept. 1996
+  at Advanced Motion Controls (http://www.a-m-c.com)
+  Camarillo, CA.
+
+  Tested the products on computer, using DAQ in-house developed
+  software. Improved the testing technology with regard to speed and
+  accuracy. Full time employment.
+
+Research Interests and Skills
+=============================
+
+Research interests:
+------------------
+  programming languages
+  analysis of software systems (specifically with respect to security
+    properties)
+  compiler optimizations
+  software development tools
+  optimal user interfaces for software development
+
+Programming languages:
+---------------------
+  Java 
+  C 
+  C++ 
+  Pascal 
+  Perl 
+  Prolog 
+  SQL 
+
+Platforms and APIs:
+------------------
+  Unix system internals 
+  Java
+  Linux
+  network programming
+  X Window System API
+  Internet protocols
+  Microsoft Windows API for Windows 95 (Win32),
+    Windows NT 3.51-4.0 (Windows networking,
+    Windows NT security), and Windows 2000
+  HTML 4.0 (including CSS and D-HTML) 
+  JavaScript 
+  (D)COM 
+  OLE 
+
+Awards and Exceptional Achievements
+===================================
+
+* vice president of Tau Beta Pi, the National Engineering Honor
+  Society ( UCSB chapter )
+* chair of ACM, the Association of Computing Machinery ( UCSB chapter )
+
+* working in the spare time on home-grown projects, ranging from new
+  paradigms in IDEs, to code checking tools, and to implementing new
+  (experimental) OS concepts impressive software
+
+* design skills, including object-oriented design
+* excellent programming expertise, quick understanding of new
+  technologies and algorithms
+
+* platform proficiencies: Unix, Windows 3.1 / 95 / NT, DOS
+
+* selected for Dean's Honors List
+* GPA in Computer Science: 4.0
+
+* foreign languages currently spoken: French, and Romanian

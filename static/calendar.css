@@ -1,0 +1,142 @@
+.sporting_event_style
+{ 
+  background-color: #eeaaee;
+  border-left: 2px solid #ffbbff;
+  border-right: 2px solid #dd99dd;
+
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 2px;
+}
+
+.club_meeting_style
+{ 
+  background-color: #eeeeaa;
+  border-left: 2px solid #ffffbb;
+  border-right: 2px solid #dddd99;
+
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 2px;
+}
+
+.lunch_style
+{ 
+  background-color: #eeeeaa;
+  border-left: 2px solid #ffffbb;
+  border-right: 2px solid #dddd99;
+
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 2px;
+}
+
+.dinner_style
+{ 
+  background-color: #eeeeaa;
+  border-left: 2px solid #ffffbb;
+  border-right: 2px solid #dddd99;
+
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 2px;
+}
+
+.movie_style
+{ 
+  background-color: #eeeeaa;
+  border-left: 2px solid #ffffbb;
+  border-right: 2px solid #dddd99;
+
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 2px;
+}
+
+.party_style
+{ 
+  background-color: #eeeeaa;
+  border-left: 2px solid #ffffbb;
+  border-right: 2px solid #dddd99;
+
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 2px;
+}
+
+.concert_style
+{ 
+  background-color: #eeeeaa;
+  border-left: 2px solid #ffffbb;
+  border-right: 2px solid #dddd99;
+
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 2px;
+}
+
+.research_meeting_style
+{ 
+  background-color: #aaccee;
+  border-left: 2px solid #bbddff;
+  border-right: 2px solid #99bbdd;
+
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 2px;
+}
+
+.out_of_office_style
+{ 
+  background-color: #dddddd;
+  border-left: 2px solid #eeeeee;
+  border-right: 2px solid #cccccc;
+
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 2px;
+}
+
+.research_seminar_style
+{ 
+  background-color: #eeeeaa;
+  border-left: 2px solid #ffffbb;
+  border-right: 2px solid #dddd99;
+
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 2px;
+}
+
+.class_style
+{ 
+  background-color: #aaeecc;
+  border-left: 2px solid #bbffdd;
+  border-right: 2px solid #99ddbb;
+
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 2px;
+}
+
+.other_style
+{ 
+  background-color: #dddddd;
+  border-left: 2px solid #eeeeee;
+  border-right: 2px solid #cccccc;
+
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 2px;
+}
+
+.doctor_style
+{ 
+  background-color: #ff8800;
+  border-left: 2px solid #ff9911;
+  border-right: 2px solid #ee7700;
+
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  padding: 2px;
+}

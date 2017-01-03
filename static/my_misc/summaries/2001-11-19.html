@@ -1,0 +1,163 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Mihai Christodorescu: Summary for Translation Validation for an Optimizing Compiler</title>
+<script language="JavaScript">
+      menuName = new Array();
+      depth = 2;
+    </script><script src="../../browser_script.js" language="JavaScript"></script>
+<link type="text/css" href="../../default_style.css" rel="stylesheet">
+<style type="text/css">
+DIV.Summary { width: 75%; margin-left: auto; margin-right: auto; text-align: justify; }
+
+DIV.PaperInfo { border-left: 1.5em solid #dddddd; padding: 0.25em 0em 0.25em 1em; }
+DIV.PaperAuthor { font-weight: bold; }
+DIV.PaperTitle { font-weight: bold; font-style: italic; margin-top: 1em; }
+
+DIV.PaperInProceedings { margin-left: 2em; margin-top: 1em; }
+
+DIV.PaperWebsite { margin-left: 2em; }
+DIV.PaperWebsite + DIV.PaperWebsite { margin-top: 0.5em; }
+DIV.PaperWebsite A { margin-left: 2em; }
+
+DIV.SummaryBody { text-align: justify; }
+    </style>
+</head>
+<body MARGINHEIGHT="0" MARGINWIDTH="0" LEFTMARGIN="0" TOPMARGIN="0">
+<div class="PageHeader">
+<div style="border-bottom: 1px solid #bbaa66;">
+<div style="border-bottom: 1px solid #ddcc88;">
+<div class="spacer"></div>
+<div class="row">
+<span class="left">Mihai Christodorescu: <a class="OnsiteTopLink" href="../../index.html">main</a> / <a class="OnsiteTopLink" href="../index.html">miscellenea</a> / <a class="OnsiteTopLink" href="./index.html">paper summaries</a> / summary</span><span class="right"><a class="Onsite" style="margin-right: 0.5em;" href="../..//calendar.html">
+                Calendar
+              </a><a class="Onsite" href="../..//contact.html">
+                Contact info
+              </a></span>
+</div>
+<div class="spacer"></div>
+</div>
+</div>
+</div>
+<br>
+<h1 class="PageTitle">
+<span>Paper Summary</span>
+</h1>
+<div class="Summary">
+<div class="PaperInfo">
+<div class="PaperAuthor">George C. Necula</div>
+<div class="PaperTitle"> "Translation Validation for an Optimizing Compiler" </div>
+<div class="PaperInProceedings">
+      Published in <i>Proceedings of the 2000 ACM SIGPLAN Conference on Programming Languages Design and Implementation (PLDI'00)</i>,
+      pages 83 - 95.
+      June 18-21, 2000.
+      Vancouver, British Columbia, Canada.
+    </div>
+<div style="margin-top: 1em;">
+<div class="PaperWebsite">ACM Digital Library copy:<br>
+<a class="Offsite" href="http://doi.acm.org/10.1145/349299.349314">http://doi.acm.org/10.1145/349299.349314</a>
+</div>
+<div class="PaperWebsite">Copy from George Necula's home page UC Berkeley:<br>
+<a class="Offsite" href="http://www-nt.cs.berkeley.edu/~necula/pldi00a.ps.gz">http://www-nt.cs.berkeley.edu/~necula/pldi00a.ps.gz</a>
+</div>
+</div>
+</div>
+<div class="SummaryBody">
+
+    
+<p>
+      The paper describes a system for verifying program
+      transformations performed by the compiler. Usually such
+      transformations are optimization-related, and the paper provides
+      arguments on why optimizing compilers must be checked for
+      correctness.
+    </p>
+
+    
+<p>
+      The method proposed involves proving the equivalence of the
+      program before and after the transformations take place. Since
+      program equivalence in general is undecidable, a less powerful
+      equivalence is proven, using knowledge of the transformations
+      performed by the compiler and providing a framework to express
+      this equivalence as a simulation relation. The focus of the
+      paper is to check compiler passes over the program, passes that
+      are usually restricted in scope.
+    </p>
+
+    
+<p>
+      The program equivalence relation is defined using the simulation
+      relation between two program.<br>
+      The simulation relation for two programs S and T contains
+      elements of the form (PC<sub><font size="-1">S</font></sub>,
+      PC<sub><font size="-1">T</font></sub>, List(E)), where
+      PC<sub><font size="-1">X</font></sub> is a program point in
+      program X, and List(E) is a list of expressions relating
+      variables from S and T at the given program points.<br>
+      A simulation relation is said to be correct if for each element
+      in the relation, all pairs of executions of S and T starting at
+      the corresponding program points (given by the simulation
+      relation element) are equivalent.<br>
+      A pair of executions is equivalent if both lead to the same
+      sequence of function calls and returns.
+    </p>
+
+    
+<p>
+      The paper further restricts the simulation relation:
+      <ul>
+        
+<li>the expressions in a simulation relation element can only
+        be equalities;</li>
+        
+<li>only intraprocedural relations are considered;</li>
+        
+<li>branches in the target program must correspond to branches
+        in the source program.</li>
+      
+</ul>
+      An inference algorithm that can infer the simulation relation
+      from the compilation process (I suppose they meant from
+      consecutive versions of the program) is described. This
+      inference algorithm imposes the above restrictions on the
+      simulation relation.
+    </p>
+
+    
+<p>
+      The algorithm for checking the simulation relation uses
+      symbolically evaluated versions of the program. One interesting
+      note: they compare the symbolic evaluation process used to
+      rewriting the function as a purely functional program composed
+      of mutually recursive functions (each basic block becomes a
+      side-effect-free function).
+    </p>
+
+    
+<p>
+      The Translation Validation Infrastructure described in the paper
+      is going to be useful in proving the correctness of program
+      transformation tools - that is to say, when the nature of the
+      transformation is somewhat known (maybe it is localized or
+      otherwise easy to separate from the original program).
+    </p>
+
+  
+</div>
+</div>
+<br>
+<div class="MaintainerInfo">
+<div>
+<div>
+<div>
+	    Copyright 1998-2003 Mihai Christodorescu. All rights reserved. <br>
+	    Maintained by Mihai Christodorescu (<a href="http://www.cs.wisc.edu/~mihai">http://www.cs.wisc.edu/~mihai</a>). <br>
+            Created: Thu Dec 24 22:21:54 PST 1998<br>
+            Last modified: Tue Nov 27 17:13:03 CST 2001</div>
+</div>
+</div>
+</div>
+</body>
+</html>

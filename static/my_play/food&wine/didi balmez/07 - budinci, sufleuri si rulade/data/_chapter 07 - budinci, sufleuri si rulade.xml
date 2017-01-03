@@ -1,0 +1,148 @@
+<chapter>
+  <id>7</id>
+  <title>Budinci &#351;i sufleuri</title>
+
+  <intro>
+    <img style="float: left; margin-right: 10px;" src="../images/F-07-01.png" />
+
+    <p>
+      Budincile s&#238;nt preparate culinare u&#351;or de digerat
+      &#351;i gustoase. Se pot prepara din diferite alimente combinate
+      cu ou&#259;.
+    </p>
+
+    <p>
+      Sufleurile se prepar&#259; din diferite alimente amestecate cu
+      albu&#351;uri spum&#259; &#351;i sos alb. S&#238;nt u&#351;oare
+      &#351;i gustoase.
+    </p>
+
+    <p>
+      Ruladele se prepar&#259; dintr-o coc&#259; anumit&#259;
+      amestecat&#259; cu ou&#259; &#351;i &#238;n care se pune o
+      umplutur&#259;.
+    </p>
+
+    <p style="clear: both;" />
+  </intro>
+
+  <!-- ##################################################################### -->
+
+  <section>
+    <id>1</id>
+    <title>Budinci</title>
+
+    <recipes>
+      <id>1</id>
+      <id>2</id>
+      <id>3</id>
+      <id>4</id>
+      <id>5</id>
+      <id>6</id>
+      <id>7</id>
+      <id>8</id>
+      <id>9</id>
+      <id>10</id>
+      <id>11</id>
+      <id>12</id>
+      <id>13</id>
+      <id>14</id>
+      <id>15</id>
+      <id>16</id>
+      <id>17</id>
+      <id>18</id>
+      <id>19</id>
+      <id>20</id>
+      <id>21</id>
+      <id>22</id>
+      <id>23</id>
+      <id>24</id>
+      <id>25</id>
+      <id>26</id>
+      <id>27</id>
+      <id>28</id>
+      <id>29</id>
+      <id>30</id>
+      <id>31</id>
+    </recipes>
+  </section>
+
+  <!-- ##################################################################### -->
+
+  <section>
+    <id>2</id>
+    <title>Sufleuri</title>
+
+    <intro>
+      Sufleurile s&#238;nt preparate din diferite alimente &#238;n
+      care este prezent sosul alb, amestecat cu ou&#259;. Preparatul
+      finit are o consisten&#355;&#259; pufoas&#259;, u&#351;or de
+      digerat &#351;i se recomand&#259; pentru cin&#259; sau pentru
+      persoane care &#355;in regim sau ca prim fel la mas&#259;.
+      Sufleurile se prepar&#259; cu o or&#259; &#238;nainte de
+      mas&#259; &#351;i se servesc imediat dup&#259; aperitive.
+      Trebuie potrivit timpul de coacere deoarece odat&#259; ce s-a
+      scos din cuptor, dac&#259; nu este servit imediat se mai
+      las&#259;.
+    </intro>
+
+    <recipes>
+      <id>32</id>
+      <id>33</id>
+      <id>34</id>
+      <id>35</id>
+      <id>36</id>
+      <id>37</id>
+      <id>38</id>
+      <id>39</id>
+      <id>40</id>
+      <id>41</id>
+      <id>42</id>
+      <id>43</id>
+      <id>44</id>
+      <id>45</id>
+    </recipes>
+  </section>
+
+  <!-- ##################################################################### -->
+
+  <section>
+    <id>3</id>
+    <title>Rulade</title>
+
+    <intro>
+      Ruladele se prepar&#259; din ou&#259; b&#259;tute &#351;i
+      amestecate cu alte alimente, umplute cu o compozi&#355;ie de
+      diverse alimente &#351;i apoi rulate &#351;i coapte la cuptor.
+    </intro>
+
+    <recipes>
+      <id>46</id>
+      <id>47</id>
+      <id>48</id>
+      <id>49</id>
+      <id>50</id>
+      <id>51</id>
+      <id>52</id>
+      <id>53</id>
+      <id>54</id>
+    </recipes>
+  </section>
+
+  <!-- ##################################################################### -->
+
+  <section>
+    <id>4</id>
+    <title></title>
+
+    <intro>
+      <center>
+        <img height="200" src="../images/F-07-02.png" />
+      </center>
+    </intro>
+
+  </section>
+
+  <!-- ##################################################################### -->
+
+</chapter>

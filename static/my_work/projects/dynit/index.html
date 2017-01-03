@@ -1,0 +1,179 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<html>
+  <head>
+    <title>Mihai Christodorescu: dynit project</title>
+    <script language="JavaScript">
+      menuName = new Array();
+      depth = 3;
+    </script>
+    <script language="JavaScript" src="../../../browser_script.js"></script>
+    <link rel="stylesheet" href="../../../default_style.css" type="text/css">
+  </head>
+
+  <body TOPMARGIN="0" LEFTMARGIN="0" MARGINWIDTH="0" MARGINHEIGHT="0">
+
+    <script language="JavaScript">
+      <!--
+      writeLocationHeader( "main / work / projects / dynit page", [ "../../../index.html", "../../index.html", "../index.html" ] );
+      //-->
+    </script>
+
+    <br>
+
+    <center>
+
+      <h1 align="center">
+	Mihai's <tt>dynit</tt> Project<br>
+	<script language="JavaScript">
+	  <!--
+	  putImage( "black_dot.png", "height=\"1\" width=\"200\" border=\"0\"" );
+	  //-->
+	</script>
+      </h1>
+
+      <table width="75%" border="0" cellpadding="10" cellspacing="0">
+	<tr>
+	  <td>
+
+	    <tt>dynit</tt> is a command-line interface tool that can
+	    control a program while it is running. It is similar to a
+	    debugger, but has higher-level functionality, and does not
+	    require debugging information to be present in the
+	    executable file.
+	    <br>
+	    <br>
+
+	    <b>What does <tt>dynit</tt> do for you?</b>
+	    <br>
+	    <br>
+	    &nbsp;&nbsp;&gt;&nbsp;&nbsp; trace the functions the program executes<br>
+	    &nbsp;&nbsp;&gt;&nbsp;&nbsp; break on entry to or exit from a function<br>
+	    &nbsp;&nbsp;&gt;&nbsp;&nbsp; print function arguments and/or return values<br>
+	    &nbsp;&nbsp;&gt;&nbsp;&nbsp; replace functions<br>
+	    <br>
+	    For more details, read the <a class="Onsite"
+	    href="dynit_reference.ps.gz"><tt>dynit</tt>
+	    Reference</a> (gzipped Postscript, 109 kB).
+	    <br>
+	    <br>
+
+	    <b>How does <tt>dynit</tt> do it?</b>
+	    <br>
+	    <br>
+	    dynit uses dynamic program editing functionality provided
+	    by the DynInst library. DynInst is jointly developed at
+	    University of Maryland and University of Wisconsin, and it
+	    provides for a platform independent way of modifying
+	    running programs. Find more information about DynInst:
+	    <br>
+	    &nbsp;&nbsp;&gt;&nbsp;&nbsp; DynInst home page at U. of Maryland:
+	    <a class="Offsite" href="http://www.cs.umd.edu/projects/dyninstAPI">
+	      http://www.cs.umd.edu/projects/dyninstAPI</a>
+	    <br>
+
+	    &nbsp;&nbsp;&gt;&nbsp;&nbsp; DynInst API reference:
+	    <a class="Offsite"
+	      href="http://www.cs.umd.edu/projects/dyninstAPI/rel1.2/dyninstProgGuide.pdf">
+	      http://www.cs.umd.edu/projects/dyninstAPI/rel1.2/dyninstProgGuide.pdf
+	      </a> (PDF, 196 kB)
+	    <br>
+	    <br>
+
+	    <b>What is the development status of <tt>dynit</tt>?</b>
+	    <br>
+	    <br>
+	    We are still working on implementing the planned
+	    functionality.
+	    <br>
+	    <br>
+
+	    <b>Who develops <tt>dynit</tt>?</b>
+	    <br>
+	    <br>
+	    <tt>dynit</tt> was initially created as a class project
+	    for the <i>Advanced Operating Systems</i> course (CS 736)
+	    at the Department of Computer Sciences, University of
+	    Wisconsin, Madison (web site: <a class="Offsite"
+	    href="http://www.cs.wisc.edu">http://www.cs.wisc.edu</a>).
+	    The course was taught by Professor Barton Miller (email:
+	    <a class="Offsite"
+	    href="mailto:bart@cs.wisc.edu">bart@cs.wisc.edu</a>, home
+	    page: <a class="Offsite"
+	    href="http://www.cs.wisc.edu/~bart">http://www.cs.wisc.edu/~bart</a>)
+	    during the Fall 1999 semester.
+	    <br>
+	    <br>
+	    The following people work on <tt>dynit</tt>:
+	    <br>
+	    &nbsp;&nbsp;&gt;&nbsp;&nbsp; Tevfik Kosar (email: <a
+	    class="Offsite"
+	    href="mailto:kosart@cs.wisc.edu">kosart@cs.wisc.edu</a>,
+	    home page: <a class="Offsite"
+	    href="http://www.cs.wisc.edu/~kosart">http://www.cs.wisc.edu/~kosart</a>)
+	    <br>
+	    &nbsp;&nbsp;&gt;&nbsp;&nbsp; Mihai Christodorescu (email:
+	    <a class="Onsite"
+	    href="mailto:mihai@cs.wisc.edu">mihai@cs.wisc.edu</a>,
+	    home page: <a class="Onsite"
+	    href="http://www.cs.wisc.edu/~mihai">http://www.cs.wisc.edu/~mihai</a>)
+	    <br>
+	    &nbsp;&nbsp;&gt;&nbsp;&nbsp; Rob Iverson (email: <a
+	    class="Offsite"
+	    href="mailto:rob@cs.wisc.edu">rob@cs.wisc.edu</a>, home
+	    page: <a class="Offsite"
+	    href="http://www.cs.wisc.edu/~riverson">http://www.cs.wisc.edu/~riverson</a>)
+	    <br>
+	    <br>
+	    Please feel free to contact any of us for more information
+	    or help with <tt>dynit</tt>.
+	    <br>
+	    During this course, we also wrote a paper titled
+	    <i>Opening Pandora's Box: Using Binary Code Rewrite to
+	    Bypass License Checks</i>. Curious? Read it here: <a
+	    class="Onsite"
+	    href="dynit_paper.ps.gz">dynit_paper.ps.gz</a> (gzipped
+	    Postscript, 175 kB) or <a class="Onsite"
+	    href="../../../pdfs/19991213 - Opening Pandora's Box -- Using Binary Code Rewriting to Bypass License Checks.pdf">19991213 - Opening Pandora's Box... .pdf</a> (PDF, 254 kB).
+	    <br>
+	    <br>
+
+	    <b>Where can I download <tt>dynit</tt>?</b>
+	    <br>
+	    <br>
+	    Right here:
+	    <br>
+	    &nbsp;&nbsp;&gt;&nbsp;&nbsp; Version 0.0.1 (quite
+	    unpolished): <a class="Onsite"
+	    href="dynit-0.0.1.tar.gz">dynit-0.0.1.tar.gz</a> (tar/gz
+	    archive, 17 kB)<br>
+	    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; released Tue, Dec. 21, 1999
+	    <br>
+	    <br>
+
+	    <b>What are the licensing terms for <tt>dynit</tt>?</b>
+	    <br>
+	    <br>
+
+	    <tt>dynit</tt> is released under an open-source license
+	    (see <a class="Offsite" href="http://www.opensource.org">
+	    http://www.opensource.org</a>) similar to the BSD
+	    license. You can read the license <a class="Onsite"
+	    href="http://www.cs.wisc.edu/~mihai/my_work/projects/bsd_license.html">here</a>. The
+	    license text is also included in the source package.
+	    <br>
+	    <br>
+
+	  </td>
+	</tr>
+      </table>
+
+    </center>
+
+    <hr>
+    <address>&nbsp;&nbsp;Copyright 1999-2002 <a href="mailto:mihai@cs.wisc.edu">Mihai Christodorescu</a></address>
+<!-- Created: Mon Apr  5 22:49:30 PDT 1999 -->
+&nbsp;&nbsp;<!-- hhmts start -->
+Last modified: Fri Mar 28 15:25:36 CST 2003
+<!-- hhmts end -->
+  </body>
+</html>

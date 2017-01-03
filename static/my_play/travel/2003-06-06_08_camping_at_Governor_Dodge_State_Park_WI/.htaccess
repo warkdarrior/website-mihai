@@ -1,0 +1,7 @@
+AuthUserFile /u/m/i/mihai/public/html/my_play/travel/2003-06-06_08_camping_at_Governor_Dodge_State_Park_WI/.htpasswd
+AuthGroupFile /u/m/i/mihai/public/html/my_play/travel/2003-06-06_08_camping_at_Governor_Dodge_State_Park_WI/.htgroup
+AuthName "Photos from camping trip to Gov. Dodge State Park, June 6-8, 2003"
+AuthType Basic
+<Limit GET>
+require valid-user
+</Limit>
