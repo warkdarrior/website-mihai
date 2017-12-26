@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Mihai Christodorescu</title>
+    <link>https://www.christodorescu.org/tags/</link>
+    <description>Recent content in Tags on Mihai Christodorescu</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2017 Mihai Christodorescu</copyright>
+    <lastBuildDate>Wed, 20 Apr 2016 12:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Academic</title>
+      <link>https://www.christodorescu.org/tags/academic/</link>
+      <pubDate>Wed, 20 Apr 2016 12:00:00 +0000</pubDate>
+      
+      <guid>https://www.christodorescu.org/tags/academic/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Behavioral Analysis</title>
+      <link>https://www.christodorescu.org/tags/behavioral-analysis/</link>
+      <pubDate>Tue, 01 Jan 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.christodorescu.org/tags/behavioral-analysis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Deep Learning</title>
+      <link>https://www.christodorescu.org/tags/deep-learning/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.christodorescu.org/tags/deep-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Hugo</title>
+      <link>https://www.christodorescu.org/tags/hugo/</link>
+      <pubDate>Wed, 20 Apr 2016 12:00:00 +0000</pubDate>
+      
+      <guid>https://www.christodorescu.org/tags/hugo/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Jekyll</title>
+      <link>https://www.christodorescu.org/tags/jekyll/</link>
+      <pubDate>Mon, 10 Mar 2014 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.christodorescu.org/tags/jekyll/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Machine Learning</title>
+      <link>https://www.christodorescu.org/tags/machine-learning/</link>
+      <pubDate>Tue, 01 Jan 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.christodorescu.org/tags/machine-learning/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Mobile Security</title>
+      <link>https://www.christodorescu.org/tags/mobile-security/</link>
+      <pubDate>Tue, 01 Jan 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.christodorescu.org/tags/mobile-security/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Real Time</title>
+      <link>https://www.christodorescu.org/tags/real-time/</link>
+      <pubDate>Tue, 01 Jan 2013 00:00:00 +0000</pubDate>
+      
+      <guid>https://www.christodorescu.org/tags/real-time/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
